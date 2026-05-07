@@ -1,0 +1,28 @@
+.skill {
+  border: solid 1px;
+  border-radius: 6px;
+  border-color: var(--border);
+  width: 40px;
+  height: 40px;
+
+  background-color: var(--item);
+  cursor: pointer;
+  padding: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 10px;
+}
+
+.skill img {
+  width: 35px;
+  height: 35px;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}

@@ -1,0 +1,62 @@
+.hero-grid {
+  display: grid;
+  min-width: 1000px;
+  grid-template-areas:
+    "avatar info info"
+    "avatar main-stats skills"
+    "avatar secondary-stats secondary-stats"
+    "hero hero inventory"
+    "army army army";
+
+  gap: 6px;
+  grid-template-columns: auto 1fr 2fr;
+  grid-template-rows: 50px 180px 40px minmax(400px, 1fr) 100px;
+
+  background-color: var(--background);
+}
+
+.avatar {
+  grid-area: avatar;
+  border: solid 1px;
+
+  img {
+    height: stretch;
+  }
+}
+
+.info {
+  grid-area: info;
+  border: solid 1px;
+}
+
+.main-stats {
+  grid-area: main-stats;
+  border: solid 1px;
+  display: flex;
+  align-items: center;
+}
+
+.skills {
+  grid-area: skills;
+  border: solid 1px;
+}
+
+.secondary-stats {
+  grid-area: secondary-stats;
+  border: solid 1px;
+}
+
+.hero {
+  grid-area: hero;
+  border: solid 1px;
+}
+
+.inventory {
+  grid-area: inventory;
+  border: solid 1px;
+}
+
+.army {
+  grid-area: army;
+  border: solid 1px;
+}
