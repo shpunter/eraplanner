@@ -1,0 +1,19 @@
+.marked {
+  color: blue;
+}
+
+.available {
+  color: yellow;
+}
+
+.available {
+  color: white;
+}
+
+.unavailable {
+  color: gray;
+}
+
+.built {
+  color: green;
+}

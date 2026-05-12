@@ -1,0 +1,10 @@
+.castle {
+  display: grid;
+  grid-template-columns: repeat(9, 100px);
+  grid-template-rows: repeat(5, 100px);
+  gap: 15px;
+
+  div {
+    border: solid 1px white;
+  }
+}

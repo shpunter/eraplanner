@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as HeroIdRouteImport } from './routes/hero/$id'
+import { Route as CastleIdRouteImport } from './routes/castle/$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,30 +23,39 @@ const HeroIdRoute = HeroIdRouteImport.update({
   path: '/hero/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CastleIdRoute = CastleIdRouteImport.update({
+  id: '/castle/$id',
+  path: '/castle/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/castle/$id': typeof CastleIdRoute
   '/hero/$id': typeof HeroIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/castle/$id': typeof CastleIdRoute
   '/hero/$id': typeof HeroIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/castle/$id': typeof CastleIdRoute
   '/hero/$id': typeof HeroIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/hero/$id'
+  fullPaths: '/' | '/castle/$id' | '/hero/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/hero/$id'
-  id: '__root__' | '/' | '/hero/$id'
+  to: '/' | '/castle/$id' | '/hero/$id'
+  id: '__root__' | '/' | '/castle/$id' | '/hero/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CastleIdRoute: typeof CastleIdRoute
   HeroIdRoute: typeof HeroIdRoute
 }
 
@@ -65,11 +75,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HeroIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/castle/$id': {
+      id: '/castle/$id'
+      path: '/castle/$id'
+      fullPath: '/castle/$id'
+      preLoaderRoute: typeof CastleIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CastleIdRoute: CastleIdRoute,
   HeroIdRoute: HeroIdRoute,
 }
 export const routeTree = rootRouteImport
