@@ -1,0 +1,20 @@
+.cell {
+  color: var(--black-50);
+  width: 20px;
+  height: 20px;
+  border: solid 1px var(--black-40);
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.active {
+  color: var(--black-80);
+}
+
+.calendar {
+  display: flex;
+  
+}

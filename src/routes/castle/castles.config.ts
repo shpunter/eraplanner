@@ -1,15 +1,5 @@
 export const castles = {
   hive: {
-    // id00: {
-    //   id: "id00",
-    //   name: "Chorus Conductor",
-    //   next: null,
-    //   prev: null,
-    //   pos: [0, 0],
-    //   cost: {
-    //     graal: 1,
-    //   },
-    // },
     id10: {
       id: "id10",
       name: "Tavern",
@@ -23,9 +13,9 @@ export const castles = {
         gems: 0,
         crystals: 0,
         mercury: 0,
+        dust: 0,
       },
       isMarked: false,
-      isBuilt: true,
     },
     id20: {
       id: "id20",
@@ -40,9 +30,10 @@ export const castles = {
         gems: 0,
         crystals: 0,
         mercury: 0,
+        dust: 0,
       },
       isMarked: false,
-      isBuilt: false,
+      
     },
     id01: {
       id: "id01",
@@ -57,6 +48,7 @@ export const castles = {
         gems: 0,
         crystals: 0,
         mercury: 0,
+        dust: 0,
       },
       produces: {
         gold: 500,
@@ -64,7 +56,7 @@ export const castles = {
         astrology: 500,
       },
       isMarked: false,
-      isBuilt: false,
+      isBuilt: true,
     },
     id11: {
       id: "id11",
@@ -79,9 +71,10 @@ export const castles = {
         gems: 0,
         crystals: 0,
         mercury: 0,
+        dust: 0,
       },
       isMarked: false,
-      isBuilt: false,
+      
     },
     id21: {
       id: "id21",
@@ -96,9 +89,10 @@ export const castles = {
         gems: 0,
         crystals: 0,
         mercury: 0,
+        dust: 0,
       },
       isMarked: false,
-      isBuilt: false,
+      
     },
     id31: {
       id: "id31",
@@ -113,9 +107,10 @@ export const castles = {
         gems: 0,
         crystals: 0,
         mercury: 0,
+        dust: 0,
       },
       isMarked: false,
-      isBuilt: false,
+      
       produces: {
         crystal: 1,
       },
@@ -133,9 +128,10 @@ export const castles = {
         gems: 3,
         crystals: 3,
         mercury: 3,
+        dust: 0,
       },
       isMarked: false,
-      isBuilt: false,
+      
       produces: {
         dust: 5,
       },
@@ -153,9 +149,10 @@ export const castles = {
         gems: 0,
         crystals: 0,
         mercury: 0,
+        dust: 0,
       },
       isMarked: false,
-      isBuilt: false,
+      
     },
     id22: {
       id: "id22",
@@ -170,9 +167,10 @@ export const castles = {
         gems: 0,
         crystals: 0,
         mercury: 0,
+        dust: 0,
       },
       isMarked: false,
-      isBuilt: false,
+      
       produces: {
         gold: 1000,
       },
@@ -190,9 +188,10 @@ export const castles = {
         gems: 0,
         crystals: 0,
         mercury: 0,
+        dust: 0,
       },
       isMarked: false,
-      isBuilt: false,
+      
       produces: {
         gold: 1000,
       },
@@ -210,9 +209,10 @@ export const castles = {
         gems: 0,
         crystals: 0,
         mercury: 0,
+        dust: 0,
       },
       isMarked: false,
-      isBuilt: false,
+      
     },
     id33: {
       id: "id33",
@@ -227,9 +227,10 @@ export const castles = {
         gems: 0,
         crystals: 0,
         mercury: 0,
+        dust: 0,
       },
       isMarked: false,
-      isBuilt: false,
+      
     },
     id43: {
       id: "id43",
@@ -244,9 +245,10 @@ export const castles = {
         gems: 0,
         crystals: 0,
         mercury: 0,
+        dust: 0,
       },
       isMarked: false,
-      isBuilt: false,
+      
     },
     id14: {
       id: "id14",
@@ -261,9 +263,10 @@ export const castles = {
         gems: 0,
         crystals: 0,
         mercury: 0,
+        dust: 0,
       },
       isMarked: false,
-      isBuilt: false,
+      
     },
     id24: {
       id: "id24",
@@ -278,9 +281,10 @@ export const castles = {
         gems: 0,
         crystals: 10,
         mercury: 0,
+        dust: 30,
       },
       isMarked: false,
-      isBuilt: false,
+      
     },
     id34: {
       id: "id34",
@@ -295,16 +299,17 @@ export const castles = {
         gems: 5,
         crystals: 5,
         mercury: 5,
+        dust: 0,
       },
       isMarked: false,
-      isBuilt: false,
+      
     },
     id05: {
       id: "id05",
       name: "Carrion Lair",
-      prev: ["id23"],
-      next: null,
-      pos: [3, 4],
+      prev: null,
+      next: ["id15"],
+      pos: [0, 5],
       cost: {
         gold: 2500,
         wood: 0,
@@ -312,9 +317,302 @@ export const castles = {
         gems: 5,
         crystals: 5,
         mercury: 5,
+        dust: 0,
       },
       isMarked: false,
-      isBuilt: false,
+      isBuilt: true,
+    },
+    id15: {
+      id: "id15",
+      name: "Carrion Lair II",
+      prev: ["id05"],
+      next: null,
+      pos: [1, 5],
+      cost: {
+        gold: 1500,
+        wood: 0,
+        ore: 0,
+        gems: 0,
+        crystals: 5,
+        mercury: 0,
+        dust: 20,
+      },
+      isMarked: false,
+      
+    },
+    id25: {
+      id: "id25",
+      name: "Burning Soul Burrows",
+      prev: ["id14", "id17"],
+      next: ["id35", "id36"],
+      pos: [2, 5],
+      cost: {
+        gold: 6000,
+        wood: 0,
+        ore: 10,
+        gems: 0,
+        crystals: 5,
+        mercury: 0,
+        dust: 0,
+      },
+      isMarked: false,
+      
+    },
+    id35: {
+      id: "id35",
+      name: "Tower of Love",
+      prev: ["id25"],
+      next: ["id45"],
+      pos: [3, 5],
+      cost: {
+        gold: 15000,
+        wood: 0,
+        ore: 0,
+        gems: 0,
+        crystals: 15,
+        mercury: 0,
+        dust: 0,
+      },
+      isMarked: false,
+      
+    },
+    id45: {
+      id: "id45",
+      name: "Tower of Love II",
+      prev: ["id35"],
+      next: null,
+      pos: [4, 5],
+      cost: {
+        gold: 15000,
+        wood: 0,
+        ore: 0,
+        gems: 0,
+        crystals: 25,
+        mercury: 0,
+        dust: 100,
+      },
+      isMarked: false,
+      
+    },
+    id06: {
+      id: "id06",
+      name: "Neglected Housing",
+      prev: null,
+      next: ["id16", "id17"],
+      pos: [0, 6],
+      cost: {
+        gold: 0,
+        wood: 0,
+        ore: 0,
+        gems: 0,
+        crystals: 0,
+        mercury: 0,
+        dust: 0,
+      },
+      isMarked: false,
+      isBuilt: true,
+    },
+    id16: {
+      id: "id16",
+      name: "Neglected Housing II",
+      prev: ["id06"],
+      next: null,
+      pos: [1, 6],
+      cost: {
+        gold: 500,
+        wood: 0,
+        ore: 0,
+        gems: 0,
+        crystals: 5,
+        mercury: 0,
+        dust: 10,
+      },
+      isMarked: false,
+      
+    },
+    id26: {
+      id: "id26",
+      name: "Chitinous Ziggurat II",
+      prev: ["id17"],
+      next: null,
+      pos: [2, 6],
+      cost: {
+        gold: 1500,
+        wood: 0,
+        ore: 10,
+        gems: 0,
+        crystals: 5,
+        mercury: 0,
+        dust: 40,
+      },
+      isMarked: false,
+      
+    },
+    id36: {
+      id: "id36",
+      name: "Burning Soul Burrows II",
+      prev: ["id25"],
+      next: null,
+      pos: [3, 6],
+      cost: {
+        gold: 4000,
+        wood: 0,
+        ore: 5,
+        gems: 0,
+        crystals: 15,
+        mercury: 0,
+        dust: 75,
+      },
+      isMarked: false,
+      
+    },
+    id17: {
+      id: "id17",
+      name: "Chitinous Ziggurat",
+      prev: ["id06"],
+      next: ["id16", "id15", "id14"],
+      pos: [1, 7],
+      cost: {
+        gold: 3750,
+        wood: 0,
+        ore: 10,
+        gems: 0,
+        crystals: 0,
+        mercury: 0,
+        dust: 0,
+      },
+      isMarked: false,
+      
+    },
+    id27: {
+      id: "id27",
+      name: "Apex",
+      prev: ["id17"],
+      next: ["id37"],
+      pos: [2, 7],
+      cost: {
+        gold: 5500,
+        wood: 10,
+        ore: 0,
+        gems: 0,
+        crystals: 5,
+        mercury: 0,
+        dust: 0,
+      },
+      isMarked: false,
+      
+    },
+    id37: {
+      id: "id37",
+      name: "Apex",
+      prev: ["id27"],
+      next: null,
+      pos: [3, 7],
+      cost: {
+        gold: 4000,
+        wood: 5,
+        ore: 0,
+        gems: 0,
+        crystals: 10,
+        mercury: 0,
+        dust: 50,
+      },
+      isMarked: false,
+      
+    },
+    id08: {
+      id: "id08",
+      name: "Mage Guild",
+      prev: null,
+      next: ["id18"],
+      pos: [0, 8],
+      cost: {
+        gold: 2500,
+        wood: 5,
+        ore: 0,
+        gems: 0,
+        crystals: 0,
+        mercury: 0,
+        dust: 0,
+      },
+      isMarked: false,
+      
+    },
+    id18: {
+      id: "id18",
+      name: "Mage Guild II",
+      prev: ["id08"],
+      next: ["id28"],
+      pos: [1, 8],
+      cost: {
+        gold: 2500,
+        wood: 0,
+        ore: 0,
+        gems: 2,
+        crystals: 2,
+        mercury: 2,
+        dust: 0,
+      },
+      isMarked: false,
+      
+    },
+    id28: {
+      id: "id28",
+      name: "Mage Guild III",
+      prev: ["id18"],
+      next: ["id38"],
+      pos: [2, 8],
+      cost: {
+        gold: 2500,
+        wood: 5,
+        ore: 0,
+        gems: 3,
+        crystals: 3,
+        mercury: 3,
+        dust: 0,
+      },
+      isMarked: false,
+      
+    },
+    id38: {
+      id: "id38",
+      name: "Mage Guild IV",
+      prev: ["id28"],
+      next: ["id48"],
+      pos: [3, 8],
+      cost: {
+        gold: 2500,
+        wood: 0,
+        ore: 0,
+        gems: 5,
+        crystals: 5,
+        mercury: 5,
+        dust: 0,
+      },
+      isMarked: false,
+      
+    },
+    id48: {
+      id: "id48",
+      name: "Mage Guild V",
+      prev: ["id38"],
+      next: null,
+      pos: [4, 8],
+      cost: {
+        gold: 5000,
+        wood: 10,
+        ore: 0,
+        gems: 5,
+        crystals: 5,
+        mercury: 5,
+        dust: 0,
+      },
+      isMarked: false,
+      
     },
   },
 } as const;
+
+export const castlePreBuilds = {
+  hive: ["id10"]
+}

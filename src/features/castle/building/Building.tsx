@@ -4,24 +4,38 @@ import { useCastleStore } from "../castle.store";
 import css from "./styles.module.css";
 import { useParams } from "@tanstack/react-router";
 import { trace } from "./utils";
+import { useHistoryStore } from "#/features/history/history.store";
 
 const Building = ({ building, castleUUID }: BuildingProps) => {
   const { id: castleID } = useParams({ from: "/castle/$id" });
   const { gold, ore, wood, gems, crystals, mercury } = building.cost;
 
   const setMarked = useCastleStore((state) => state.setMarked);
-  const setBuilt = useCastleStore((state) => state.setBuilt);
+  const addBuilding = useHistoryStore((state) => state.addBuilding);
 
-  const isBuilt = useCastleStore((state) => {
-    return state.castles[castleUUID]?.[building.id].isBuilt ?? false;
+  const isBuilt = useHistoryStore((state) => {
+    const idx = state.currDay + (state.currWeek - 1) * 7;
+
+    console.log(idx, state.history)
+
+    return (
+      state.history.slice(0, idx).includes(building.id) ||
+      state.castles[castleUUID]?.[building.id].isBuilt ||
+      false
+    );
   });
 
-  const isAvailable = useCastleStore((state) => {
+  const isAvailable = useHistoryStore((state) => {
     const prev = state.castles[castleUUID]?.[building.id].prev ?? [];
+    const idx = state.currDay + state.currWeek * 7;
+    const isActionAvailableThisDay = !state.history[idx];
 
-    return prev.every((prevBuildingID) => {
-      return state.castles[castleUUID][prevBuildingID].isBuilt;
-    });
+    return (
+      isActionAvailableThisDay &&
+      prev.every((prevBuildingID) => {
+        return state.history.includes(prevBuildingID);
+      })
+    );
   });
 
   const isMarked = useCastleStore((state) => {
@@ -45,21 +59,9 @@ const Building = ({ building, castleUUID }: BuildingProps) => {
   };
 
   const onClick = () => {
-    if (!isAvailable) return;
+    if (!isAvailable || isBuilt) return;
 
-    if (isAvailable) {
-      setBuilt(castleUUID, building.id, true);
-    }
-
-    if (isBuilt) {
-      const destroyIDs = trace(castleID, building.id, "next");
-
-      console.log(destroyIDs);
-
-      destroyIDs.forEach((id) => {
-        setBuilt(castleUUID, id, false);
-      });
-    }
+    addBuilding(building.id);
   };
 
   const classNames = classnames({

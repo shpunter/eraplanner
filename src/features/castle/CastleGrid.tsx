@@ -3,21 +3,21 @@ import { useEffect, useMemo } from "react";
 import Building from "./building/Building";
 import css from "./styles.module.css";
 import { useCastleStore } from "./castle.store";
+import { useHistoryStore } from "../history/history.store";
 
 const CastleGrid = ({ castle, castleID, castleUUID }: CastleGridProps) => {
-  const addCastle = useCastleStore((state) => state.addCastle);
+  const addCastle3 = useCastleStore((state) => state.addCastle);
+  const addCastle = useHistoryStore((state) => state.addCastle);
 
   useEffect(() => {
     addCastle(castleID, castle, castleUUID);
-  }, [castleID, castle, addCastle, castleUUID]);
+    addCastle3(castleID, castle, castleUUID);
+  }, [castleID, castle, addCastle, addCastle3, castleUUID]);
 
   const grid = useMemo(() => {
     const array = Array.from({ length: 9 * 5 }, () => ({
       uuid: crypto.randomUUID(),
-    })) as (
-      | ({ uuid: string } & TBuilding)
-      | ({ uuid: string })
-    )[];
+    })) as (({ uuid: string } & TBuilding) | { uuid: string })[];
 
     Object.values(castle).forEach((building) => {
       const [y, x] = building.pos;
