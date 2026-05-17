@@ -7,13 +7,13 @@ export const useHistoryStore = create<Store & Action>((set) => {
     currDay: 0,
     currWeek: 0,
     currMonth: 0,
-    history: [],
+    history: {},
     marked: [],
     resources: {
       gold: 0,
     },
 
-    addCastle: (castleID, castle, preBuilds, castleUUID) => {
+    addCastle: (castleUUID, castleID, castle, preBuilds) => {
       set((state) => {
         return {
           ...state,
@@ -21,11 +21,15 @@ export const useHistoryStore = create<Store & Action>((set) => {
             ...state.castles,
             [castleUUID]: { buildings: castle, preBuilds },
           },
+          history: {
+            ...state.history,
+            [castleUUID]: [],
+          },
         };
       });
     },
 
-    addBuilding: (buildingID) => {
+    addBuilding: (castleUUID, buildingID) => {
       set((state) => {
         const { currDay, currWeek, currMonth } = state;
 
@@ -45,13 +49,24 @@ export const useHistoryStore = create<Store & Action>((set) => {
           nextMonth = currMonth + 1;
         }
 
-        const newHistory = structuredClone(state.history);
-        const totalDays = currDay + currWeek * 7 + currMonth * 40;
+        const newHistory = structuredClone(state.history[castleUUID]);
+        const totalDays = currDay + currWeek * 7 + currMonth * 4 * 7;
+
+        console.log("currMonth:", currMonth);
+        console.log("currWeek:", currWeek);
+        console.log("currDay:", currDay);
+        console.log("totalDays:", totalDays);
+        console.log("buildingID:", buildingID);
+
 
         newHistory[totalDays] = buildingID;
 
         return {
-          history: newHistory,
+          ...state,
+          history: {
+            ...state.history,
+            [castleUUID]: newHistory,
+          },
           currDay: nextDay as CurrDay,
           currWeek: nextWeek as CurrWeek,
           currMonth: nextMonth,
@@ -100,7 +115,9 @@ type Store = {
   currDay: CurrDay;
   currWeek: CurrWeek;
   currMonth: number;
-  history: BuildingID[];
+  history: {
+    [castleUUID: string]: BuildingID[];
+  };
   castles: {
     [uuid: string]: { buildings: TCastle; preBuilds: BuildingID[] };
   };
@@ -115,15 +132,15 @@ export type CurrWeek = 0 | 1 | 2 | 3;
 
 type Action = {
   addCastle: (
+    castleUUID: string,
     castleID: CastleID,
     castle: TCastle,
     preBuilds: BuildingID[],
-    castleUUID: string,
   ) => void;
 
   setDay: (day: CurrDay) => void;
   setWeek: (week: CurrWeek) => void;
   setMonth: (month: number) => void;
-  addBuilding: (buildingID: BuildingID) => void;
+  addBuilding: (castleUUID: string, buildingID: BuildingID) => void;
   setMarked: (buildings: BuildingID[]) => void;
 };

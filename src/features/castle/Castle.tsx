@@ -15,7 +15,7 @@ const Castle = () => {
     <Suspense
       fallback={<div className={css.loader}>Loading Castle Data...</div>}
     >
-      <History />
+      <History castleUUID={castleUUID}/>
       <Resources />
       <Await promise={castle}>
         {(resolvedCastle) => (

@@ -7,10 +7,6 @@
 }
 
 .available {
-  color: yellow;
-}
-
-.available {
   color: white;
 }
 
@@ -20,6 +16,10 @@
 
 .built {
   color: green;
+}
+
+.builtInTheFuture {
+  color: yellow;
 }
 
 .item {

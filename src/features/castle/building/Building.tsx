@@ -5,39 +5,45 @@ import { useParams } from "@tanstack/react-router";
 import { trace } from "./utils";
 import { useHistoryStore } from "#/features/history/history.store";
 
-const Building = ({ building, castleUUID }: BuildingProps) => {
+const Building = ({ castleUUID, building }: BuildingProps) => {
   const { id: castleID } = useParams({ from: "/castle/$id" });
   const { gold, ore, wood, gems, crystals, mercury } = building.cost;
 
   const setMarked = useHistoryStore((state) => state.setMarked);
   const addBuilding = useHistoryStore((state) => state.addBuilding);
 
-  const isBuilt = useHistoryStore((state) => {
-    const idx = state.currDay + state.currWeek * 7;
+  const isBuiltByCurDay = useHistoryStore((state) => {
+    const idx = state.currDay + state.currWeek * 7 + state.currMonth * 4 * 7;
 
     const isInHistory = state.castles?.[castleUUID]?.preBuilds
-      .concat(state.history.slice(0, idx + 1))
+      .concat(state.history[castleUUID].slice(0, idx + 1))
       .includes(building.id);
 
     return isInHistory;
   });
 
-  const isBuiltThisDay = useHistoryStore((state) => {
-    const idx = state.currDay + state.currWeek * 7;
+  const isInTheHistory = useHistoryStore((state) => {
+    const idx = state.currDay + state.currWeek * 7 + state.currMonth * 4 * 7;
 
-    return state.history[idx] === building.id;
+    return state.history[castleUUID]?.slice(idx).includes(building.id);
+  });
+
+  const isBuiltThisDay = useHistoryStore((state) => {
+    const idx = state.currDay + state.currWeek * 7 + state.currMonth * 4 * 7;
+
+    return state.history[castleUUID]?.[idx] === building.id;
   });
 
   const isAvailable = useHistoryStore((state) => {
     const prev = state.castles[castleUUID]?.buildings[building.id].prev ?? [];
-    const idx = state.currDay + state.currWeek * 7;
-    const isActionAvailableThisDay = !state.history[idx];
+    const idx = state.currDay + state.currWeek * 7 + state.currMonth * 4 * 7;
+    const isActionAvailableThisDay = !state.history[castleUUID]?.[idx];
 
     return (
       isActionAvailableThisDay &&
       prev.every((prevBuildingID) => {
         return state.castles[castleUUID].preBuilds
-          .concat(state.history)
+          .concat(state.history[castleUUID])
           .includes(prevBuildingID);
       })
     );
@@ -58,14 +64,15 @@ const Building = ({ building, castleUUID }: BuildingProps) => {
   };
 
   const onClick = () => {
-    if (!isAvailable || isBuilt) return;
+    if (!isAvailable || isBuiltByCurDay) return;
 
-    addBuilding(building.id);
+    addBuilding(castleUUID, building.id);
   };
 
   const classNames = classnames({
+    [css.builtInTheFuture]: !isBuiltThisDay && !isBuiltByCurDay && isInTheHistory,
     [css.unavailable]: !isAvailable,
-    [css.built]: isBuilt,
+    [css.built]: isBuiltByCurDay,
     [css.marked]: isMarked,
     [css.available]: isAvailable,
     [css.action]: isBuiltThisDay,

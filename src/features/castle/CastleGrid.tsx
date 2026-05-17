@@ -8,7 +8,7 @@ const CastleGrid = ({ castle, castleID, castleUUID }: CastleGridProps) => {
   const addCastle = useHistoryStore((state) => state.addCastle);
 
   useEffect(() => {
-    addCastle(castleID, castle, ["id10", "id01", "id05", "id06"] as const, castleUUID);
+    addCastle(castleUUID, castleID, castle, ["id10", "id01", "id05", "id06"] as const);
   }, [castleID, castle, addCastle, castleUUID]);
 
   const grid = useMemo(() => {
