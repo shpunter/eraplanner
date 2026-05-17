@@ -16,5 +16,8 @@
 
 .calendar {
   display: flex;
-  
+}
+
+.action {
+  border: solid 1px var(--green-50);
 }

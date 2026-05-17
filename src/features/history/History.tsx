@@ -5,8 +5,11 @@ import css from "./styles.module.css";
 const History = () => {
   const setDay = useHistoryStore((state) => state.setDay);
   const setWeek = useHistoryStore((state) => state.setWeek);
+  const setMonth = useHistoryStore((state) => state.setMonth);
   const currDay = useHistoryStore((state) => state.currDay);
   const currWeek = useHistoryStore((state) => state.currWeek);
+  const currMonth = useHistoryStore((state) => state.currMonth);
+  const history = useHistoryStore((state) => state.history);
 
   const onDayClick = (currDay: CurrDay) => () => {
     setDay(currDay);
@@ -16,11 +19,35 @@ const History = () => {
     setWeek(currWeek);
   };
 
+  const onMonthClick = (currMonth: number) => () => {
+    setMonth(currMonth);
+  };
+
   return (
     <div className={css.calendar}>
       <div>
-        {[1, 2, 3, 4].map((num) => {
-          const week = num as CurrWeek;
+        {Array.from({ length: 6 }).map((_, idx) => {
+          const month = idx;
+
+          const classNames = classnames({
+            [css.cell]: true,
+            [css.active]: currMonth === month,
+          });
+
+          return (
+            <div
+              key={month}
+              className={classNames}
+              onClick={onMonthClick(month)}
+            >
+              {month + 1}
+            </div>
+          );
+        })}
+      </div>
+      <div>
+        {Array.from({ length: 4 }).map((_, idx) => {
+          const week = idx as CurrWeek;
 
           const classNames = classnames({
             [css.cell]: true,
@@ -29,24 +56,26 @@ const History = () => {
 
           return (
             <div key={week} className={classNames} onClick={onWeekClick(week)}>
-              {week}
+              {week + 1}
             </div>
           );
         })}
       </div>
 
       <div>
-        {Array.from({ length: 8 }).map((_, idx) => {
+        {Array.from({ length: 7 }).map((_, idx) => {
+          const idxInHistory = currMonth * 4 + currWeek * 7 + idx;
+          const day = idx as CurrDay;
+
           const classNames = classnames({
             [css.cell]: true,
+            [css.action]: !!history[idxInHistory],
             [css.active]: currDay === idx,
           });
 
-          const day = (idx - ((idx / 7) >> 1)) as CurrDay;
-
           return (
             <div key={day} onClick={onDayClick(day)} className={classNames}>
-              {day}
+              {day + 1}
             </div>
           );
         })}

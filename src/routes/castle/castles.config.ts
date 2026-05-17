@@ -56,7 +56,6 @@ export const castles = {
         astrology: 500,
       },
       isMarked: false,
-      isBuilt: true,
     },
     id11: {
       id: "id11",
@@ -320,7 +319,6 @@ export const castles = {
         dust: 0,
       },
       isMarked: false,
-      isBuilt: true,
     },
     id15: {
       id: "id15",
@@ -410,7 +408,6 @@ export const castles = {
         dust: 0,
       },
       isMarked: false,
-      isBuilt: true,
     },
     id16: {
       id: "id16",
@@ -614,5 +611,5 @@ export const castles = {
 } as const;
 
 export const castlePreBuilds = {
-  hive: ["id10"]
+  hive: ["id10", "id01", "id05", "id06"]
 }

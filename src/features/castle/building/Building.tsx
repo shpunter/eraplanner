@@ -1,6 +1,5 @@
 import type { TBuilding } from "#/routes/castle/$id";
 import { classnames } from "#/shared/classnames";
-import { useCastleStore } from "../castle.store";
 import css from "./styles.module.css";
 import { useParams } from "@tanstack/react-router";
 import { trace } from "./utils";
@@ -10,52 +9,52 @@ const Building = ({ building, castleUUID }: BuildingProps) => {
   const { id: castleID } = useParams({ from: "/castle/$id" });
   const { gold, ore, wood, gems, crystals, mercury } = building.cost;
 
-  const setMarked = useCastleStore((state) => state.setMarked);
+  const setMarked = useHistoryStore((state) => state.setMarked);
   const addBuilding = useHistoryStore((state) => state.addBuilding);
 
   const isBuilt = useHistoryStore((state) => {
-    const idx = state.currDay + (state.currWeek - 1) * 7;
+    const idx = state.currDay + state.currWeek * 7;
 
-    console.log(idx, state.history)
+    const isInHistory = state.castles?.[castleUUID]?.preBuilds
+      .concat(state.history.slice(0, idx + 1))
+      .includes(building.id);
 
-    return (
-      state.history.slice(0, idx).includes(building.id) ||
-      state.castles[castleUUID]?.[building.id].isBuilt ||
-      false
-    );
+    return isInHistory;
+  });
+
+  const isBuiltThisDay = useHistoryStore((state) => {
+    const idx = state.currDay + state.currWeek * 7;
+
+    return state.history[idx] === building.id;
   });
 
   const isAvailable = useHistoryStore((state) => {
-    const prev = state.castles[castleUUID]?.[building.id].prev ?? [];
+    const prev = state.castles[castleUUID]?.buildings[building.id].prev ?? [];
     const idx = state.currDay + state.currWeek * 7;
     const isActionAvailableThisDay = !state.history[idx];
 
     return (
       isActionAvailableThisDay &&
       prev.every((prevBuildingID) => {
-        return state.history.includes(prevBuildingID);
+        return state.castles[castleUUID].preBuilds
+          .concat(state.history)
+          .includes(prevBuildingID);
       })
     );
   });
 
-  const isMarked = useCastleStore((state) => {
-    return state.castles[castleUUID]?.[building.id].isMarked;
+  const isMarked = useHistoryStore((state) => {
+    return state.marked.includes(building.id);
   });
 
   const onMouseEnter = () => {
     const buildingIDs = trace(castleID, building.id, "prev");
 
-    buildingIDs.forEach((buildingID) => {
-      setMarked(castleUUID, buildingID, true);
-    });
+    setMarked(buildingIDs);
   };
 
   const onMouseLeave = () => {
-    const buildingIDs = trace(castleID, building.id, "prev");
-
-    buildingIDs.forEach((buildingID) => {
-      setMarked(castleUUID, buildingID, false);
-    });
+    setMarked([]);
   };
 
   const onClick = () => {
@@ -65,10 +64,12 @@ const Building = ({ building, castleUUID }: BuildingProps) => {
   };
 
   const classNames = classnames({
-    [css.unavailable]: !isMarked && !isAvailable,
-    [css.built]: !isMarked && isBuilt,
+    [css.unavailable]: !isAvailable,
+    [css.built]: isBuilt,
     [css.marked]: isMarked,
-    [css.available]: !isMarked && isAvailable,
+    [css.available]: isAvailable,
+    [css.action]: isBuiltThisDay,
+    [css.item]: true,
   });
 
   return (

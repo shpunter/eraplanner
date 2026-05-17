@@ -1,43 +1,60 @@
 import type { BuildingID, CastleID, TCastle } from "#/routes/castle/$id";
-import { castles } from "#/routes/castle/castles.config";
 import { create } from "zustand";
 
 export const useHistoryStore = create<Store & Action>((set) => {
   return {
     castles: {},
+    currDay: 0,
+    currWeek: 0,
+    currMonth: 0,
+    history: [],
+    marked: [],
+    resources: {
+      gold: 0,
+    },
 
-    addCastle: (castleID, castle, castleUUID) => {
+    addCastle: (castleID, castle, preBuilds, castleUUID) => {
       set((state) => {
         return {
           ...state,
           castles: {
             ...state.castles,
-            [castleUUID]: {castle},
+            [castleUUID]: { buildings: castle, preBuilds },
           },
         };
       });
     },
 
-    currDay: 1,
-    currWeek: 1,
-    currMonth: 1,
-    history: Object.entries(castles.hive)
-      .filter(([_, building]) => building.isBuilt)
-      .map(([id]) => id as BuildingID),
-
     addBuilding: (buildingID) => {
       set((state) => {
-        const { currDay, currWeek } = state;
+        const { currDay, currWeek, currMonth } = state;
 
-        const incWeek = currDay >= 7;
-        const nextDay = incWeek ? 1 : currDay + 1;
-        const historyInWeeks = ((state.history.length / 7) >> 0) + 1;
-        const nextWeek = (historyInWeeks - historyInWeeks / 4) >> 0;
+        let nextDay = currDay + 1;
+        let nextWeek = currWeek;
+        let nextMonth = currMonth;
+
+        if (currDay >= 6) {
+          nextDay = 0;
+          nextWeek = currWeek + 1;
+          nextMonth = currMonth;
+        }
+
+        if (currDay >= 6 && currWeek >= 3) {
+          nextDay = 0;
+          nextWeek = 0;
+          nextMonth = currMonth + 1;
+        }
+
+        const newHistory = structuredClone(state.history);
+        const totalDays = currDay + currWeek * 7 + currMonth * 40;
+
+        newHistory[totalDays] = buildingID;
 
         return {
-          history: [...state.history, buildingID],
+          history: newHistory,
           currDay: nextDay as CurrDay,
-          currWeek: (nextWeek + 1) as CurrWeek,
+          currWeek: nextWeek as CurrWeek,
+          currMonth: nextMonth,
         };
       });
     },
@@ -54,7 +71,25 @@ export const useHistoryStore = create<Store & Action>((set) => {
       set(() => {
         return {
           currWeek: week,
-          currDay: 1,
+          currDay: 0,
+        };
+      });
+    },
+
+    setMonth: (month) => {
+      set(() => {
+        return {
+          currDay: 0,
+          currWeek: 0,
+          currMonth: month,
+        };
+      });
+    },
+
+    setMarked: (buildings) => {
+      set(() => {
+        return {
+          marked: buildings,
         };
       });
     },
@@ -67,16 +102,28 @@ type Store = {
   currMonth: number;
   history: BuildingID[];
   castles: {
-    [uuid: string]: TCastle & { isBuilt: boolean };
+    [uuid: string]: { buildings: TCastle; preBuilds: BuildingID[] };
+  };
+  marked: BuildingID[];
+  resources: {
+    gold: number;
   };
 };
 
-export type CurrDay = 1 | 2 | 3 | 4 | 5 | 6 | 7;
-export type CurrWeek = 1 | 2 | 3 | 4;
+export type CurrDay = 0 | 1 | 2 | 3 | 4 | 5 | 6;
+export type CurrWeek = 0 | 1 | 2 | 3;
 
 type Action = {
-  addCastle: (castleID: CastleID, castle: TCastle, castleUUID: string) => void;
+  addCastle: (
+    castleID: CastleID,
+    castle: TCastle,
+    preBuilds: BuildingID[],
+    castleUUID: string,
+  ) => void;
+
   setDay: (day: CurrDay) => void;
   setWeek: (week: CurrWeek) => void;
+  setMonth: (month: number) => void;
   addBuilding: (buildingID: BuildingID) => void;
+  setMarked: (buildings: BuildingID[]) => void;
 };
