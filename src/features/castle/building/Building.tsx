@@ -5,7 +5,7 @@ import { useParams } from "@tanstack/react-router";
 import { trace } from "./utils";
 import { useHistoryStore } from "#/features/history/history.store";
 
-const Building = ({ castleUUID, building }: BuildingProps) => {
+const Building = ({ building }: BuildingProps) => {
   const { id: castleID } = useParams({ from: "/castle/$id" });
   const { gold, ore, wood, gems, crystals, mercury } = building.cost;
 
@@ -13,37 +13,41 @@ const Building = ({ castleUUID, building }: BuildingProps) => {
   const addBuilding = useHistoryStore((state) => state.addBuilding);
 
   const isBuiltByCurDay = useHistoryStore((state) => {
+    const { history, currCastleUUID, castles } = state;
     const idx = state.currDay + state.currWeek * 7 + state.currMonth * 4 * 7;
 
-    const isInHistory = state.castles?.[castleUUID]?.preBuilds
-      .concat(state.history[castleUUID].slice(0, idx + 1))
+    const isInHistory = castles?.[currCastleUUID]?.preBuilds
+      .concat(history[currCastleUUID].slice(0, idx + 1))
       .includes(building.id);
 
     return isInHistory;
   });
 
   const isInTheHistory = useHistoryStore((state) => {
+    const { history, currCastleUUID } = state;
     const idx = state.currDay + state.currWeek * 7 + state.currMonth * 4 * 7;
 
-    return state.history[castleUUID]?.slice(idx).includes(building.id);
+    return history[currCastleUUID]?.slice(idx).includes(building.id);
   });
 
   const isBuiltThisDay = useHistoryStore((state) => {
+    const { history, currCastleUUID } = state;
     const idx = state.currDay + state.currWeek * 7 + state.currMonth * 4 * 7;
 
-    return state.history[castleUUID]?.[idx] === building.id;
+    return history[currCastleUUID]?.[idx] === building.id;
   });
 
   const isAvailable = useHistoryStore((state) => {
-    const prev = state.castles[castleUUID]?.buildings[building.id].prev ?? [];
+    const { castles, history, currCastleUUID } = state;
+    const prev = castles[currCastleUUID]?.buildings[building.id].prev ?? [];
     const idx = state.currDay + state.currWeek * 7 + state.currMonth * 4 * 7;
-    const isActionAvailableThisDay = !state.history[castleUUID]?.[idx];
+    const isActionAvailableThisDay = !history[currCastleUUID]?.[idx];
 
     return (
       isActionAvailableThisDay &&
       prev.every((prevBuildingID) => {
-        return state.castles[castleUUID].preBuilds
-          .concat(state.history[castleUUID])
+        return castles[currCastleUUID].preBuilds
+          .concat(history[currCastleUUID])
           .includes(prevBuildingID);
       })
     );
@@ -66,11 +70,12 @@ const Building = ({ castleUUID, building }: BuildingProps) => {
   const onClick = () => {
     if (!isAvailable || isBuiltByCurDay) return;
 
-    addBuilding(castleUUID, building.id);
+    addBuilding(building.id);
   };
 
   const classNames = classnames({
-    [css.builtInTheFuture]: !isBuiltThisDay && !isBuiltByCurDay && isInTheHistory,
+    [css.builtInTheFuture]:
+      !isBuiltThisDay && !isBuiltByCurDay && isInTheHistory,
     [css.unavailable]: !isAvailable,
     [css.built]: isBuiltByCurDay,
     [css.marked]: isMarked,
@@ -95,6 +100,9 @@ const Building = ({ castleUUID, building }: BuildingProps) => {
       {gems ? <p>gems: {gems}</p> : null}
       {crystals ? <p>crystals: {crystals}</p> : null}
       {mercury ? <p>mercury: {mercury}</p> : null}
+      ------
+      {building.produces.gold ? <p>gold: {building.produces.gold}</p> : null}
+
     </div>
   );
 };
@@ -103,5 +111,4 @@ export default Building;
 
 type BuildingProps = {
   building: { uuid: string } & TBuilding;
-  castleUUID: string;
 };

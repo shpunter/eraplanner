@@ -2,21 +2,22 @@ import { classnames } from "#/shared/classnames";
 import { useHistoryStore, type CurrWeek } from "../history.store";
 import css from "../styles.module.css";
 
-const Week = ({ week, castleUUID }: WeekProps) => {
+const Week = ({ week }: WeekProps) => {
   const setWeek = useHistoryStore((state) => state.setWeek);
-  const currWeek = useHistoryStore((state) => state.currWeek);
+  const isActive = useHistoryStore((state) => state.currWeek === week);
 
   const hasAction = useHistoryStore((state) => {
     const idxInHistoryStart = state.currMonth * 4 * 7 + week * 7;
+    const { history, currCastleUUID } = state;
 
-    return state.history[castleUUID]
-      ?.slice(idxInHistoryStart, idxInHistoryStart + 7)
+    return (history?.[currCastleUUID] ?? [])
+      .slice(idxInHistoryStart, idxInHistoryStart + 7)
       .some((el) => !!el);
   });
 
   const classNames = classnames({
     [css.cell]: true,
-    [css.active]: currWeek === week,
+    [css.active]: isActive,
     [css.action]: hasAction,
   });
 
@@ -34,6 +35,5 @@ const Week = ({ week, castleUUID }: WeekProps) => {
 export default Week;
 
 type WeekProps = {
-  castleUUID: string;
   week: CurrWeek;
 };

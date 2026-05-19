@@ -2,14 +2,15 @@ import { classnames } from "#/shared/classnames";
 import { useHistoryStore } from "../history.store";
 import css from "../styles.module.css";
 
-const Month = ({ month, castleUUID }: MonthProps) => {
+const Month = ({ month }: MonthProps) => {
   const setMonth = useHistoryStore((state) => state.setMonth);
-  const currMonth = useHistoryStore((state) => state.currMonth);
+  const isActive = useHistoryStore((state) => state.currMonth === month);
 
   const hasAction = useHistoryStore((state) => {
+    const { history, currCastleUUID } = state;
     const idxInHistoryStart = month * 4 * 7;
 
-    return state.history[castleUUID]
+    return history[currCastleUUID]
       ?.slice(idxInHistoryStart, idxInHistoryStart + 4 * 7)
       .some((el) => !!el);
   });
@@ -20,7 +21,7 @@ const Month = ({ month, castleUUID }: MonthProps) => {
 
   const classNames = classnames({
     [css.cell]: true,
-    [css.active]: currMonth === month,
+    [css.active]: isActive,
     [css.action]: hasAction,
   });
 
@@ -35,5 +36,4 @@ export default Month;
 
 type MonthProps = {
   month: number;
-  castleUUID: string;
 };

@@ -2,14 +2,15 @@ import { classnames } from "#/shared/classnames";
 import { useHistoryStore, type CurrDay } from "../history.store";
 import css from "../styles.module.css";
 
-const Day = ({ day, castleUUID }: DayProps) => {
+const Day = ({ day }: DayProps) => {
   const setDay = useHistoryStore((state) => state.setDay);
-  const currDay = useHistoryStore((state) => state.currDay);
+  const isActive = useHistoryStore((state) => state.currDay === day);
 
   const hasAction = useHistoryStore((state) => {
-    const idxInHistory = state.currMonth * 4 * 7+ state.currWeek * 7 + day;
+    const { history, currCastleUUID } = state;
+    const idxInHistory = state.currMonth * 4 * 7 + state.currWeek * 7 + day;
 
-    return !!state.history[castleUUID]?.[idxInHistory];
+    return !!history[currCastleUUID]?.[idxInHistory];
   });
 
   const onDayClick = (currDay: CurrDay) => () => {
@@ -19,7 +20,7 @@ const Day = ({ day, castleUUID }: DayProps) => {
   const classNames = classnames({
     [css.cell]: true,
     [css.action]: hasAction,
-    [css.active]: currDay === day,
+    [css.active]: isActive,
   });
 
   return (
@@ -32,6 +33,5 @@ const Day = ({ day, castleUUID }: DayProps) => {
 export default Day;
 
 type DayProps = {
-  castleUUID: string;
   day: CurrDay;
 };

@@ -7,16 +7,24 @@ export const useHistoryStore = create<Store & Action>((set) => {
     currDay: 0,
     currWeek: 0,
     currMonth: 0,
+    currCastleUUID: "",
     history: {},
     marked: [],
     resources: {
-      gold: 0,
+      gold: 10_000,
+      wood: 10,
+      ore: 10,
+      gems: 5,
+      crystals: 5,
+      mercury: 5,
+      dust: 50,
     },
 
     addCastle: (castleUUID, castleID, castle, preBuilds) => {
       set((state) => {
         return {
           ...state,
+          currCastleUUID: castleUUID,
           castles: {
             ...state.castles,
             [castleUUID]: { buildings: castle, preBuilds },
@@ -29,9 +37,9 @@ export const useHistoryStore = create<Store & Action>((set) => {
       });
     },
 
-    addBuilding: (castleUUID, buildingID) => {
+    addBuilding: (buildingID) => {
       set((state) => {
-        const { currDay, currWeek, currMonth } = state;
+        const { currDay, currWeek, currMonth, currCastleUUID } = state;
 
         let nextDay = currDay + 1;
         let nextWeek = currWeek;
@@ -49,15 +57,10 @@ export const useHistoryStore = create<Store & Action>((set) => {
           nextMonth = currMonth + 1;
         }
 
-        const newHistory = structuredClone(state.history[castleUUID]);
+        const newHistory = structuredClone(
+          state.history?.[currCastleUUID] ?? [],
+        );
         const totalDays = currDay + currWeek * 7 + currMonth * 4 * 7;
-
-        console.log("currMonth:", currMonth);
-        console.log("currWeek:", currWeek);
-        console.log("currDay:", currDay);
-        console.log("totalDays:", totalDays);
-        console.log("buildingID:", buildingID);
-
 
         newHistory[totalDays] = buildingID;
 
@@ -65,7 +68,7 @@ export const useHistoryStore = create<Store & Action>((set) => {
           ...state,
           history: {
             ...state.history,
-            [castleUUID]: newHistory,
+            [currCastleUUID]: newHistory,
           },
           currDay: nextDay as CurrDay,
           currWeek: nextWeek as CurrWeek,
@@ -115,15 +118,18 @@ type Store = {
   currDay: CurrDay;
   currWeek: CurrWeek;
   currMonth: number;
+  currCastleUUID: string;
   history: {
-    [castleUUID: string]: BuildingID[];
+    [castleUUID: string]: BuildingID[] | undefined;
   };
   castles: {
-    [uuid: string]: { buildings: TCastle; preBuilds: BuildingID[] };
+    [uuid: string]: { buildings: TCastle; preBuilds: BuildingID[] } | undefined;
   };
   marked: BuildingID[];
   resources: {
     gold: number;
+    wood: number;
+    ore: number;
   };
 };
 
@@ -141,6 +147,6 @@ type Action = {
   setDay: (day: CurrDay) => void;
   setWeek: (week: CurrWeek) => void;
   setMonth: (month: number) => void;
-  addBuilding: (castleUUID: string, buildingID: BuildingID) => void;
+  addBuilding: (buildingID: BuildingID) => void;
   setMarked: (buildings: BuildingID[]) => void;
 };

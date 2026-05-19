@@ -15,6 +15,11 @@ export const castles = {
         mercury: 0,
         dust: 0,
       },
+      produces: {
+        gold: 0,
+        law: 0,
+        astrology: 0,
+      },
       isMarked: false,
     },
     id20: {
@@ -32,8 +37,12 @@ export const castles = {
         mercury: 0,
         dust: 0,
       },
+      produces: {
+        gold: 0,
+        law: 0,
+        astrology: 0,
+      },
       isMarked: false,
-      
     },
     id01: {
       id: "id01",
@@ -72,8 +81,12 @@ export const castles = {
         mercury: 0,
         dust: 0,
       },
+      produces: {
+        gold: 750,
+        law: 750,
+        astrology: 750,
+      },
       isMarked: false,
-      
     },
     id21: {
       id: "id21",
@@ -90,8 +103,12 @@ export const castles = {
         mercury: 0,
         dust: 0,
       },
+      produces: {
+        gold: 1000,
+        law: 1000,
+        astrology: 1000,
+      },
       isMarked: false,
-      
     },
     id31: {
       id: "id31",
@@ -108,11 +125,13 @@ export const castles = {
         mercury: 0,
         dust: 0,
       },
-      isMarked: false,
-      
       produces: {
-        crystal: 1,
+        gold: 0,
+        law: 0,
+        astrology: 0,
+        crystals: 1,
       },
+      isMarked: false,
     },
     id41: {
       id: "id41",
@@ -129,11 +148,12 @@ export const castles = {
         mercury: 3,
         dust: 0,
       },
-      isMarked: false,
-      
       produces: {
-        dust: 5,
+        gold: 0,
+        law: 0,
+        astrology: 0,
       },
+      isMarked: false,
     },
     id02: {
       id: "id02",
@@ -150,8 +170,12 @@ export const castles = {
         mercury: 0,
         dust: 0,
       },
+      produces: {
+        gold: 0,
+        law: 0,
+        astrology: 0,
+      },
       isMarked: false,
-      
     },
     id22: {
       id: "id22",
@@ -168,11 +192,12 @@ export const castles = {
         mercury: 0,
         dust: 0,
       },
-      isMarked: false,
-      
       produces: {
         gold: 1000,
+        law: 0,
+        astrology: 0,
       },
+      isMarked: false,
     },
     id32: {
       id: "id32",
@@ -189,11 +214,12 @@ export const castles = {
         mercury: 0,
         dust: 0,
       },
-      isMarked: false,
-      
       produces: {
-        gold: 1000,
+        gold: 2000,
+        law: 0,
+        astrology: 0,
       },
+      isMarked: false,
     },
     id23: {
       id: "id23",
@@ -210,8 +236,12 @@ export const castles = {
         mercury: 0,
         dust: 0,
       },
+      produces: {
+        gold: 0,
+        law: 0,
+        astrology: 0,
+      },
       isMarked: false,
-      
     },
     id33: {
       id: "id33",
@@ -228,8 +258,12 @@ export const castles = {
         mercury: 0,
         dust: 0,
       },
+      produces: {
+        gold: 0,
+        law: 0,
+        astrology: 0,
+      },
       isMarked: false,
-      
     },
     id43: {
       id: "id43",
@@ -246,8 +280,12 @@ export const castles = {
         mercury: 0,
         dust: 0,
       },
+      produces: {
+        gold: 0,
+        law: 0,
+        astrology: 0,
+      },
       isMarked: false,
-      
     },
     id14: {
       id: "id14",
@@ -264,8 +302,12 @@ export const castles = {
         mercury: 0,
         dust: 0,
       },
+      produces: {
+        gold: 0,
+        law: 0,
+        astrology: 0,
+      },
       isMarked: false,
-      
     },
     id24: {
       id: "id24",
@@ -282,8 +324,12 @@ export const castles = {
         mercury: 0,
         dust: 30,
       },
+      produces: {
+        gold: 0,
+        law: 0,
+        astrology: 0,
+      },
       isMarked: false,
-      
     },
     id34: {
       id: "id34",
@@ -300,8 +346,12 @@ export const castles = {
         mercury: 5,
         dust: 0,
       },
+      produces: {
+        gold: 0,
+        law: 0,
+        astrology: 0,
+      },
       isMarked: false,
-      
     },
     id05: {
       id: "id05",
@@ -317,6 +367,11 @@ export const castles = {
         crystals: 5,
         mercury: 5,
         dust: 0,
+      },
+      produces: {
+        gold: 0,
+        law: 0,
+        astrology: 0,
       },
       isMarked: false,
     },
@@ -335,8 +390,12 @@ export const castles = {
         mercury: 0,
         dust: 20,
       },
+      produces: {
+        gold: 0,
+        law: 0,
+        astrology: 0,
+      },
       isMarked: false,
-      
     },
     id25: {
       id: "id25",
@@ -353,8 +412,12 @@ export const castles = {
         mercury: 0,
         dust: 0,
       },
+      produces: {
+        gold: 0,
+        law: 0,
+        astrology: 0,
+      },
       isMarked: false,
-      
     },
     id35: {
       id: "id35",
@@ -371,8 +434,12 @@ export const castles = {
         mercury: 0,
         dust: 0,
       },
+      produces: {
+        gold: 0,
+        law: 0,
+        astrology: 0,
+      },
       isMarked: false,
-      
     },
     id45: {
       id: "id45",
@@ -389,8 +456,12 @@ export const castles = {
         mercury: 0,
         dust: 100,
       },
+      produces: {
+        gold: 0,
+        law: 0,
+        astrology: 0,
+      },
       isMarked: false,
-      
     },
     id06: {
       id: "id06",
@@ -406,6 +477,11 @@ export const castles = {
         crystals: 0,
         mercury: 0,
         dust: 0,
+      },
+      produces: {
+        gold: 0,
+        law: 0,
+        astrology: 0,
       },
       isMarked: false,
     },
@@ -424,8 +500,12 @@ export const castles = {
         mercury: 0,
         dust: 10,
       },
+      produces: {
+        gold: 0,
+        law: 0,
+        astrology: 0,
+      },
       isMarked: false,
-      
     },
     id26: {
       id: "id26",
@@ -442,8 +522,12 @@ export const castles = {
         mercury: 0,
         dust: 40,
       },
+      produces: {
+        gold: 0,
+        law: 0,
+        astrology: 0,
+      },
       isMarked: false,
-      
     },
     id36: {
       id: "id36",
@@ -460,8 +544,12 @@ export const castles = {
         mercury: 0,
         dust: 75,
       },
+      produces: {
+        gold: 0,
+        law: 0,
+        astrology: 0,
+      },
       isMarked: false,
-      
     },
     id17: {
       id: "id17",
@@ -478,8 +566,12 @@ export const castles = {
         mercury: 0,
         dust: 0,
       },
+      produces: {
+        gold: 0,
+        law: 0,
+        astrology: 0,
+      },
       isMarked: false,
-      
     },
     id27: {
       id: "id27",
@@ -496,8 +588,12 @@ export const castles = {
         mercury: 0,
         dust: 0,
       },
+      produces: {
+        gold: 0,
+        law: 0,
+        astrology: 0,
+      },
       isMarked: false,
-      
     },
     id37: {
       id: "id37",
@@ -514,8 +610,12 @@ export const castles = {
         mercury: 0,
         dust: 50,
       },
+      produces: {
+        gold: 0,
+        law: 0,
+        astrology: 0,
+      },
       isMarked: false,
-      
     },
     id08: {
       id: "id08",
@@ -532,8 +632,12 @@ export const castles = {
         mercury: 0,
         dust: 0,
       },
+      produces: {
+        gold: 0,
+        law: 0,
+        astrology: 0,
+      },
       isMarked: false,
-      
     },
     id18: {
       id: "id18",
@@ -550,8 +654,12 @@ export const castles = {
         mercury: 2,
         dust: 0,
       },
+      produces: {
+        gold: 0,
+        law: 0,
+        astrology: 0,
+      },
       isMarked: false,
-      
     },
     id28: {
       id: "id28",
@@ -568,8 +676,12 @@ export const castles = {
         mercury: 3,
         dust: 0,
       },
+      produces: {
+        gold: 0,
+        law: 0,
+        astrology: 0,
+      },
       isMarked: false,
-      
     },
     id38: {
       id: "id38",
@@ -586,8 +698,12 @@ export const castles = {
         mercury: 5,
         dust: 0,
       },
+      produces: {
+        gold: 0,
+        law: 0,
+        astrology: 0,
+      },
       isMarked: false,
-      
     },
     id48: {
       id: "id48",
@@ -604,12 +720,16 @@ export const castles = {
         mercury: 5,
         dust: 0,
       },
+      produces: {
+        gold: 0,
+        law: 0,
+        astrology: 0,
+      },
       isMarked: false,
-      
     },
   },
 } as const;
 
 export const castlePreBuilds = {
-  hive: ["id10", "id01", "id05", "id06"]
-}
+  hive: ["id10", "id01", "id05", "id06"],
+};
