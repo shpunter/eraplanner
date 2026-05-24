@@ -1,8 +1,8 @@
-import type { CastleID, TBuilding, TCastle } from "#/routes/castle/$id";
+import type { CastleID, TBuilding } from "#/routes/castle/$id";
 import { useEffect, useMemo } from "react";
 import Building from "./building/Building";
 import css from "./styles.module.css";
-import { useHistoryStore } from "../history/history.store";
+import { useHistoryStore, type BuildingsType } from "../history/history.store";
 
 const CastleGrid = ({ castle, castleID, castleUUID }: CastleGridProps) => {
   const addCastle = useHistoryStore((state) => state.addCastle);
@@ -46,7 +46,7 @@ const CastleGrid = ({ castle, castleID, castleUUID }: CastleGridProps) => {
 export default CastleGrid;
 
 type CastleGridProps = {
-  castle: TCastle;
+  castle: BuildingsType;
   castleID: CastleID;
   castleUUID: string;
 };

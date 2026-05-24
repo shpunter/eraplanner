@@ -7,6 +7,7 @@ export const useHistoryStore = create<Store & Action>((set) => {
     currDay: 0,
     currWeek: 0,
     currMonth: 0,
+    historyIDX: 0,
     currCastleUUID: "",
     history: {},
     marked: [],
@@ -19,6 +20,7 @@ export const useHistoryStore = create<Store & Action>((set) => {
       mercury: 5,
       dust: 50,
     },
+    mines: [],
 
     addCastle: (castleUUID, castleID, castle, preBuilds) => {
       set((state) => {
@@ -39,22 +41,26 @@ export const useHistoryStore = create<Store & Action>((set) => {
 
     addBuilding: (buildingID) => {
       set((state) => {
-        const { currDay, currWeek, currMonth, currCastleUUID } = state;
+        const { currDay, currWeek, currMonth, currCastleUUID, historyIDX } =
+          state;
 
         let nextDay = currDay + 1;
         let nextWeek = currWeek;
         let nextMonth = currMonth;
+        let nextHistoryIDX = nextDay + nextWeek * 7 + nextMonth * 4 * 7;
 
         if (currDay >= 6) {
           nextDay = 0;
           nextWeek = currWeek + 1;
           nextMonth = currMonth;
+          nextHistoryIDX = nextWeek * 7 + nextMonth * 4 * 7;
         }
 
         if (currDay >= 6 && currWeek >= 3) {
           nextDay = 0;
           nextWeek = 0;
           nextMonth = currMonth + 1;
+          nextHistoryIDX = nextMonth * 4 * 7;
         }
 
         const newHistory = structuredClone(
@@ -73,23 +79,26 @@ export const useHistoryStore = create<Store & Action>((set) => {
           currDay: nextDay as CurrDay,
           currWeek: nextWeek as CurrWeek,
           currMonth: nextMonth,
+          historyIDX: nextHistoryIDX,
         };
       });
     },
 
     setDay: (day) => {
-      set(() => {
+      set(({ currWeek, currMonth }) => {
         return {
           currDay: day,
+          historyIDX: day + currWeek * 7 + currMonth * 4 * 7,
         };
       });
     },
 
     setWeek: (week) => {
-      set(() => {
+      set(({ currMonth }) => {
         return {
           currWeek: week,
           currDay: 0,
+          historyIDX: 0 + week * 7 + currMonth * 4 * 7,
         };
       });
     },
@@ -100,6 +109,7 @@ export const useHistoryStore = create<Store & Action>((set) => {
           currDay: 0,
           currWeek: 0,
           currMonth: month,
+          historyIDX: month * 4 * 7,
         };
       });
     },
@@ -108,6 +118,22 @@ export const useHistoryStore = create<Store & Action>((set) => {
       set(() => {
         return {
           marked: buildings,
+        };
+      });
+    },
+
+    addMine: (newMine) => {
+      set((state) => {
+        const mines = structuredClone(state.mines);
+
+        mines[state.historyIDX] = [
+          ...(mines?.[state.historyIDX] ?? []),
+          newMine,
+        ];
+
+        return {
+          ...state,
+          mines,
         };
       });
     },
@@ -123,30 +149,68 @@ type Store = {
     [castleUUID: string]: BuildingID[] | undefined;
   };
   castles: {
-    [uuid: string]: { buildings: TCastle; preBuilds: BuildingID[] } | undefined;
+    [uuid: string]:
+      | {
+          buildings: BuildingsType;
+          preBuilds: BuildingID[];
+        }
+      | undefined;
   };
   marked: BuildingID[];
   resources: {
     gold: number;
     wood: number;
     ore: number;
+    crystals: number;
+    gems: number;
+    mercury: number;
+  };
+  mines: Mine[][];
+  historyIDX: number;
+};
+
+export type BuildingsType = { [buildingID in BuildingID]: BuildingType };
+
+export type BuildingType = {
+  readonly id: BuildingID;
+  readonly name: string;
+  readonly prev: readonly BuildingID[] | null;
+  readonly next: readonly BuildingID[] | null;
+  readonly pos: readonly [number, number];
+  readonly cost: {
+    readonly gold?: number;
+    readonly wood?: number;
+    readonly ore?: number;
+    readonly gems?: number;
+    readonly crystals?: number;
+    readonly mercury?: number;
+    readonly dust?: number;
+  };
+  readonly produces: {
+    readonly gold?: number;
+    readonly law?: number;
+    readonly astrology?: number;
+    readonly crystals?: number;
   };
 };
 
 export type CurrDay = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 export type CurrWeek = 0 | 1 | 2 | 3;
+export type Mine = "ore" | "wood" | "crystal" | "gem" | "mercury" | "gold";
 
 type Action = {
   addCastle: (
     castleUUID: string,
     castleID: CastleID,
-    castle: TCastle,
+    castle: BuildingsType,
     preBuilds: BuildingID[],
   ) => void;
 
   setDay: (day: CurrDay) => void;
   setWeek: (week: CurrWeek) => void;
   setMonth: (month: number) => void;
-  addBuilding: (buildingID: BuildingID) => void;
   setMarked: (buildings: BuildingID[]) => void;
+
+  addBuilding: (buildingID: BuildingID) => void;
+  addMine: (mine: Mine) => void;
 };

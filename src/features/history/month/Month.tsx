@@ -10,8 +10,8 @@ const Month = ({ month }: MonthProps) => {
     const { history, currCastleUUID } = state;
     const idxInHistoryStart = month * 4 * 7;
 
-    return history[currCastleUUID]
-      ?.slice(idxInHistoryStart, idxInHistoryStart + 4 * 7)
+    return (history[currCastleUUID] ?? [])
+      .slice(idxInHistoryStart, idxInHistoryStart + 4 * 7)
       .some((el) => !!el);
   });
 

@@ -5,6 +5,7 @@ import { Await, useParams } from "@tanstack/react-router";
 import CastleGrid from "./CastleGrid";
 import History from "../history/History";
 import Resources from "../resources/Resources";
+import Mines from "../mines/Mines";
 
 const Castle = () => {
   const { castle } = Route.useLoaderData();
@@ -26,6 +27,7 @@ const Castle = () => {
           />
         )}
       </Await>
+      <Mines />
     </Suspense>
   );
 };

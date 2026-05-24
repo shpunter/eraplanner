@@ -1,6 +1,7 @@
 import Castle from "#/features/castle/Castle";
 import { createFileRoute, defer } from "@tanstack/react-router";
 import { castles } from "./castles.config";
+import type { BuildingsType } from "#/features/history/history.store";
 
 export const Route = createFileRoute("/castle/$id")({
   parseParams: (params) => ({
@@ -24,7 +25,7 @@ export const Route = createFileRoute("/castle/$id")({
 
 async function fetchCastleData(id: CastleID) {
   await new Promise((resolve) => setTimeout(resolve, 1000));
-  return castles[id];
+  return castles[id] satisfies BuildingsType;
 }
 
 // 1. Get the names of the castles ('hive' | 'inferno' etc)
