@@ -118,10 +118,4 @@
 .disabled {
   filter: grayscale(100%);
   opacity: 0.3;
-
-  /* pointer-events: none; */
 }
-
-/* .disabled .i {
-  pointer-events: initial;
-} */

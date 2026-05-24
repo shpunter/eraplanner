@@ -1,6 +1,17 @@
 .castle {
+  grid-area: buildings;
   display: grid;
   grid-template-columns: repeat(9, 100px);
   grid-template-rows: repeat(5, 100px);
   gap: 15px;
+}
+
+.board {
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "buildings mines";
+  grid-template-columns: min-content 120px;
+
+  gap: 50px;
 }

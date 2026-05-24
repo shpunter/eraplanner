@@ -13,22 +13,26 @@ const Castle = () => {
   const castleUUID = useMemo(() => crypto.randomUUID(), []);
 
   return (
-    <Suspense
-      fallback={<div className={css.loader}>Loading Castle Data...</div>}
-    >
+    <div>
       <History />
-      <Resources />
-      <Await promise={castle}>
-        {(resolvedCastle) => (
-          <CastleGrid
-            castle={resolvedCastle}
-            castleID={castleID}
-            castleUUID={castleUUID}
-          />
-        )}
-      </Await>
-      <Mines />
-    </Suspense>
+      <div className={css.board}>
+        <Resources />
+        <Suspense
+          fallback={<div className={css.loader}>Loading Castle Data...</div>}
+        >
+          <Await promise={castle}>
+            {(resolvedCastle) => (
+              <CastleGrid
+                castle={resolvedCastle}
+                castleID={castleID}
+                castleUUID={castleUUID}
+              />
+            )}
+          </Await>
+        </Suspense>
+        <Mines />
+      </div>
+    </div>
   );
 };
 
