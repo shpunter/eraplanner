@@ -67,8 +67,6 @@ const Resources = () => {
       mercury: 0,
     };
 
-    let daily = incomePerDay;
-
     for (let idx = 0; idx <= historyIDX; idx++) {
       let dailySpentGold = 0;
       let dailySpentWood = 0;
@@ -137,8 +135,6 @@ const Resources = () => {
           availableResources.mercury - dailySpentMercury + incomePerDay.mercury,
       };
 
-      daily = structuredClone(incomePerDay);
-
       incomePerDay = {
         gold: incomePerDay.gold + goldFromMines,
         wood: incomePerDay.wood + woodFromMines,
@@ -158,7 +154,7 @@ const Resources = () => {
         gems: availableResources.gems,
         mercury: availableResources.mercury,
       },
-      incomePerDay: daily,
+      incomePerDay,
     };
   }, [
     initResources,

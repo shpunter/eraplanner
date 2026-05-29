@@ -6,6 +6,8 @@ import CastleGrid from "./CastleGrid";
 import History from "../history/History";
 import Resources from "../resources/Resources";
 import Mines from "../mines/Mines";
+import Add from "./add/Add";
+import Tabs from "./tabs/Tabs";
 
 const Castle = () => {
   const { castle } = Route.useLoaderData();
@@ -15,6 +17,10 @@ const Castle = () => {
   return (
     <div>
       <History />
+      <div>
+        <Add />
+        <Tabs />
+      </div>
       <div className={css.board}>
         <Resources />
         <Suspense

@@ -42,8 +42,11 @@ const Building = ({ building }: BuildingProps) => {
     const currHistory = history?.[currCastleUUID] ?? [];
     const prev = castles[currCastleUUID]?.buildings[building.id].prev ?? [];
     const isActionAvailableThisDay = !history[currCastleUUID]?.[historyIDX];
+    const isConstructionDisabled =
+      !!state.disabledChanges?.[currCastleUUID]?.[historyIDX];
 
     return (
+      !isConstructionDisabled &&
       isActionAvailableThisDay &&
       prev.every((prevBuildingID) => {
         return (castles?.[currCastleUUID]?.preBuilds ?? [])

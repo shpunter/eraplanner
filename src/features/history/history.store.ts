@@ -10,6 +10,7 @@ export const useHistoryStore = create<Store & Action>((set) => {
     historyIDX: 0,
     currCastleUUID: "",
     history: {},
+    disabledChanges: {},
     marked: [],
     resources: {
       gold: 10_000,
@@ -29,11 +30,17 @@ export const useHistoryStore = create<Store & Action>((set) => {
           currCastleUUID: castleUUID,
           castles: {
             ...state.castles,
-            [castleUUID]: { buildings: castle, preBuilds },
+            [castleUUID]: { buildings: castle, preBuilds, castleID },
           },
           history: {
             ...state.history,
             [castleUUID]: [],
+          },
+          disabledChanges: {
+            ...state.disabledChanges,
+            [castleUUID]: Array.from<boolean>({ length: state.historyIDX }).fill(
+              true,
+            ),
           },
         };
       });
@@ -44,24 +51,24 @@ export const useHistoryStore = create<Store & Action>((set) => {
         const { currDay, currWeek, currMonth, currCastleUUID, historyIDX } =
           state;
 
-        let nextDay = currDay + 1;
-        let nextWeek = currWeek;
-        let nextMonth = currMonth;
-        let nextHistoryIDX = nextDay + nextWeek * 7 + nextMonth * 4 * 7;
+        // let nextDay = currDay + 1;
+        // let nextWeek = currWeek;
+        // let nextMonth = currMonth;
+        // let nextHistoryIDX = nextDay + nextWeek * 7 + nextMonth * 4 * 7;
 
-        if (currDay >= 6) {
-          nextDay = 0;
-          nextWeek = currWeek + 1;
-          nextMonth = currMonth;
-          nextHistoryIDX = nextWeek * 7 + nextMonth * 4 * 7;
-        }
+        // if (currDay >= 6) {
+        //   nextDay = 0;
+        //   nextWeek = currWeek + 1;
+        //   nextMonth = currMonth;
+        //   nextHistoryIDX = nextWeek * 7 + nextMonth * 4 * 7;
+        // }
 
-        if (currDay >= 6 && currWeek >= 3) {
-          nextDay = 0;
-          nextWeek = 0;
-          nextMonth = currMonth + 1;
-          nextHistoryIDX = nextMonth * 4 * 7;
-        }
+        // if (currDay >= 6 && currWeek >= 3) {
+        //   nextDay = 0;
+        //   nextWeek = 0;
+        //   nextMonth = currMonth + 1;
+        //   nextHistoryIDX = nextMonth * 4 * 7;
+        // }
 
         const newHistory = structuredClone(
           state.history?.[currCastleUUID] ?? [],
@@ -76,10 +83,10 @@ export const useHistoryStore = create<Store & Action>((set) => {
             ...state.history,
             [currCastleUUID]: newHistory,
           },
-          currDay: nextDay as CurrDay,
-          currWeek: nextWeek as CurrWeek,
-          currMonth: nextMonth,
-          historyIDX: nextHistoryIDX,
+          // currDay: nextDay as CurrDay,
+          // currWeek: nextWeek as CurrWeek,
+          // currMonth: nextMonth,
+          // historyIDX: nextHistoryIDX,
         };
       });
     },
@@ -137,6 +144,15 @@ export const useHistoryStore = create<Store & Action>((set) => {
         };
       });
     },
+
+    setActiveTab: (castleUUID) => {
+      set((state) => {
+        return {
+          ...state,
+          currCastleUUID: castleUUID,
+        };
+      });
+    },
   };
 });
 
@@ -148,11 +164,15 @@ type Store = {
   history: {
     [castleUUID: string]: BuildingID[] | undefined;
   };
+  disabledChanges: {
+    [castleUUID: string]: boolean[] | undefined;
+  };
   castles: {
     [uuid: string]:
       | {
           buildings: BuildingsType;
           preBuilds: BuildingID[];
+          castleID: CastleID;
         }
       | undefined;
   };
@@ -210,6 +230,7 @@ type Action = {
   setWeek: (week: CurrWeek) => void;
   setMonth: (month: number) => void;
   setMarked: (buildings: BuildingID[]) => void;
+  setActiveTab: (castleUUID: string) => void;
 
   addBuilding: (buildingID: BuildingID) => void;
   addMine: (mine: Mine) => void;
