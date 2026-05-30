@@ -1,16 +1,21 @@
-import type { TBuilding } from "#/routes/castle/$id";
+import type { CastleID, TBuilding } from "#/routes/castle/$id";
 import { classnames } from "#/shared/classnames";
 import css from "./styles.module.css";
-import { useParams } from "@tanstack/react-router";
 import { trace } from "./utils";
 import { useHistoryStore } from "#/features/history/history.store";
 
-const Building = ({ building }: BuildingProps) => {
-  const { id: castleID } = useParams({ from: "/castle/$id" });
+const Building = ({ building, castleID }: BuildingProps) => {
   const { cost } = building;
 
   const setMarked = useHistoryStore((state) => state.setMarked);
   const addBuilding = useHistoryStore((state) => state.addBuilding);
+  const removeBuildings = useHistoryStore((state) => state.removeBuildings);
+
+  const isBuilt = useHistoryStore((state) => {
+    const currBuiltHistory = state.history?.[state.currCastleUUID]?.built ?? [];
+
+    return currBuiltHistory.includes(building.id);
+  });
 
   const isBuiltByCurDay = useHistoryStore((state) => {
     const { history, currCastleUUID, castles, historyIDX } = state;
@@ -78,6 +83,10 @@ const Building = ({ building }: BuildingProps) => {
     addBuilding(building.id);
   };
 
+  const onRemove = () => {
+    removeBuildings(trace(castleID, building.id, "next"));
+  };
+
   const classNames = classnames({
     [css.builtInTheFuture]:
       !isBuiltThisDay && !isBuiltByCurDay && isInTheHistory,
@@ -97,6 +106,11 @@ const Building = ({ building }: BuildingProps) => {
       onMouseLeave={onMouseLeave}
       onClick={onClick}
     >
+      {isBuilt ? (
+        <button type="button" className={css.remove} onClick={onRemove}>
+          ×
+        </button>
+      ) : null}
       <p>{building.name}</p>
       {"gold" in cost ? <p>gold: {cost.gold}</p> : null}
       {"ore" in cost ? <p>ore: {cost.ore}</p> : null}
@@ -123,4 +137,5 @@ export default Building;
 
 type BuildingProps = {
   building: { uuid: string } & TBuilding;
+  castleID: CastleID;
 };

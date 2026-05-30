@@ -72,6 +72,33 @@ export const useHistoryStore = create<Store & Action>((set) => {
       });
     },
 
+    removeBuildings: (buildingIDs) => {
+      set((state) => {
+        const { currCastleUUID } = state;
+
+        const newBuilt = structuredClone(
+          state.history?.[currCastleUUID]?.built ?? [],
+        );
+
+        newBuilt.forEach((id, idx) => {
+          if (id && buildingIDs.includes(id)) {
+            newBuilt[idx] = undefined;
+          }
+        });
+
+        return {
+          ...state,
+          history: {
+            ...state.history,
+            [currCastleUUID]: {
+              built: newBuilt,
+              disabled: state.history[currCastleUUID]?.disabled ?? [],
+            },
+          },
+        };
+      });
+    },
+
     setDay: (day) => {
       set(({ currWeek, currMonth }) => {
         return {
@@ -217,5 +244,6 @@ type Action = {
   setActiveTab: (castleUUID: string) => void;
 
   addBuilding: (buildingID: BuildingID) => void;
+  removeBuildings: (buildingIDs: BuildingID[]) => void;
   addMine: (mine: Mine) => void;
 };

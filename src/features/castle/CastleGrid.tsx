@@ -7,9 +7,12 @@ import { castlePreBuilds } from "#/routes/castle/castles.config";
 
 const CastleGrid = ({ castle, castleID, castleUUID }: CastleGridProps) => {
   const addCastle = useHistoryStore((state) => state.addCastle);
+  const activeCastle = useHistoryStore(
+    (state) => state.castles[state.currCastleUUID],
+  );
 
   useEffect(() => {
-    addCastle(castleUUID, castleID, castle, castlePreBuilds["necropolis"]);
+    addCastle(castleUUID, castleID, castle, castlePreBuilds[castleID]);
   }, [castleID, castle, addCastle, castleUUID]);
 
   const grid = useMemo(() => {
@@ -17,20 +20,28 @@ const CastleGrid = ({ castle, castleID, castleUUID }: CastleGridProps) => {
       uuid: crypto.randomUUID(),
     })) as (({ uuid: string } & TBuilding) | { uuid: string })[];
 
-    Object.values(castle).forEach((building) => {
+    Object.values(activeCastle?.buildings ?? {}).forEach((building) => {
+      if (!building) return;
+
       const [y, x] = building.pos;
       const idx = y * 9 + x;
       array[idx] = { ...array[idx], ...building };
     });
 
     return array;
-  }, [castle]);
+  }, [activeCastle]);
+
+  if (!activeCastle) return null;
 
   return (
     <div className={css.castle}>
       {grid.map((building) =>
         "id" in building ? (
-          <Building key={building.uuid} building={building} />
+          <Building
+            key={building.uuid}
+            building={building}
+            castleID={activeCastle.castleID}
+          />
         ) : (
           <div key={building.uuid} />
         ),
