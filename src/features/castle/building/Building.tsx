@@ -16,9 +16,10 @@ const Building = ({ building }: BuildingProps) => {
     const { history, currCastleUUID, castles, historyIDX } = state;
     const currBuiltHistory = history?.[currCastleUUID]?.built ?? [];
 
-    const isInHistory = (castles?.[currCastleUUID]?.preBuilds ?? [])
-      .concat(currBuiltHistory.slice(0, historyIDX + 1))
-      .includes(building.id);
+    const isInHistory = [
+      ...(castles?.[currCastleUUID]?.preBuilds ?? []),
+      ...currBuiltHistory.slice(0, historyIDX + 1),
+    ].includes(building.id);
 
     return isInHistory;
   });
@@ -40,7 +41,7 @@ const Building = ({ building }: BuildingProps) => {
   const isAvailable = useHistoryStore((state) => {
     const { castles, history, currCastleUUID, historyIDX } = state;
     const currBuiltHistory = history?.[currCastleUUID]?.built ?? [];
-    const prev = castles[currCastleUUID]?.buildings[building.id].prev ?? [];
+    const prev = castles[currCastleUUID]?.buildings?.[building.id]?.prev ?? [];
     const isActionAvailableThisDay = !currBuiltHistory[historyIDX];
     const isConstructionDisabled =
       !!history?.[currCastleUUID]?.disabled?.[historyIDX];
@@ -49,9 +50,10 @@ const Building = ({ building }: BuildingProps) => {
       !isConstructionDisabled &&
       isActionAvailableThisDay &&
       prev.every((prevBuildingID) => {
-        return (castles?.[currCastleUUID]?.preBuilds ?? [])
-          .concat(currBuiltHistory)
-          .includes(prevBuildingID);
+        return [
+          ...(castles?.[currCastleUUID]?.preBuilds ?? []),
+          ...currBuiltHistory,
+        ].includes(prevBuildingID);
       })
     );
   });
@@ -102,9 +104,16 @@ const Building = ({ building }: BuildingProps) => {
       {"gems" in cost ? <p>gems: {cost.gems}</p> : null}
       {"crystals" in cost ? <p>crystals: {cost.crystals}</p> : null}
       {"mercury" in cost ? <p>mercury: {cost.mercury}</p> : null}
+      {"dust" in cost ? <p>dust: {cost.dust}</p> : null}
       ------
       {"gold" in building.produces ? (
         <p>gold: {building.produces.gold}</p>
+      ) : null}
+      {"mercury" in building.produces ? (
+        <p>mercury: {building.produces.mercury}</p>
+      ) : null}
+      {"dust" in building.produces ? (
+        <p>dust: {building.produces.dust}</p>
       ) : null}
     </div>
   );

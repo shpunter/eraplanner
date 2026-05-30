@@ -3,13 +3,13 @@ import { create } from "zustand";
 
 export const useHistoryStore = create<Store & Action>((set) => {
   return {
-    castles: {},
+    castles: {} as Store["castles"],
     currDay: 0,
     currWeek: 0,
     currMonth: 0,
     historyIDX: 0,
     currCastleUUID: "",
-    history: {},
+    history: {} as Store["history"],
     disabledChanges: {},
     marked: [],
     resources: {
@@ -144,14 +144,14 @@ type Store = {
   currCastleUUID: string;
   history: {
     [castleUUID: string]:
-      | { built: BuildingID[]; disabled: boolean[] }
+      | { built: (BuildingID | undefined)[]; disabled: boolean[] }
       | undefined;
   };
   castles: {
     [uuid: string]:
       | {
           buildings: BuildingsType;
-          preBuilds: BuildingID[];
+          preBuilds: readonly BuildingID[];
           castleID: CastleID;
         }
       | undefined;
@@ -164,12 +164,13 @@ type Store = {
     crystals: number;
     gems: number;
     mercury: number;
+    dust: number;
   };
   mines: Mine[][];
   historyIDX: number;
 };
 
-export type BuildingsType = { [buildingID in BuildingID]: BuildingType };
+export type BuildingsType = { [buildingID in BuildingID]?: BuildingType };
 
 export type BuildingType = {
   readonly id: BuildingID;
@@ -191,6 +192,9 @@ export type BuildingType = {
     readonly law?: number;
     readonly astrology?: number;
     readonly crystals?: number;
+    readonly mercury?: number;
+    readonly gems?: number;
+    readonly dust?: number;
   };
 };
 
@@ -203,7 +207,7 @@ type Action = {
     castleUUID: string,
     castleID: CastleID,
     castle: BuildingsType,
-    preBuilds: BuildingID[],
+    preBuilds: readonly BuildingID[],
   ) => void;
 
   setDay: (day: CurrDay) => void;

@@ -1,0 +1,68 @@
+import type { Mine } from "../history/history.store";
+
+export const RESOURCE_KEYS = [
+  "gold",
+  "wood",
+  "ore",
+  "crystals",
+  "gems",
+  "mercury",
+] as const;
+
+export type ResourceKey = (typeof RESOURCE_KEYS)[number];
+export type ResourceRecord = Record<ResourceKey, number>;
+
+export const ZERO_RESOURCES: ResourceRecord = {
+  gold: 0,
+  wood: 0,
+  ore: 0,
+  crystals: 0,
+  gems: 0,
+  mercury: 0,
+};
+
+const MINE_INCOME: Record<Mine, { key: ResourceKey; rate: number }> = {
+  gold: { key: "gold", rate: 1000 },
+  wood: { key: "wood", rate: 2 },
+  ore: { key: "ore", rate: 2 },
+  crystal: { key: "crystals", rate: 1 },
+  gem: { key: "gems", rate: 1 },
+  mercury: { key: "mercury", rate: 1 },
+};
+
+export function calcMineIncome(mines: Mine[]): ResourceRecord {
+  const income = { ...ZERO_RESOURCES };
+  for (const mine of mines) {
+    const { key, rate } = MINE_INCOME[mine];
+    income[key] += rate;
+  }
+  return income;
+}
+
+export function addResources(
+  a: ResourceRecord,
+  b: ResourceRecord,
+): ResourceRecord {
+  return {
+    gold: a.gold + b.gold,
+    wood: a.wood + b.wood,
+    ore: a.ore + b.ore,
+    crystals: a.crystals + b.crystals,
+    gems: a.gems + b.gems,
+    mercury: a.mercury + b.mercury,
+  };
+}
+
+export function subtractResources(
+  a: ResourceRecord,
+  b: ResourceRecord,
+): ResourceRecord {
+  return {
+    gold: a.gold - b.gold,
+    wood: a.wood - b.wood,
+    ore: a.ore - b.ore,
+    crystals: a.crystals - b.crystals,
+    gems: a.gems - b.gems,
+    mercury: a.mercury - b.mercury,
+  };
+}
