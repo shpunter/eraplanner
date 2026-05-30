@@ -1,4 +1,4 @@
-import type { BuildingID, CastleID, TCastle } from "#/routes/castle/$id";
+import type { BuildingID, CastleID } from "#/routes/castle/$id";
 import { create } from "zustand";
 
 export const useHistoryStore = create<Store & Action>((set) => {
@@ -25,6 +25,10 @@ export const useHistoryStore = create<Store & Action>((set) => {
 
     addCastle: (castleUUID, castleID, castle, preBuilds) => {
       set((state) => {
+        const historyDisabled = Array.from<boolean>({
+          length: state.historyIDX,
+        }).fill(true);
+
         return {
           ...state,
           currCastleUUID: castleUUID,
@@ -34,13 +38,10 @@ export const useHistoryStore = create<Store & Action>((set) => {
           },
           history: {
             ...state.history,
-            [castleUUID]: [],
-          },
-          disabledChanges: {
-            ...state.disabledChanges,
-            [castleUUID]: Array.from<boolean>({ length: state.historyIDX }).fill(
-              true,
-            ),
+            [castleUUID]: {
+              built: [],
+              disabled: historyDisabled,
+            },
           },
         };
       });
@@ -51,42 +52,22 @@ export const useHistoryStore = create<Store & Action>((set) => {
         const { currDay, currWeek, currMonth, currCastleUUID, historyIDX } =
           state;
 
-        // let nextDay = currDay + 1;
-        // let nextWeek = currWeek;
-        // let nextMonth = currMonth;
-        // let nextHistoryIDX = nextDay + nextWeek * 7 + nextMonth * 4 * 7;
-
-        // if (currDay >= 6) {
-        //   nextDay = 0;
-        //   nextWeek = currWeek + 1;
-        //   nextMonth = currMonth;
-        //   nextHistoryIDX = nextWeek * 7 + nextMonth * 4 * 7;
-        // }
-
-        // if (currDay >= 6 && currWeek >= 3) {
-        //   nextDay = 0;
-        //   nextWeek = 0;
-        //   nextMonth = currMonth + 1;
-        //   nextHistoryIDX = nextMonth * 4 * 7;
-        // }
-
-        const newHistory = structuredClone(
-          state.history?.[currCastleUUID] ?? [],
+        const newHistoryBuilt = structuredClone(
+          state.history?.[currCastleUUID]?.built ?? [],
         );
         const totalDays = currDay + currWeek * 7 + currMonth * 4 * 7;
 
-        newHistory[totalDays] = buildingID;
+        newHistoryBuilt[totalDays] = buildingID;
 
         return {
           ...state,
           history: {
             ...state.history,
-            [currCastleUUID]: newHistory,
+            [currCastleUUID]: {
+              built: newHistoryBuilt,
+              disabled: state.history[currCastleUUID]?.disabled ?? [],
+            },
           },
-          // currDay: nextDay as CurrDay,
-          // currWeek: nextWeek as CurrWeek,
-          // currMonth: nextMonth,
-          // historyIDX: nextHistoryIDX,
         };
       });
     },
@@ -162,10 +143,9 @@ type Store = {
   currMonth: number;
   currCastleUUID: string;
   history: {
-    [castleUUID: string]: BuildingID[] | undefined;
-  };
-  disabledChanges: {
-    [castleUUID: string]: boolean[] | undefined;
+    [castleUUID: string]:
+      | { built: BuildingID[]; disabled: boolean[] }
+      | undefined;
   };
   castles: {
     [uuid: string]:

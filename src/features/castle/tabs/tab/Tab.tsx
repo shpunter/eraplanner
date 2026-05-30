@@ -6,6 +6,9 @@ import css from "./styles.module.css";
 const Tab = ({ uuid, castleID }: { uuid: string; castleID: CastleID }) => {
   const currCastleUUID = useHistoryStore((state) => state.currCastleUUID);
   const setActiveTab = useHistoryStore((state) => state.setActiveTab);
+  const isDisabled = useHistoryStore((state) => {
+    return state.history[uuid]?.disabled[state.historyIDX] ?? false;
+  });
 
   const classNames = classnames({ [css.active]: currCastleUUID === uuid });
 
@@ -13,7 +16,7 @@ const Tab = ({ uuid, castleID }: { uuid: string; castleID: CastleID }) => {
     setActiveTab(uuid);
   };
 
-  return (
+  return isDisabled ? null : (
     <div key={uuid} className={classNames} onClick={onClick}>
       {castleID}, {uuid}
     </div>

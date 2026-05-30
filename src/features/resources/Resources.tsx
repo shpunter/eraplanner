@@ -78,7 +78,7 @@ const Resources = () => {
       for (const [castleUUID, timelineArray] of Object.entries(
         historyState ?? {},
       )) {
-        const buildingID = timelineArray?.[idx] as BuildingID | undefined;
+        const buildingID = timelineArray?.built?.[idx] as BuildingID | undefined;
 
         if (!buildingID) continue;
 

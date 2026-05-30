@@ -10,7 +10,7 @@ const Day = ({ day }: DayProps) => {
     const { history, currCastleUUID } = state;
     const idxInHistory = state.currMonth * 4 * 7 + state.currWeek * 7 + day;
 
-    return !!history[currCastleUUID]?.[idxInHistory];
+    return !!history[currCastleUUID]?.built?.[idxInHistory];
   });
 
   const onDayClick = (currDay: CurrDay) => () => {

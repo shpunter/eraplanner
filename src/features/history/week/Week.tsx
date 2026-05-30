@@ -10,7 +10,7 @@ const Week = ({ week }: WeekProps) => {
     const idxInHistoryStart = state.currMonth * 4 * 7 + week * 7;
     const { history, currCastleUUID } = state;
 
-    return (history?.[currCastleUUID] ?? [])
+    return (history?.[currCastleUUID]?.built ?? [])
       .slice(idxInHistoryStart, idxInHistoryStart + 7)
       .some((el) => !!el);
   });

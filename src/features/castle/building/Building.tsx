@@ -14,10 +14,10 @@ const Building = ({ building }: BuildingProps) => {
 
   const isBuiltByCurDay = useHistoryStore((state) => {
     const { history, currCastleUUID, castles, historyIDX } = state;
-    const currHistory = history?.[currCastleUUID] ?? [];
+    const currBuiltHistory = history?.[currCastleUUID]?.built ?? [];
 
     const isInHistory = (castles?.[currCastleUUID]?.preBuilds ?? [])
-      .concat(currHistory.slice(0, historyIDX + 1))
+      .concat(currBuiltHistory.slice(0, historyIDX + 1))
       .includes(building.id);
 
     return isInHistory;
@@ -25,32 +25,32 @@ const Building = ({ building }: BuildingProps) => {
 
   const isInTheHistory = useHistoryStore((state) => {
     const { history, currCastleUUID, historyIDX } = state;
+    const currBuiltHistory = history?.[currCastleUUID]?.built ?? [];
 
-    return (history?.[currCastleUUID] ?? [])
-      .slice(historyIDX)
-      .includes(building.id);
+    return currBuiltHistory.slice(historyIDX).includes(building.id);
   });
 
   const isBuiltThisDay = useHistoryStore((state) => {
     const { history, currCastleUUID, historyIDX } = state;
+    const currBuiltHistory = history?.[currCastleUUID]?.built ?? [];
 
-    return history[currCastleUUID]?.[historyIDX] === building.id;
+    return currBuiltHistory[historyIDX] === building.id;
   });
 
   const isAvailable = useHistoryStore((state) => {
     const { castles, history, currCastleUUID, historyIDX } = state;
-    const currHistory = history?.[currCastleUUID] ?? [];
+    const currBuiltHistory = history?.[currCastleUUID]?.built ?? [];
     const prev = castles[currCastleUUID]?.buildings[building.id].prev ?? [];
-    const isActionAvailableThisDay = !history[currCastleUUID]?.[historyIDX];
+    const isActionAvailableThisDay = !currBuiltHistory[historyIDX];
     const isConstructionDisabled =
-      !!state.disabledChanges?.[currCastleUUID]?.[historyIDX];
+      !!history?.[currCastleUUID]?.disabled?.[historyIDX];
 
     return (
       !isConstructionDisabled &&
       isActionAvailableThisDay &&
       prev.every((prevBuildingID) => {
         return (castles?.[currCastleUUID]?.preBuilds ?? [])
-          .concat(currHistory)
+          .concat(currBuiltHistory)
           .includes(prevBuildingID);
       })
     );
