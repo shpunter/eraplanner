@@ -79,6 +79,18 @@
   
     --color-error: oklch(0.44 0.18 29 / 0.4);
     --color-accent: oklch(0.96 0.21 111 / 0.576);
+
+    --highlight-12: oklch(1 0 0 / 0.12);
+    --highlight-15: oklch(1 0 0 / 0.15);
+    --highlight-18: oklch(1 0 0 / 0.18);
+    --highlight-20: oklch(1 0 0 / 0.2);
+    --highlight-25: oklch(1 0 0 / 0.25);
+
+    --shadow-40: oklch(0 0 0 / 0.4);
+    --shadow-45: oklch(0 0 0 / 0.45);
+    --shadow-50: oklch(0 0 0 / 0.5);
+    --shadow-55: oklch(0 0 0 / 0.55);
+    --shadow-60: oklch(0 0 0 / 0.6);
   }
   
   body {

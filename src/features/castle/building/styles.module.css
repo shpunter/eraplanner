@@ -42,7 +42,7 @@
   font-size: 12px;
   line-height: 1;
   color: white;
-  background: var(--color-red, #c0392b);
+  background: var(--color-red);
   border: none;
   border-radius: 50%;
   cursor: pointer;
