@@ -52,7 +52,7 @@ const Building = ({ building }: BuildingProps) => {
       prev.every((prevBuildingID) => {
         return [
           ...(castles?.[currCastleUUID]?.preBuilds ?? []),
-          ...currBuiltHistory,
+          ...currBuiltHistory.slice(0, historyIDX + 1),
         ].includes(prevBuildingID);
       })
     );
