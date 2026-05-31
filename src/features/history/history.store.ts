@@ -20,6 +20,8 @@ export const useHistoryStore = create<Store & Action>((set) => {
       crystals: 5,
       mercury: 5,
       dust: 50,
+      law: 0,
+      astrology: 0,
     },
     mines: [],
 
@@ -139,7 +141,7 @@ export const useHistoryStore = create<Store & Action>((set) => {
     addMine: (newMine) => {
       set((state) => {
         const mines = structuredClone(state.mines);
-
+// console.log(mines);
         mines[state.historyIDX] = [
           ...(mines?.[state.historyIDX] ?? []),
           newMine,
@@ -191,6 +193,8 @@ type Store = {
     gems: number;
     mercury: number;
     dust: number;
+    law: number;
+    astrology: number;
   };
   mines: Mine[][];
   historyIDX: number;

@@ -132,6 +132,10 @@ const Building = ({ building, castleID }: BuildingProps) => {
       {"dust" in building.produces ? (
         <p>dust: {building.produces.dust}</p>
       ) : null}
+      {"law" in building.produces ? <p>law: {building.produces.law}</p> : null}
+      {"astrology" in building.produces ? (
+        <p>astrology: {building.produces.astrology}</p>
+      ) : null}
     </div>
   );
 };

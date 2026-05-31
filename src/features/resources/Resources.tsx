@@ -1,5 +1,5 @@
 import { useResourceTimeline } from "./useResourceTimeline";
-import { RESOURCE_KEYS } from "./resources.helpers";
+import { RESOURCE_KEYS } from "./resources.utils";
 import css from "./styles.module.css";
 
 const Resources = () => {

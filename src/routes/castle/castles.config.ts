@@ -484,6 +484,8 @@ export const castles = {
       },
       produces: {
         gold: 500,
+        law: 500,
+        astrology: 500,
       },
     },
     id11: {
@@ -499,6 +501,8 @@ export const castles = {
       },
       produces: {
         gold: 750,
+        law: 750,
+        astrology: 750,
       },
     },
     id21: {
@@ -514,6 +518,8 @@ export const castles = {
       },
       produces: {
         gold: 1000,
+        law: 1000,
+        astrology: 1000,
       },
     },
     id31: {

@@ -7,7 +7,7 @@ import {
   subtractResources,
   ZERO_RESOURCES,
   type ResourceRecord,
-} from "./resources.helpers";
+} from "./resources.utils";
 
 export function useResourceTimeline(): {
   available: ResourceRecord;
@@ -21,6 +21,8 @@ export function useResourceTimeline(): {
       crystals: state.resources.crystals,
       gems: state.resources.gems,
       mercury: state.resources.mercury,
+      law: state.resources.law,
+      astrology: state.resources.astrology,
     })),
   );
 
@@ -37,24 +39,25 @@ export function useResourceTimeline(): {
       return { available: initResources, incomePerDay: { ...ZERO_RESOURCES } };
     }
 
-    const preIncome = Object.values(castlesConfig).reduce(
+    const preIncome = Object.values(castlesConfig).reduce<ResourceRecord>(
       (total, castleConfig) => {
         if (!castleConfig) return total;
 
-        return (
-          total +
-          (castleConfig.preBuilds ?? []).reduce(
-            (acc, buildingID) =>
-              acc + (castleConfig.buildings[buildingID]?.produces?.gold ?? 0),
-            0,
-          )
-        );
+        return (castleConfig.preBuilds ?? []).reduce((acc, buildingID) => {
+          const produces = castleConfig.buildings[buildingID]?.produces;
+          return addResources(acc, {
+            ...ZERO_RESOURCES,
+            gold: produces?.gold ?? 0,
+            law: produces?.law ?? 0,
+            astrology: produces?.astrology ?? 0,
+          });
+        }, total);
       },
-      0,
+      { ...ZERO_RESOURCES },
     );
 
     let available = initResources;
-    let incomePerDay = { ...ZERO_RESOURCES, gold: preIncome };
+    let incomePerDay = { ...ZERO_RESOURCES, ...preIncome };
 
     for (let idx = 0; idx <= historyIDX; idx++) {
       let dailyCost = ZERO_RESOURCES;
@@ -77,12 +80,16 @@ export function useResourceTimeline(): {
           crystals: building.cost.crystals ?? 0,
           gems: building.cost.gems ?? 0,
           mercury: building.cost.mercury ?? 0,
+          law: 0,
+          astrology: 0,
         });
 
         incomePerDay = {
           ...incomePerDay,
           gold: incomePerDay.gold + (building.produces.gold ?? 0),
           crystals: incomePerDay.crystals + (building.produces.crystals ?? 0),
+          law: incomePerDay.law + (building.produces.law ?? 0),
+          astrology: incomePerDay.astrology + (building.produces.astrology ?? 0),
         };
       }
 
@@ -98,7 +105,7 @@ export function useResourceTimeline(): {
     }
 
     return {
-      available: { ...available, gold: available.gold - preIncome },
+      available: subtractResources(available, preIncome),
       incomePerDay,
     };
   }, [

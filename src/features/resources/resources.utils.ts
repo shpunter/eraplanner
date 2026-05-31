@@ -7,6 +7,8 @@ export const RESOURCE_KEYS = [
   "crystals",
   "gems",
   "mercury",
+  "law",
+  "astrology",
 ] as const;
 
 export type ResourceKey = (typeof RESOURCE_KEYS)[number];
@@ -19,6 +21,8 @@ export const ZERO_RESOURCES: ResourceRecord = {
   crystals: 0,
   gems: 0,
   mercury: 0,
+  law: 0,
+  astrology: 0,
 };
 
 const MINE_INCOME: Record<Mine, { key: ResourceKey; rate: number }> = {
@@ -50,6 +54,8 @@ export function addResources(
     crystals: a.crystals + b.crystals,
     gems: a.gems + b.gems,
     mercury: a.mercury + b.mercury,
+    law: a.law + b.law,
+    astrology: a.astrology + b.astrology,
   };
 }
 
@@ -64,5 +70,7 @@ export function subtractResources(
     crystals: a.crystals - b.crystals,
     gems: a.gems - b.gems,
     mercury: a.mercury - b.mercury,
+    law: a.law - b.law,
+    astrology: a.astrology - b.astrology,
   };
 }
