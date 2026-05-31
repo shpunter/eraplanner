@@ -3,19 +3,14 @@ import { classnames } from "#/shared/classnames";
 import css from "./styles.module.css";
 import { trace } from "./utils";
 import { useHistoryStore } from "#/features/history/history.store";
+import BuildingActions from "./buildingActions/BuildingActions";
+import BuildingLabel from "./buildingLabel/BuildingLabel";
 
 const Building = ({ building, castleID }: BuildingProps) => {
-  const { cost } = building;
+  const { cost, name } = building;
 
   const setMarked = useHistoryStore((state) => state.setMarked);
   const addBuilding = useHistoryStore((state) => state.addBuilding);
-  const removeBuildings = useHistoryStore((state) => state.removeBuildings);
-
-  const isBuilt = useHistoryStore((state) => {
-    const currBuiltHistory = state.history?.[state.currCastleUUID]?.built ?? [];
-
-    return currBuiltHistory.includes(building.id);
-  });
 
   const isBuiltByCurDay = useHistoryStore((state) => {
     const { history, currCastleUUID, castles, historyIDX } = state;
@@ -83,11 +78,6 @@ const Building = ({ building, castleID }: BuildingProps) => {
     addBuilding(building.id);
   };
 
-  const onRemove = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
-    removeBuildings(trace(castleID, building.id, "next"));
-  };
-
   const classNames = classnames({
     [css.builtInTheFuture]:
       !isBuiltThisDay && !isBuiltByCurDay && isInTheHistory,
@@ -107,12 +97,7 @@ const Building = ({ building, castleID }: BuildingProps) => {
       onMouseLeave={onMouseLeave}
       onClick={onClick}
     >
-      {isBuilt ? (
-        <button type="button" className={css.remove} onClick={onRemove}>
-          ×
-        </button>
-      ) : null}
-      <p>{building.name}</p>
+      <BuildingActions castleID={castleID} buildingID={building.id} />
       {"gold" in cost ? <p>gold: {cost.gold}</p> : null}
       {"ore" in cost ? <p>ore: {cost.ore}</p> : null}
       {"wood" in cost ? <p>wood: {cost.wood}</p> : null}
@@ -137,6 +122,11 @@ const Building = ({ building, castleID }: BuildingProps) => {
       {"astrology" in building.produces ? (
         <p>astrology: {building.produces.astrology}</p>
       ) : null}
+      <BuildingLabel
+        name={name}
+        isMarked={isMarked}
+        isBuilt={isBuiltByCurDay || isBuiltThisDay}
+      />
     </div>
   );
 };
