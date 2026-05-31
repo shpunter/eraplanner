@@ -49,8 +49,7 @@ export const useHistoryStore = create<Store & Action>((set) => {
 
     addBuilding: (buildingID) => {
       set((state) => {
-        const { currDay, currWeek, currMonth, currCastleUUID, historyIDX } =
-          state;
+        const { currDay, currWeek, currMonth, currCastleUUID } = state;
 
         const newHistoryBuilt = structuredClone(
           state.history?.[currCastleUUID]?.built ?? [],
@@ -76,13 +75,13 @@ export const useHistoryStore = create<Store & Action>((set) => {
       set((state) => {
         const { currCastleUUID } = state;
 
-        const newBuilt = structuredClone(
+        const buildings = structuredClone(
           state.history?.[currCastleUUID]?.built ?? [],
         );
 
-        newBuilt.forEach((id, idx) => {
+        buildings.forEach((id, idx) => {
           if (id && buildingIDs.includes(id)) {
-            newBuilt[idx] = undefined;
+            buildings[idx] = undefined;
           }
         });
 
@@ -91,7 +90,7 @@ export const useHistoryStore = create<Store & Action>((set) => {
           history: {
             ...state.history,
             [currCastleUUID]: {
-              built: newBuilt,
+              built: buildings,
               disabled: state.history[currCastleUUID]?.disabled ?? [],
             },
           },

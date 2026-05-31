@@ -13,7 +13,16 @@ const Day = ({ day }: DayProps) => {
     return !!history[currCastleUUID]?.built?.[idxInHistory];
   });
 
+  const isDisabled = useHistoryStore((state) => {
+    const { history, currCastleUUID } = state;
+    const idxInHistory = state.currMonth * 4 * 7 + state.currWeek * 7 + day;
+
+    return !!history[currCastleUUID]?.disabled?.[idxInHistory];
+  });
+
   const onDayClick = (currDay: CurrDay) => () => {
+    if (isDisabled) return;
+
     setDay(currDay);
   };
 
@@ -21,6 +30,7 @@ const Day = ({ day }: DayProps) => {
     [css.cell]: true,
     [css.action]: hasAction,
     [css.active]: isActive,
+    [css.disabled]: isDisabled,
   });
 
   return (

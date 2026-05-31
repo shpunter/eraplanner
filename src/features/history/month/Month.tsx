@@ -15,7 +15,16 @@ const Month = ({ month }: MonthProps) => {
       .some((el) => !!el);
   });
 
+  const isDisabled = useHistoryStore((state) => {
+    const { history, currCastleUUID } = state;
+    const idxInHistoryEnd = month * 4 * 7 + (4 * 7 - 1);
+
+    return !!history[currCastleUUID]?.disabled?.[idxInHistoryEnd];
+  });
+
   const onMonthClick = (currMonth: number) => () => {
+    if (isDisabled) return;
+
     setMonth(currMonth);
   };
 
@@ -23,6 +32,7 @@ const Month = ({ month }: MonthProps) => {
     [css.cell]: true,
     [css.active]: isActive,
     [css.action]: hasAction,
+    [css.disabled]: isDisabled,
   });
 
   return (

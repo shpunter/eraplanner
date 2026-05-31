@@ -15,13 +15,23 @@ const Week = ({ week }: WeekProps) => {
       .some((el) => !!el);
   });
 
+  const isDisabled = useHistoryStore((state) => {
+    const idxInHistoryEnd = state.currMonth * 4 * 7 + week * 7 + 6;
+    const { history, currCastleUUID } = state;
+
+    return !!history?.[currCastleUUID]?.disabled?.[idxInHistoryEnd];
+  });
+
   const classNames = classnames({
     [css.cell]: true,
     [css.active]: isActive,
     [css.action]: hasAction,
+    [css.disabled]: isDisabled,
   });
 
   const onWeekClick = (currWeek: CurrWeek) => () => {
+    if (isDisabled) return;
+
     setWeek(currWeek);
   };
 

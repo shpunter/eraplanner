@@ -53,6 +53,6 @@
 }
 
 .item,
-.item > * {
+.item > p {
   border-radius: 6px;
 }

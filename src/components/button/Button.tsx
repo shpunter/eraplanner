@@ -3,7 +3,7 @@ import { classnames } from "#/shared/classnames";
 import css from "./styles.module.css";
 
 const Button = ({
-  variant = "gold",
+  variant = "secondary",
   size = "md",
   type = "button",
   className,

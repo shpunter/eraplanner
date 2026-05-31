@@ -126,6 +126,9 @@ const Building = ({ building, castleID }: BuildingProps) => {
       {"mercury" in building.produces ? (
         <p>mercury: {building.produces.mercury}</p>
       ) : null}
+      {"crystals" in building.produces ? (
+        <p>crystals: {building.produces.crystals}</p>
+      ) : null}
       {"dust" in building.produces ? (
         <p>dust: {building.produces.dust}</p>
       ) : null}
