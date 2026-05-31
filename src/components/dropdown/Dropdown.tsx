@@ -1,6 +1,6 @@
 import type { ComponentPropsWithoutRef } from "react";
 import { classnames } from "#/shared/classnames";
-import css from "./styles.module.css";
+import css from "./dropdown.module.css";
 
 const Dropdown = <T extends string>({
   options,

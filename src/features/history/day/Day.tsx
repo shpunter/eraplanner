@@ -1,6 +1,6 @@
 import { classnames } from "#/shared/classnames";
 import { useHistoryStore, type CurrDay } from "../history.store";
-import css from "../styles.module.css";
+import css from "../history.module.css";
 
 const Day = ({ day }: DayProps) => {
   const setDay = useHistoryStore((state) => state.setDay);

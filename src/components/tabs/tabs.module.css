@@ -1,0 +1,5 @@
+.tabs {
+  display: inline-flex;
+  align-items: stretch;
+  gap: 4px;
+}

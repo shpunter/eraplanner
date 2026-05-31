@@ -1,6 +1,6 @@
 import type { CastleID, TBuilding } from "#/routes/castle/$id";
 import { classnames } from "#/shared/classnames";
-import css from "./styles.module.css";
+import css from "./building.module.css";
 import { trace } from "./utils";
 import { useHistoryStore } from "#/features/history/history.store";
 import BuildingActions from "./buildingActions/BuildingActions";

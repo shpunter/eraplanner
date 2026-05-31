@@ -1,7 +1,7 @@
 import Day from "./day/Day";
 import { useHistoryStore, type CurrDay, type CurrWeek } from "./history.store";
 import Month from "./month/Month";
-import css from "./styles.module.css";
+import css from "./history.module.css";
 import Week from "./week/Week";
 
 const History = () => {

@@ -1,6 +1,6 @@
 import type { IDX } from "../hero.store";
 import CellSkill from "./cellSkill/CellSkill";
-import css from "./styles.module.css";
+import css from "./skills.module.css";
 
 const Skills = () => {
   return (

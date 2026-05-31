@@ -1,6 +1,6 @@
 import { Route } from "#/routes/castle/$id";
 import { Suspense, useMemo } from "react";
-import css from "./styles.module.css";
+import css from "./castle.module.css";
 import { Await, useParams } from "@tanstack/react-router";
 import CastleGrid from "./CastleGrid";
 import History from "../history/History";

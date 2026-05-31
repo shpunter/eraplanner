@@ -2,7 +2,7 @@ import Modal, { type ModalHandle } from "#/components/modal/Modal";
 import { useRef } from "react";
 import SkillWithActions from "./skillWithActions/SkillWithActions";
 
-import css from "./styles.module.css";
+import css from "./cellSkill.module.css";
 import { skills } from "../../skills.config";
 import { useHeroStore, type IDX, type SkillKey } from "../../hero.store";
 import Skill from "./skillWithActions/skill/Skill";

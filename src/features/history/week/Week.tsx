@@ -1,6 +1,6 @@
 import { classnames } from "#/shared/classnames";
 import { useHistoryStore, type CurrWeek } from "../history.store";
-import css from "../styles.module.css";
+import css from "../history.module.css";
 
 const Week = ({ week }: WeekProps) => {
   const setWeek = useHistoryStore((state) => state.setWeek);

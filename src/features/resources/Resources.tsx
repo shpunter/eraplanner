@@ -1,5 +1,5 @@
 import { useResourceTimeline } from "./useResourceTimeline";
-import css from "./styles.module.css";
+import css from "./resources.module.css";
 import { RESOURCE_KEYS } from "#/shared/constants";
 
 type ResourceKey = (typeof RESOURCE_KEYS)[number];

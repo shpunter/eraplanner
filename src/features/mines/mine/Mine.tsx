@@ -2,7 +2,7 @@ import {
   useHistoryStore,
   type Mine as TMine,
 } from "#/features/history/history.store";
-import css from "./styles.module.css";
+import css from "./mine.module.css";
 
 const MINE_ASSET_PATHS: Record<TMine, string> = {
   gold: "/img/mines/gold_mine.webp",

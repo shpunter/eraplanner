@@ -1,6 +1,6 @@
 import type { ComponentPropsWithoutRef } from "react";
 import { classnames } from "#/shared/classnames";
-import css from "./styles.module.css";
+import css from "./button.module.css";
 
 const Button = ({
   variant = "secondary",

@@ -1,5 +1,5 @@
 import type { skills } from "#/features/hero/skills.config";
-import css from "./styles.module.css";
+import css from "./skillWithActions.module.css";
 import {
   useHeroStore,
   type IDX,

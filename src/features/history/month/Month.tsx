@@ -1,6 +1,6 @@
 import { classnames } from "#/shared/classnames";
 import { useHistoryStore } from "../history.store";
-import css from "../styles.module.css";
+import css from "../history.module.css";
 
 const Month = ({ month }: MonthProps) => {
   const setMonth = useHistoryStore((state) => state.setMonth);

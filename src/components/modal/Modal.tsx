@@ -5,7 +5,7 @@ import {
   useImperativeHandle,
   useRef,
 } from "react";
-import css from "./styles.module.css";
+import css from "./modal.module.css";
 
 const Modal = ({ children, ref, title, onClose, ...props }: ModalProps) => {
   const dialogRef = useRef<HTMLDialogElement>(null);

@@ -1,5 +1,5 @@
 import type { TypeHero } from "#/routes/hero/$id";
-import css from "./styles.module.css";
+import css from "./mainStats.module.css";
 
 const MainStats = (stats: MainStatsProps) => {
   return (

@@ -1,5 +1,5 @@
 import type { SkillKey, SkillLvl } from "#/features/hero/hero.store";
-import css from "./styles.module.css";
+import css from "./skill.module.css";
 
 const Skill = ({ lvl, name, img }: SkillProps) => {
   return (

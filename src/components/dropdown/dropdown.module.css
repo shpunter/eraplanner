@@ -72,12 +72,20 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   color: var(--text-main);
-  background-color: var(--dark-blue-20);
+  background-image: linear-gradient(
+    to bottom,
+    var(--dark-blue-40),
+    var(--dark-blue-20)
+  );
 }
 
 .select option:checked {
   color: var(--color-yellow-border);
-  background-color: var(--dark-blue-40);
+  background-image: linear-gradient(
+    to bottom,
+    var(--dark-blue-50),
+    var(--dark-blue-30)
+  );
 }
 
 .select option:disabled {
@@ -126,7 +134,11 @@
 
   .select option:hover,
   .select option:focus {
-    background-color: var(--dark-blue-40);
+    background-image: linear-gradient(
+      to bottom,
+      var(--dark-blue-50),
+      var(--dark-blue-30)
+    );
     outline: none;
   }
 

@@ -29,6 +29,7 @@
   border: solid 1px;
   padding: 4px;
   width: 80px;
+  background-color: var(--background);
 
   transition:
     filter 0.12s ease-in-out,

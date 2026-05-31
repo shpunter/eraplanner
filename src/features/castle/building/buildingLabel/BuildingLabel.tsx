@@ -1,7 +1,7 @@
 import type { TBuilding } from "#/routes/castle/$id";
 
 import { classnames } from "#/shared/classnames";
-import css from "./styles.module.css";
+import css from "./buildingLabel.module.css";
 
 const BuildingLabel = ({
   name,

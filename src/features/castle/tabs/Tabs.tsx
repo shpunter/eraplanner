@@ -1,20 +1,29 @@
+import Tabs from "#/components/tabs/Tabs";
 import { useHistoryStore } from "#/features/history/history.store";
-import Tab from "./tab/Tab";
 
-const Tabs = () => {
-  const castles = useHistoryStore((state) => {
-    return state.castles;
-  });
+const CastleTabs = () => {
+  const castles = useHistoryStore((state) => state.castles);
+  const history = useHistoryStore((state) => state.history);
+  const historyIDX = useHistoryStore((state) => state.historyIDX);
+  const currCastleUUID = useHistoryStore((state) => state.currCastleUUID);
+  const setActiveTab = useHistoryStore((state) => state.setActiveTab);
 
   return (
-    <div>
+    <Tabs value={currCastleUUID} onChange={setActiveTab}>
       {Object.entries(castles).map(([uuid, castle]) => {
         if (!castle?.castleID) return null;
 
-        return <Tab key={uuid} uuid={uuid} castleID={castle.castleID} />;
+        const isDisabled = history[uuid]?.disabled[historyIDX] ?? false;
+        if (isDisabled) return null;
+
+        return (
+          <Tabs.Tab key={uuid} value={uuid}>
+            {castle.castleID}
+          </Tabs.Tab>
+        );
       })}
-    </div>
+    </Tabs>
   );
 };
 
-export default Tabs;
+export default CastleTabs;

@@ -1,7 +1,7 @@
 import { useHistoryStore } from "#/features/history/history.store";
 import type { BuildingID, CastleID } from "#/routes/castle/$id";
 import { trace } from "../utils";
-import css from "./styles.module.css";
+import css from "./buildingActions.module.css";
 
 const BuildingActions = ({ castleID, buildingID }: BuildingActionsProps) => {
   const removeBuildings = useHistoryStore((state) => state.removeBuildings);
