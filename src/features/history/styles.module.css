@@ -1,21 +1,38 @@
-.cell {
+.cell,
+.next {
   color: var(--black-50);
-  width: 20px;
-  height: 20px;
+  width: 40px;
+  height: 40px;
   border: solid 1px var(--black-40);
   cursor: pointer;
+  border-radius: 50%;
 
   display: flex;
   align-items: center;
   justify-content: center;
+  user-select: none;
+}
+
+.cell {
+  letter-spacing: 1px;
+  text-indent: 2px;
+}
+
+.cell:hover,
+.next:hover {
+  background-color: var(--dark-blue-30);
+  filter: drop-shadow(0 0 2px var(--black-90));
 }
 
 .active {
   color: var(--black-80);
+  border: solid 1px var(--black-80);
 }
 
 .calendar {
   display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .action {
@@ -26,4 +43,17 @@
   color: var(--black-30);
   border-color: var(--black-25);
   cursor: not-allowed;
+}
+
+.row {
+  display: flex;
+  gap: 4px;
+}
+
+.nav {
+  margin: 0 28px;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
 }

@@ -83,7 +83,8 @@ const Building = ({ building, castleID }: BuildingProps) => {
     addBuilding(building.id);
   };
 
-  const onRemove = () => {
+  const onRemove = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
     removeBuildings(trace(castleID, building.id, "next"));
   };
 

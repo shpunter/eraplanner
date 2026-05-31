@@ -37,7 +37,7 @@ const Week = ({ week }: WeekProps) => {
 
   return (
     <div key={week} className={classNames} onClick={onWeekClick(week)}>
-      {week + 1}
+      W{week + 1}
     </div>
   );
 };

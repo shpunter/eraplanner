@@ -37,7 +37,7 @@ const Month = ({ month }: MonthProps) => {
 
   return (
     <div key={month} className={classNames} onClick={onMonthClick(month)}>
-      {month + 1}
+      M{month + 1}
     </div>
   );
 };

@@ -34,8 +34,17 @@ const Day = ({ day }: DayProps) => {
   });
 
   return (
-    <div key={day} onClick={onDayClick(day)} className={classNames}>
-      {day + 1}
+    <div
+      key={day}
+      onClick={onDayClick(day)}
+      className={classNames}
+      data-testid="day"
+      data-day={day}
+      data-active={isActive}
+      data-action={hasAction}
+      data-disabled={isDisabled}
+    >
+      D{day + 1}
     </div>
   );
 };

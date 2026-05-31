@@ -141,7 +141,7 @@ export const useHistoryStore = create<Store & Action>((set) => {
     addMine: (newMine) => {
       set((state) => {
         const mines = structuredClone(state.mines);
-// console.log(mines);
+
         mines[state.historyIDX] = [
           ...(mines?.[state.historyIDX] ?? []),
           newMine,
@@ -159,6 +159,33 @@ export const useHistoryStore = create<Store & Action>((set) => {
         return {
           ...state,
           currCastleUUID: castleUUID,
+        };
+      });
+    },
+
+    setNextDay: () => {
+      set((state) => {
+        const nextHistoryIDX = state.historyIDX + 1;
+
+        return {
+          historyIDX: nextHistoryIDX,
+          currDay: (nextHistoryIDX % 7) as CurrDay,
+          currWeek: (((nextHistoryIDX / 7) % 4) >> 0) as CurrWeek,
+          currMonth: (nextHistoryIDX / (7 * 4)) >> 0,
+        };
+      });
+    },
+
+    setPrevDay: () => {
+      set((state) => {
+        if (state.historyIDX === 0) return state;
+        const prevHistoryIDX = state.historyIDX - 1;
+
+        return {
+          historyIDX: prevHistoryIDX,
+          currDay: (prevHistoryIDX % 7) as CurrDay,
+          currWeek: (((prevHistoryIDX / 7) % 4) >> 0) as CurrWeek,
+          currMonth: (prevHistoryIDX / (7 * 4)) >> 0,
         };
       });
     },
@@ -245,6 +272,8 @@ type Action = {
   setMonth: (month: number) => void;
   setMarked: (buildings: BuildingID[]) => void;
   setActiveTab: (castleUUID: string) => void;
+  setNextDay: () => void;
+  setPrevDay: () => void;
 
   addBuilding: (buildingID: BuildingID) => void;
   removeBuildings: (buildingIDs: BuildingID[]) => void;

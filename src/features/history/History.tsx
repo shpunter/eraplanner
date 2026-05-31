@@ -1,20 +1,23 @@
 import Day from "./day/Day";
-import type { CurrDay, CurrWeek } from "./history.store";
+import { useHistoryStore, type CurrDay, type CurrWeek } from "./history.store";
 import Month from "./month/Month";
 import css from "./styles.module.css";
 import Week from "./week/Week";
 
 const History = () => {
+  const setNextDay = useHistoryStore((state) => state.setNextDay);
+  const setPrevDay = useHistoryStore((state) => state.setPrevDay);
+
   return (
     <div className={css.calendar}>
-      <div>
-        {Array.from({ length: 6 }).map((_, idx) => {
+      <div className={css.row}>
+        {Array.from({ length: 7 }).map((_, idx) => {
           const month = idx;
 
           return <Month key={month} month={month} />;
         })}
       </div>
-      <div>
+      <div className={css.row}>
         {Array.from({ length: 4 }).map((_, idx) => {
           const week = idx as CurrWeek;
 
@@ -22,12 +25,21 @@ const History = () => {
         })}
       </div>
 
-      <div>
+      <div className={css.row}>
         {Array.from({ length: 7 }).map((_, idx) => {
           const day = idx as CurrDay;
 
           return <Day key={day} day={day} />;
         })}
+
+        <div className={css.nav}>
+          <div className={css.next} onClick={setPrevDay}>
+            prev
+          </div>
+          <div className={css.next} onClick={setNextDay}>
+            next
+          </div>
+        </div>
       </div>
     </div>
   );

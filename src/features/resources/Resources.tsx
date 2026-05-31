@@ -4,7 +4,6 @@ import { RESOURCE_KEYS } from "#/shared/constants";
 
 type ResourceKey = (typeof RESOURCE_KEYS)[number];
 
-// resources without an icon fall back to their label
 const RESOURCE_ICONS: Partial<Record<ResourceKey, string>> = {
   gold: "/img/resource/gold.webp",
   wood: "/img/resource/wood.webp",
