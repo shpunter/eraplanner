@@ -8,11 +8,13 @@ const BuildingLabel = ({
   isMarked,
   isBuilt,
   isAvailable,
+  isBuiltThisDay,
 }: BuildingLabelProps) => {
   const className = classnames({
     [css.label]: true,
     [css.marked]: !isBuilt && isMarked,
     [css.available]: isAvailable && isMarked && !isBuilt,
+    [css.builtThisDay]: isBuiltThisDay,
   });
 
   return <div className={className}>{name}</div>;
@@ -25,4 +27,5 @@ type BuildingLabelProps = {
   isMarked: boolean;
   isBuilt: boolean;
   isAvailable: boolean;
+  isBuiltThisDay: boolean;
 };

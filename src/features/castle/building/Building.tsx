@@ -132,6 +132,7 @@ const Building = ({ building, castleID }: BuildingProps) => {
         isMarked={isMarked}
         isBuilt={isBuiltByCurDay || isBuiltThisDay}
         isAvailable={isAvailable}
+        isBuiltThisDay={isBuiltThisDay}
       />
     </div>
   );

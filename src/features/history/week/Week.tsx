@@ -36,7 +36,16 @@ const Week = ({ week }: WeekProps) => {
   };
 
   return (
-    <div key={week} className={classNames} onClick={onWeekClick(week)}>
+    <div
+      key={week}
+      className={classNames}
+      onClick={onWeekClick(week)}
+      data-testid="week"
+      data-week={week}
+      data-active={isActive}
+      data-action={hasAction}
+      data-disabled={isDisabled}
+    >
       W{week + 1}
     </div>
   );

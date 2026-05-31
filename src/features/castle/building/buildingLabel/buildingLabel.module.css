@@ -25,3 +25,7 @@
   color: var(--black-10);
   font-weight: 600;
 }
+
+.label.builtThisDay {
+  border: solid 3px var(--color-green-light);
+}

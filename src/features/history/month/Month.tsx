@@ -36,7 +36,16 @@ const Month = ({ month }: MonthProps) => {
   });
 
   return (
-    <div key={month} className={classNames} onClick={onMonthClick(month)}>
+    <div
+      key={month}
+      className={classNames}
+      onClick={onMonthClick(month)}
+      data-testid="month"
+      data-month={month}
+      data-active={isActive}
+      data-action={hasAction}
+      data-disabled={isDisabled}
+    >
       M{month + 1}
     </div>
   );
