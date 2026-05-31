@@ -3,10 +3,16 @@ import type { TBuilding } from "#/routes/castle/$id";
 import { classnames } from "#/shared/classnames";
 import css from "./styles.module.css";
 
-const BuildingLabel = ({ name, isMarked, isBuilt }: BuildingLabelProps) => {
+const BuildingLabel = ({
+  name,
+  isMarked,
+  isBuilt,
+  isAvailable,
+}: BuildingLabelProps) => {
   const className = classnames({
     [css.label]: true,
     [css.marked]: !isBuilt && isMarked,
+    [css.available]: isAvailable && isMarked && !isBuilt,
   });
 
   return <div className={className}>{name}</div>;
@@ -18,4 +24,5 @@ type BuildingLabelProps = {
   name: TBuilding["name"];
   isMarked: boolean;
   isBuilt: boolean;
+  isAvailable: boolean;
 };

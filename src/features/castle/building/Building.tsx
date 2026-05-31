@@ -62,6 +62,10 @@ const Building = ({ building, castleID }: BuildingProps) => {
     return state.marked.includes(building.id);
   });
 
+  const isMarkedAny = useHistoryStore((state) => {
+    return state.marked.length > 0;
+  });
+
   const onMouseEnter = () => {
     const buildingIDs = trace(castleID, building.id, "prev");
 
@@ -85,8 +89,9 @@ const Building = ({ building, castleID }: BuildingProps) => {
     [css.built]: isBuiltByCurDay,
     [css.marked]: isMarked,
     [css.available]: isAvailable,
-    [css.action]: isBuiltThisDay,
+    [css.builtThisDay]: isBuiltThisDay,
     [css.item]: true,
+    [css.notMarked]: isMarkedAny && !isMarked,
   });
 
   return (
@@ -126,6 +131,7 @@ const Building = ({ building, castleID }: BuildingProps) => {
         name={name}
         isMarked={isMarked}
         isBuilt={isBuiltByCurDay || isBuiltThisDay}
+        isAvailable={isAvailable}
       />
     </div>
   );

@@ -16,4 +16,11 @@
 .label.marked {
   background: var(--black-70);
   color: var(--black-10);
+  font-weight: 600;
+}
+
+.label.available {
+  background: var(--green-60);
+  color: var(--black-10);
+  font-weight: 600;
 }
