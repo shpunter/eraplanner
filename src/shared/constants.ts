@@ -5,7 +5,7 @@ export const RESOURCE_KEYS = [
   "crystals",
   "gems",
   "mercury",
+  "dust",
   "law",
   "astrology",
-  "dust",
 ] as const;

@@ -16,13 +16,13 @@ const Castle = () => {
 
   return (
     <div>
+      <Resources />
       <History />
       <div>
         <Add />
         <Tabs />
       </div>
       <div className={css.board}>
-        <Resources />
         <Suspense
           fallback={<div className={css.loader}>Loading Castle Data...</div>}
         >

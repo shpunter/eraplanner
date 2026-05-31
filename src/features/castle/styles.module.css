@@ -8,9 +8,7 @@
 
 .board {
   display: grid;
-  grid-template-areas:
-    "header header"
-    "buildings mines";
+  grid-template-areas: "buildings mines";
   grid-template-columns: min-content 120px;
 
   gap: 50px;

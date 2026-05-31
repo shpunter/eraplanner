@@ -7,7 +7,7 @@
 }
 
 .available {
-  color: white;
+  color: var(--green-60);
 }
 
 .unavailable {
@@ -15,7 +15,7 @@
 }
 
 .built {
-  color: green;
+  color: var(--black-90);
 }
 
 .builtInTheFuture {
