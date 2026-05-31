@@ -3,7 +3,7 @@ import { useEffect, useMemo } from "react";
 import Building from "./building/Building";
 import css from "./styles.module.css";
 import { useHistoryStore, type BuildingsType } from "../history/history.store";
-import { castlePreBuilds } from "#/routes/castle/castles.config";
+import { initCastlePreBuilds } from "#/routes/castle/castles.config";
 
 const CastleGrid = ({ castle, castleID, castleUUID }: CastleGridProps) => {
   const addCastle = useHistoryStore((state) => state.addCastle);
@@ -12,7 +12,7 @@ const CastleGrid = ({ castle, castleID, castleUUID }: CastleGridProps) => {
   );
 
   useEffect(() => {
-    addCastle(castleUUID, castleID, castle, castlePreBuilds[castleID]);
+    addCastle(castleUUID, castleID, castle, initCastlePreBuilds[castleID]);
   }, [castleID, castle, addCastle, castleUUID]);
 
   const grid = useMemo(() => {

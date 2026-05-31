@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/correctness/noUnknownPseudoElement: ignore */
 .wrapper {
   position: relative;
   display: inline-flex;
@@ -66,8 +67,78 @@
 
 /* options render in the native popup — give them the dark theme too */
 .select option {
-  background-color: var(--dark-blue-20);
+  padding: 6px 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   color: var(--text-main);
+  background-color: var(--dark-blue-20);
+}
+
+.select option:checked {
+  color: var(--color-yellow-border);
+  background-color: var(--dark-blue-40);
+}
+
+.select option:disabled {
+  color: var(--text-dim);
+}
+
+/*
+ * Customizable <select> (Chromium 135+): opt the control and its popup into
+ * base appearance so the options block ("picker") can actually be styled.
+ * Browsers without support ignore this whole block and keep the native popup.
+ */
+@supports (appearance: base-select) {
+  .select,
+  .select::picker(select) {
+    appearance: base-select;
+  }
+
+  /* base-select makes the control a flex box (value + picker-icon with
+     space-between); we hid the icon, so re-center the selected value */
+  .select {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* the styled options popup */
+  .select::picker(select) {
+    margin-top: 4px;
+    padding: 4px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background-image: linear-gradient(
+      to bottom,
+      var(--dark-blue-40),
+      var(--dark-blue-20)
+    );
+    box-shadow:
+      inset 0 1px 0 var(--highlight-12),
+      0 6px 16px var(--shadow-40);
+  }
+
+  .select option {
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .select option:hover,
+  .select option:focus {
+    background-color: var(--dark-blue-40);
+    outline: none;
+  }
+
+  /* hide the default checkmark; selection is shown via color/background */
+  .select option::checkmark {
+    content: none;
+  }
+
+  /* drop the built-in popup arrow — we render our own chevron */
+  .select::picker-icon {
+    display: none;
+  }
 }
 
 /* custom chevron */
@@ -79,6 +150,7 @@
   height: 8px;
   pointer-events: none;
   transform: translateY(-65%) rotate(45deg);
+  background-color: transparent;
   border-right: 2px solid var(--color-yellow-border);
   border-bottom: 2px solid var(--color-yellow-border);
 }

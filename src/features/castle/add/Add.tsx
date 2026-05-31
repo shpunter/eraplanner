@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useHistoryStore } from "#/features/history/history.store";
-import { castles, castlePreBuilds } from "#/routes/castle/castles.config";
+import { castles, secondaryCastlePreBuilds } from "#/routes/castle/castles.config";
 import type { CastleID } from "#/routes/castle/$id";
 import Button from "#/components/button/Button";
 import Dropdown from "#/components/dropdown/Dropdown";
@@ -23,7 +23,7 @@ const Add = () => {
       castleUUID,
       selectedCastleID,
       castles[selectedCastleID],
-      castlePreBuilds[selectedCastleID],
+      secondaryCastlePreBuilds[selectedCastleID],
     );
   };
 

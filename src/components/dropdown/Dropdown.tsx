@@ -10,20 +10,21 @@ const Dropdown = <T extends string>({
   className,
   ...props
 }: DropdownProps<T>) => {
-  const classNames = classnames(
-    {
-      [css.select]: true,
-      [css[size]]: true,
-    },
-    className ? [className] : [],
-  );
+  const classNames = classnames({
+    [css.select]: true,
+    [css[size]]: true,
+  });
+
+  const onChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    onChange(e.target.value as T);
+  };
 
   return (
     <div className={css.wrapper}>
       <select
         className={classNames}
         value={value}
-        onChange={(event) => onChange(event.target.value as T)}
+        onChange={onChangeHandler}
         {...props}
       >
         {options.map((option) => (

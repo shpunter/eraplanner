@@ -1,6 +1,6 @@
 import { useResourceTimeline } from "./useResourceTimeline";
-import { RESOURCE_KEYS } from "./resources.utils";
 import css from "./styles.module.css";
+import { RESOURCE_KEYS } from "#/shared/constants";
 
 const Resources = () => {
   const { available, incomePerDay } = useResourceTimeline();
