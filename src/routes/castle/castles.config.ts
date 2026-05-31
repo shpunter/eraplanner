@@ -907,6 +907,6 @@ export const initCastlePreBuilds = {
 } as const;
 
 export const secondaryCastlePreBuilds = {
-  hive: ["id10", "id01", "id05"],
+  hive: ["id10", "id01", "id06"],
   necropolis: ["id10", "id01", "id05"],
 } as const;

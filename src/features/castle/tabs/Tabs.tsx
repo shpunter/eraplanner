@@ -16,8 +16,10 @@ const CastleTabs = () => {
         const isDisabled = history[uuid]?.disabled[historyIDX] ?? false;
         if (isDisabled) return null;
 
+        const hasChange = !!history[uuid]?.built?.[historyIDX];
+
         return (
-          <Tabs.Tab key={uuid} value={uuid}>
+          <Tabs.Tab key={uuid} value={uuid} indicator={hasChange}>
             {castle.castleID}
           </Tabs.Tab>
         );

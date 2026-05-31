@@ -27,6 +27,7 @@
 .active {
   color: var(--black-80);
   border: solid 1px var(--black-80);
+  font-weight: 600;
 }
 
 .calendar {

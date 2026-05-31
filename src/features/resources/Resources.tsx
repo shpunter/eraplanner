@@ -1,6 +1,7 @@
 import { useResourceTimeline } from "./useResourceTimeline";
 import css from "./resources.module.css";
 import { RESOURCE_KEYS } from "#/shared/constants";
+import { classnames } from "#/shared/classnames";
 
 type ResourceKey = (typeof RESOURCE_KEYS)[number];
 
@@ -24,11 +25,16 @@ const Resources = () => {
       {RESOURCE_KEYS.map((key) => {
         const icon = RESOURCE_ICONS[key];
 
+        const className = classnames({
+          [css.available]: true,
+          [css.negative]: available[key] < 0,
+        });
+
         return (
           <div key={key} className={css.item}>
             <img className={css.icon} src={icon} alt={key} />
             <div className={css.resource}>
-              <div className={css.available}>{available[key]}</div>
+              <div className={className}>{available[key]}</div>
               <div className={css.income}>+{incomePerDay[key]}</div>
             </div>
           </div>

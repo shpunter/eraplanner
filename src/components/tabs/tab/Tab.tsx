@@ -7,6 +7,7 @@ const Tab = <T extends string>({
   value,
   children,
   className,
+  indicator = false,
   ...props
 }: TabProps<T>) => {
   const { value: activeValue, onChange, size } = useTabsContext();
@@ -30,6 +31,7 @@ const Tab = <T extends string>({
       onClick={onClick}
     >
       <span className={css.label}>{children}</span>
+      {indicator && <span className={css.indicator} data-testid="tab-indicator" />}
     </button>
   );
 };
@@ -38,4 +40,6 @@ export default Tab;
 
 type TabProps<T extends string> = ComponentPropsWithoutRef<"button"> & {
   value: T;
+  /** shows a small yellow dot on the tab, e.g. to flag pending changes */
+  indicator?: boolean;
 };
