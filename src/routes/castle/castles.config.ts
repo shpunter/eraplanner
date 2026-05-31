@@ -53,9 +53,9 @@ export const castles = {
         ore: 5,
       },
       produces: {
-        gold: 750,
-        law: 750,
-        astrology: 750,
+        gold: 250,
+        law: 250,
+        astrology: 250,
       },
     },
     id21: {
@@ -70,9 +70,9 @@ export const castles = {
         ore: 10,
       },
       produces: {
-        gold: 1000,
-        law: 1000,
-        astrology: 1000,
+        gold: 250,
+        law: 250,
+        astrology: 250,
       },
     },
     id31: {
@@ -500,9 +500,9 @@ export const castles = {
         ore: 5,
       },
       produces: {
-        gold: 750,
-        law: 750,
-        astrology: 750,
+        gold: 250,
+        law: 250,
+        astrology: 250,
       },
     },
     id21: {
@@ -517,9 +517,9 @@ export const castles = {
         ore: 10,
       },
       produces: {
-        gold: 1000,
-        law: 1000,
-        astrology: 1000,
+        gold: 250,
+        law: 250,
+        astrology: 250,
       },
     },
     id31: {

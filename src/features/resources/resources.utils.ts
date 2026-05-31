@@ -1,18 +1,5 @@
+import type { ResourceKey, ResourceRecord } from "#/shared/types";
 import type { Mine } from "../history/history.store";
-
-export const RESOURCE_KEYS = [
-  "gold",
-  "wood",
-  "ore",
-  "crystals",
-  "gems",
-  "mercury",
-  "law",
-  "astrology",
-] as const;
-
-export type ResourceKey = (typeof RESOURCE_KEYS)[number];
-export type ResourceRecord = Record<ResourceKey, number>;
 
 export const ZERO_RESOURCES: ResourceRecord = {
   gold: 0,
@@ -23,6 +10,7 @@ export const ZERO_RESOURCES: ResourceRecord = {
   mercury: 0,
   law: 0,
   astrology: 0,
+  dust: 0,
 };
 
 const MINE_INCOME: Record<Mine, { key: ResourceKey; rate: number }> = {
@@ -36,10 +24,13 @@ const MINE_INCOME: Record<Mine, { key: ResourceKey; rate: number }> = {
 
 export function calcMineIncome(mines: Mine[]): ResourceRecord {
   const income = { ...ZERO_RESOURCES };
+
   for (const mine of mines) {
     const { key, rate } = MINE_INCOME[mine];
+
     income[key] += rate;
   }
+
   return income;
 }
 
@@ -56,6 +47,7 @@ export function addResources(
     mercury: a.mercury + b.mercury,
     law: a.law + b.law,
     astrology: a.astrology + b.astrology,
+    dust: a.dust + b.dust,
   };
 }
 
@@ -72,5 +64,6 @@ export function subtractResources(
     mercury: a.mercury - b.mercury,
     law: a.law - b.law,
     astrology: a.astrology - b.astrology,
+    dust: a.dust - b.dust,
   };
 }
