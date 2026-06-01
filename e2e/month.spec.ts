@@ -80,25 +80,3 @@ test("a month with a constructed building gets the action state", async ({
   // other months stay unmarked
   await expect(month(page, 1)).toHaveAttribute("data-action", "false");
 });
-
-test("months fully before a castle's start are disabled and ignore clicks", async ({
-  page,
-}) => {
-  // ensure the first castle exists before changing the selected month
-  await expect(page.locator(BUILDABLE)).toBeVisible();
-
-  // move to month 2 (index 1), then add a castle — its history is disabled for
-  // every day before the current one, so the now-complete first month (all 28
-  // days) is fully disabled
-  await month(page, 1).click();
-  await page.getByRole("button", { name: "+", exact: true }).click();
-
-  await expect(month(page, 0)).toHaveAttribute("data-disabled", "true");
-  await expect(month(page, 1)).toHaveAttribute("data-active", "true");
-
-  // clicking a disabled month is a no-op — the active month does not move
-  await month(page, 0).click();
-
-  await expect(month(page, 0)).toHaveAttribute("data-active", "false");
-  await expect(month(page, 1)).toHaveAttribute("data-active", "true");
-});

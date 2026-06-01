@@ -1,4 +1,5 @@
 import { classnames } from "#/shared/classnames";
+import { useNegativeTimeline } from "#/features/resources/useNegativeTimeline";
 import { useHistoryStore } from "../history.store";
 import css from "../history.module.css";
 
@@ -15,16 +16,13 @@ const Month = ({ month }: MonthProps) => {
       .some((el) => !!el);
   });
 
-  const isDisabled = useHistoryStore((state) => {
-    const { history, currCastleUUID } = state;
-    const idxInHistoryEnd = month * 4 * 7 + (4 * 7 - 1);
-
-    return !!history[currCastleUUID]?.disabled?.[idxInHistoryEnd];
-  });
+  const negativeByDay = useNegativeTimeline();
+  const monthStart = month * 4 * 7;
+  const hasNegative = negativeByDay
+    .slice(monthStart, monthStart + 4 * 7)
+    .some(Boolean);
 
   const onMonthClick = (currMonth: number) => () => {
-    if (isDisabled) return;
-
     setMonth(currMonth);
   };
 
@@ -32,7 +30,7 @@ const Month = ({ month }: MonthProps) => {
     [css.cell]: true,
     [css.active]: isActive,
     [css.action]: hasAction,
-    [css.disabled]: isDisabled,
+    [css.negative]: hasNegative,
   });
 
   return (
@@ -44,7 +42,7 @@ const Month = ({ month }: MonthProps) => {
       data-month={month}
       data-active={isActive}
       data-action={hasAction}
-      data-disabled={isDisabled}
+      data-negative={hasNegative}
     >
       M{month + 1}
     </div>

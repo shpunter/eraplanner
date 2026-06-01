@@ -40,10 +40,8 @@
   border: solid 1px var(--green-50);
 }
 
-.disabled {
-  color: var(--black-30);
-  border-color: var(--black-25);
-  cursor: not-allowed;
+.negative {
+  border: solid 1px var(--red-50);
 }
 
 .row {

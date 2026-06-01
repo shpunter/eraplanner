@@ -1,4 +1,5 @@
 import { classnames } from "#/shared/classnames";
+import { useNegativeTimeline } from "#/features/resources/useNegativeTimeline";
 import { useHistoryStore, type CurrWeek } from "../history.store";
 import css from "../history.module.css";
 
@@ -15,23 +16,20 @@ const Week = ({ week }: WeekProps) => {
       .some((el) => !!el);
   });
 
-  const isDisabled = useHistoryStore((state) => {
-    const idxInHistoryEnd = state.currMonth * 4 * 7 + week * 7 + 6;
-    const { history, currCastleUUID } = state;
-
-    return !!history?.[currCastleUUID]?.disabled?.[idxInHistoryEnd];
-  });
+  const negativeByDay = useNegativeTimeline();
+  const weekStart = useHistoryStore((state) => state.currMonth * 4 * 7 + week * 7);
+  const hasNegative = negativeByDay
+    .slice(weekStart, weekStart + 7)
+    .some(Boolean);
 
   const classNames = classnames({
     [css.cell]: true,
     [css.active]: isActive,
     [css.action]: hasAction,
-    [css.disabled]: isDisabled,
+    [css.negative]: hasNegative,
   });
 
   const onWeekClick = (currWeek: CurrWeek) => () => {
-    if (isDisabled) return;
-
     setWeek(currWeek);
   };
 
@@ -44,7 +42,7 @@ const Week = ({ week }: WeekProps) => {
       data-week={week}
       data-active={isActive}
       data-action={hasAction}
-      data-disabled={isDisabled}
+      data-negative={hasNegative}
     >
       W{week + 1}
     </div>

@@ -73,25 +73,3 @@ test("a week with a constructed building gets the action state", async ({
   // other weeks stay unmarked
   await expect(week(page, 1)).toHaveAttribute("data-action", "false");
 });
-
-test("weeks fully before a castle's start are disabled and ignore clicks", async ({
-  page,
-}) => {
-  // ensure the first castle exists before changing the selected week
-  await expect(page.locator(BUILDABLE)).toBeVisible();
-
-  // move to week 2 (index 1), then add a castle — its history is disabled for
-  // every day before the current one, so the now-complete first week (days
-  // 1–7) is fully disabled
-  await week(page, 1).click();
-  await page.getByRole("button", { name: "+", exact: true }).click();
-
-  await expect(week(page, 0)).toHaveAttribute("data-disabled", "true");
-  await expect(week(page, 1)).toHaveAttribute("data-active", "true");
-
-  // clicking a disabled week is a no-op — the active week does not move
-  await week(page, 0).click();
-
-  await expect(week(page, 0)).toHaveAttribute("data-active", "false");
-  await expect(week(page, 1)).toHaveAttribute("data-active", "true");
-});

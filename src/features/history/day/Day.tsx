@@ -1,4 +1,5 @@
 import { classnames } from "#/shared/classnames";
+import { useNegativeTimeline } from "#/features/resources/useNegativeTimeline";
 import { useHistoryStore, type CurrDay } from "../history.store";
 import css from "../history.module.css";
 
@@ -13,16 +14,13 @@ const Day = ({ day }: DayProps) => {
     return !!history[currCastleUUID]?.built?.[idxInHistory];
   });
 
-  const isDisabled = useHistoryStore((state) => {
-    const { history, currCastleUUID } = state;
-    const idxInHistory = state.currMonth * 4 * 7 + state.currWeek * 7 + day;
-
-    return !!history[currCastleUUID]?.disabled?.[idxInHistory];
-  });
+  const negativeByDay = useNegativeTimeline();
+  const idxInHistory = useHistoryStore(
+    (state) => state.currMonth * 4 * 7 + state.currWeek * 7 + day,
+  );
+  const isNegative = negativeByDay[idxInHistory] ?? false;
 
   const onDayClick = (currDay: CurrDay) => () => {
-    if (isDisabled) return;
-
     setDay(currDay);
   };
 
@@ -30,7 +28,7 @@ const Day = ({ day }: DayProps) => {
     [css.cell]: true,
     [css.action]: hasAction,
     [css.active]: isActive,
-    [css.disabled]: isDisabled,
+    [css.negative]: isNegative,
   });
 
   return (
@@ -42,7 +40,7 @@ const Day = ({ day }: DayProps) => {
       data-day={day}
       data-active={isActive}
       data-action={hasAction}
-      data-disabled={isDisabled}
+      data-negative={isNegative}
     >
       D{day + 1}
     </div>
