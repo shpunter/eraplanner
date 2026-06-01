@@ -92,6 +92,7 @@ const Building = ({ building, castleID }: BuildingProps) => {
     [css.builtThisDay]: isBuiltThisDay,
     [css.item]: true,
     [css.notMarked]: isMarkedAny && !isMarked,
+    [css.disabled]: !isAvailable && !isMarked && !isBuiltThisDay && !isBuiltByCurDay,
   });
 
   return (
@@ -102,15 +103,20 @@ const Building = ({ building, castleID }: BuildingProps) => {
       onMouseLeave={onMouseLeave}
       onClick={onClick}
     >
+      <img
+        src={`/img/factions/buildings/${castleID}/${building.id}.webp`}
+        alt={name}
+        className={css.image}
+      />
       <BuildingActions castleID={castleID} buildingID={building.id} />
-      {"gold" in cost ? <p>gold: {cost.gold}</p> : null}
+      {/* {"gold" in cost ? <p>gold: {cost.gold}</p> : null}
       {"ore" in cost ? <p>ore: {cost.ore}</p> : null}
       {"wood" in cost ? <p>wood: {cost.wood}</p> : null}
       {"gems" in cost ? <p>gems: {cost.gems}</p> : null}
       {"crystals" in cost ? <p>crystals: {cost.crystals}</p> : null}
       {"mercury" in cost ? <p>mercury: {cost.mercury}</p> : null}
-      {"dust" in cost ? <p>dust: {cost.dust}</p> : null}
-      ------
+      {"dust" in cost ? <p>dust: {cost.dust}</p> : null} */}
+      {/* ------
       {"gold" in building.produces ? (
         <p>gold: {building.produces.gold}</p>
       ) : null}
@@ -126,7 +132,7 @@ const Building = ({ building, castleID }: BuildingProps) => {
       {"law" in building.produces ? <p>law: {building.produces.law}</p> : null}
       {"astrology" in building.produces ? (
         <p>astrology: {building.produces.astrology}</p>
-      ) : null}
+      ) : null} */}
       <BuildingLabel
         name={name}
         isMarked={isMarked}

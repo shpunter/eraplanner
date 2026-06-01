@@ -1,7 +1,7 @@
 .label {
   border: solid 1px;
   position: absolute;
-  bottom: 15px;
+  bottom: 0px;
   left: 50%;
   transform: translate(-50%, 100%);
   width: 150px;

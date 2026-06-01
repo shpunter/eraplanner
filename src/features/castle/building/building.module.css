@@ -9,14 +9,21 @@
 
 .available {
   color: var(--green-60);
+  cursor: pointer;
 }
 
 .unavailable {
   color: gray;
+  cursor: not-allowed;
+}
+
+.disabled {
+  filter: grayscale(90%) brightness(80%);
 }
 
 .built {
   color: var(--black-90);
+  cursor: default;
 }
 
 .builtInTheFuture {
@@ -29,8 +36,8 @@
   border: solid 1px;
   padding: 4px;
   width: 80px;
+  height: 80px;
   background-color: var(--background);
-
   transition:
     filter 0.12s ease-in-out,
     box-shadow 0.12s ease-in-out,
@@ -40,9 +47,20 @@
 
 .item,
 .item > p {
-  border-radius: 12px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
 
 .notMarked {
   opacity: 0.4;
+}
+
+.image {
+  width: 82px;
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  border-radius: 12px;
+  clip-path: inset(2px);
 }
