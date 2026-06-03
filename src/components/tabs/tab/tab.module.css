@@ -10,21 +10,20 @@
   letter-spacing: 1px;
   white-space: nowrap;
 
-  /* inactive — matches a default dropdown option */
+  /* inactive segments are transparent so the panel reads as one surface */
   color: var(--text-main);
-  background-image: linear-gradient(
-    to bottom,
-    var(--dark-blue-40),
-    var(--dark-blue-20)
-  );
-  border: 1px solid var(--border);
-  border-radius: 5px;
+  background: transparent;
+  border: none;
   cursor: pointer;
 
   transition:
     color 0.12s ease-in-out,
-    background-color 0.12s ease-in-out,
-    border-color 0.12s ease-in-out;
+    background-color 0.12s ease-in-out;
+}
+
+/* divider between segments instead of a border per button */
+.tab + .tab {
+  border-left: 1px solid var(--border);
 }
 
 .label {
@@ -56,7 +55,7 @@
   font-size: 13px;
 }
 
-/* hover (inactive only) — matches a hovered dropdown option */
+/* hover (inactive only) */
 .tab:hover:not(.active):not(:disabled) {
   background-image: linear-gradient(
     to bottom,
@@ -65,13 +64,13 @@
   );
 }
 
-/* active — matches the checked/hovered dropdown option */
+/* active — the selected segment lifts out of the panel */
 .tab.active {
   color: var(--color-yellow-border);
   background-image: linear-gradient(
     to bottom,
-    var(--dark-blue-50),
-    var(--dark-blue-30)
+    var(--dark-blue-60),
+    var(--dark-blue-40)
   );
 }
 
@@ -81,7 +80,7 @@
 }
 
 .tab:focus-visible {
-  border-color: var(--color-yellow-border);
+  box-shadow: inset 0 0 0 1px var(--color-yellow-border);
 }
 
 .tab:disabled {

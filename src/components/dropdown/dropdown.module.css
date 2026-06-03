@@ -111,12 +111,13 @@
     justify-content: center;
   }
 
-  /* the styled options popup */
+  /* the styled options popup — one connected panel, like the tabs */
   .select::picker(select) {
     margin-top: 4px;
-    padding: 4px;
+    padding: 0;
     border: 1px solid var(--border);
     border-radius: 6px;
+    overflow: hidden;
     background-image: linear-gradient(
       to bottom,
       var(--dark-blue-40),
@@ -127,9 +128,16 @@
       0 6px 16px var(--shadow-40);
   }
 
+  /* options fill the panel edge-to-edge with no individual rounding */
   .select option {
-    border-radius: 4px;
+    border-radius: 0;
+    background: transparent;
     cursor: pointer;
+  }
+
+  /* divider between rows instead of gaps/per-option borders */
+  .select option + option {
+    border-top: 1px solid var(--border);
   }
 
   .select option:hover,
@@ -140,6 +148,15 @@
       var(--dark-blue-30)
     );
     outline: none;
+  }
+
+  /* selected row lifts out, matching the active tab */
+  .select option:checked {
+    background-image: linear-gradient(
+      to bottom,
+      var(--dark-blue-60),
+      var(--dark-blue-40)
+    );
   }
 
   /* hide the default checkmark; selection is shown via color/background */

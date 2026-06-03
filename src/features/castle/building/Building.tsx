@@ -7,8 +7,6 @@ import BuildingActions from "./buildingActions/BuildingActions";
 import BuildingLabel from "./buildingLabel/BuildingLabel";
 
 const Building = ({ building, castleID }: BuildingProps) => {
-  const { name } = building;
-
   const setMarked = useHistoryStore((state) => state.setMarked);
   const addBuilding = useHistoryStore((state) => state.addBuilding);
 
@@ -106,7 +104,7 @@ const Building = ({ building, castleID }: BuildingProps) => {
     >
       <img
         src={`/img/factions/buildings/${castleID}/${building.id}.webp`}
-        alt={name}
+        alt={building.name}
         className={css.image}
       />
       <BuildingActions
@@ -114,32 +112,8 @@ const Building = ({ building, castleID }: BuildingProps) => {
         buildingID={building.id}
         isAvailable={isAvailable && !isBuiltThisDay && !isBuiltByCurDay}
       />
-      {/* {"gold" in cost ? <p>gold: {cost.gold}</p> : null}
-      {"ore" in cost ? <p>ore: {cost.ore}</p> : null}
-      {"wood" in cost ? <p>wood: {cost.wood}</p> : null}
-      {"gems" in cost ? <p>gems: {cost.gems}</p> : null}
-      {"crystals" in cost ? <p>crystals: {cost.crystals}</p> : null}
-      {"mercury" in cost ? <p>mercury: {cost.mercury}</p> : null}
-      {"dust" in cost ? <p>dust: {cost.dust}</p> : null} */}
-      {/* ------
-      {"gold" in building.produces ? (
-        <p>gold: {building.produces.gold}</p>
-      ) : null}
-      {"mercury" in building.produces ? (
-        <p>mercury: {building.produces.mercury}</p>
-      ) : null}
-      {"crystals" in building.produces ? (
-        <p>crystals: {building.produces.crystals}</p>
-      ) : null}
-      {"dust" in building.produces ? (
-        <p>dust: {building.produces.dust}</p>
-      ) : null}
-      {"law" in building.produces ? <p>law: {building.produces.law}</p> : null}
-      {"astrology" in building.produces ? (
-        <p>astrology: {building.produces.astrology}</p>
-      ) : null} */}
       <BuildingLabel
-        name={name}
+        name={building.name}
         isMarked={isMarked}
         isBuilt={isBuiltByCurDay || isBuiltThisDay}
         isAvailable={isAvailable}
