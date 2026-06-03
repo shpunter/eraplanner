@@ -3,6 +3,7 @@ import { classnames } from "#/shared/classnames";
 import css from "./building.module.css";
 import { trace } from "./utils";
 import { useHistoryStore } from "#/features/history/history.store";
+import { useBuildingStatus } from "./useBuildingStatus";
 import BuildingActions from "./buildingActions/BuildingActions";
 import BuildingLabel from "./buildingLabel/BuildingLabel";
 import { useMarkedStore } from "../useMarked.store";
@@ -11,51 +12,8 @@ const Building = ({ building, castleID }: BuildingProps) => {
   const setMarked = useMarkedStore((state) => state.setMarked);
   const addBuilding = useHistoryStore((state) => state.addBuilding);
 
-  const isBuiltByCurDay = useHistoryStore((state) => {
-    const { history, currCastleUUID, castles, historyIDX } = state;
-    const currBuiltHistory = history?.[currCastleUUID]?.built ?? [];
-
-    const isInHistory = [
-      ...(castles?.[currCastleUUID]?.preBuilds ?? []),
-      ...currBuiltHistory.slice(0, historyIDX + 1),
-    ].includes(building.id);
-
-    return isInHistory;
-  });
-
-  const isInTheHistory = useHistoryStore((state) => {
-    const { history, currCastleUUID, historyIDX } = state;
-    const currBuiltHistory = history?.[currCastleUUID]?.built ?? [];
-
-    return currBuiltHistory.slice(historyIDX).includes(building.id);
-  });
-
-  const isBuiltThisDay = useHistoryStore((state) => {
-    const { history, currCastleUUID, historyIDX } = state;
-    const currBuiltHistory = history?.[currCastleUUID]?.built ?? [];
-
-    return currBuiltHistory[historyIDX] === building.id;
-  });
-
-  const isAvailable = useHistoryStore((state) => {
-    const { castles, history, currCastleUUID, historyIDX } = state;
-    const currBuiltHistory = history?.[currCastleUUID]?.built ?? [];
-    const prev = castles[currCastleUUID]?.buildings?.[building.id]?.prev ?? [];
-    const isActionAvailableThisDay = !currBuiltHistory[historyIDX];
-    const isConstructionDisabled =
-      !!history?.[currCastleUUID]?.disabled?.[historyIDX];
-
-    return (
-      !isConstructionDisabled &&
-      isActionAvailableThisDay &&
-      prev.every((prevBuildingID) => {
-        return [
-          ...(castles?.[currCastleUUID]?.preBuilds ?? []),
-          ...currBuiltHistory.slice(0, historyIDX + 1),
-        ].includes(prevBuildingID);
-      })
-    );
-  });
+  const { isBuiltByCurDay, isBuiltThisDay, isInTheHistory, isAvailable } =
+    useBuildingStatus(building.id);
 
   const isMarked = useMarkedStore((state) => {
     return state.marked.includes(building.id);
