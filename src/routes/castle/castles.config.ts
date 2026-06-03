@@ -1599,7 +1599,7 @@ export const castles = {
       id: "id33",
       name: "Fortifications II",
       prev: ["id23"],
-      next: ["id43", "id42"],
+      next: ["id43"],
       pos: [3, 3],
       cost: {
         gold: 2500,
@@ -1633,8 +1633,8 @@ export const castles = {
     id14: {
       id: "id14",
       name: "Warren II",
-      prev: null,
-      next: ["id04"],
+      prev: ["id04"],
+      next: null,
       pos: [1, 4],
       cost: {
         gold: 750,
@@ -1647,7 +1647,7 @@ export const castles = {
       id: "id24",
       name: "Amphitheater II",
       prev: ["id15"],
-      next: ["id04"],
+      next: null,
       pos: [2, 4],
       cost: {
         gold: 1250,
@@ -1789,7 +1789,7 @@ export const castles = {
       id: "id27",
       name: "Cave Place",
       prev: ["id17", "id18"],
-      next: ["id27"],
+      next: ["id37"],
       pos: [2, 7],
       cost: {
         gold: 17500,
@@ -2083,7 +2083,7 @@ export const castles = {
       id: "id33",
       name: "Fortifications II",
       prev: ["id23"],
-      next: ["id43", "id42"],
+      next: ["id43"],
       pos: [3, 3],
       cost: {
         gold: 2500,
@@ -2331,7 +2331,7 @@ export const castles = {
       id: "id48",
       name: "Mage Guild IV",
       prev: ["id38"],
-      next: ["id58"],
+      next: null,
       pos: [4, 8],
       cost: {
         gold: 2500,
@@ -2526,7 +2526,7 @@ export const castles = {
       id: "id33",
       name: "Fortifications II",
       prev: ["id23"],
-      next: ["id43", "id42"],
+      next: ["id43"],
       pos: [3, 3],
       cost: {
         gold: 2500,
@@ -2744,7 +2744,6 @@ export const castles = {
       },
       produces: {},
     },
-
     id08: {
       id: "id08",
       name: "Mage Guild",
@@ -2790,7 +2789,7 @@ export const castles = {
       id: "id38",
       name: "Mage Guild IV",
       prev: ["id28"],
-      next: ["id48"],
+      next: null,
       pos: [3, 8],
       cost: {
         gold: 2500,
