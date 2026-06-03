@@ -7,7 +7,7 @@ import BuildingActions from "./buildingActions/BuildingActions";
 import BuildingLabel from "./buildingLabel/BuildingLabel";
 
 const Building = ({ building, castleID }: BuildingProps) => {
-  const { cost, name } = building;
+  const { name } = building;
 
   const setMarked = useHistoryStore((state) => state.setMarked);
   const addBuilding = useHistoryStore((state) => state.addBuilding);
@@ -92,7 +92,8 @@ const Building = ({ building, castleID }: BuildingProps) => {
     [css.builtThisDay]: isBuiltThisDay,
     [css.item]: true,
     [css.notMarked]: isMarkedAny && !isMarked,
-    [css.disabled]: !isAvailable && !isMarked && !isBuiltThisDay && !isBuiltByCurDay,
+    [css.disabled]:
+      !isAvailable && !isMarked && !isBuiltThisDay && !isBuiltByCurDay,
   });
 
   return (
@@ -108,7 +109,11 @@ const Building = ({ building, castleID }: BuildingProps) => {
         alt={name}
         className={css.image}
       />
-      <BuildingActions castleID={castleID} buildingID={building.id} />
+      <BuildingActions
+        castleID={castleID}
+        buildingID={building.id}
+        isAvailable={isAvailable && !isBuiltThisDay && !isBuiltByCurDay}
+      />
       {/* {"gold" in cost ? <p>gold: {cost.gold}</p> : null}
       {"ore" in cost ? <p>ore: {cost.ore}</p> : null}
       {"wood" in cost ? <p>wood: {cost.wood}</p> : null}

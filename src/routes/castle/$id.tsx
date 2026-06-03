@@ -23,7 +23,7 @@ export const Route = createFileRoute("/castle/$id")({
 });
 
 async function fetchCastleData(id: CastleID) {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 1));
   return castles[id] satisfies TCastle;
 }
 

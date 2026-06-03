@@ -3,10 +3,14 @@ import type { BuildingID, CastleID } from "#/routes/castle/$id";
 import { trace } from "../utils";
 import css from "./buildingActions.module.css";
 
-const BuildingActions = ({ castleID, buildingID }: BuildingActionsProps) => {
+const BuildingActions = ({
+  castleID,
+  buildingID,
+  isAvailable,
+}: BuildingActionsProps) => {
   const removeBuildings = useHistoryStore((state) => state.removeBuildings);
 
-  const isBuilt = useHistoryStore((state) => {
+  const canBeRemoved = useHistoryStore((state) => {
     const currBuiltHistory = state.history?.[state.currCastleUUID]?.built ?? [];
 
     return currBuiltHistory.includes(buildingID);
@@ -17,12 +21,19 @@ const BuildingActions = ({ castleID, buildingID }: BuildingActionsProps) => {
     removeBuildings(trace(castleID, buildingID, "next"));
   };
 
-  if (!isBuilt) return null;
-
   return (
-    <button type="button" className={css.remove} onClick={onRemove}>
-      ×
-    </button>
+    <>
+      {canBeRemoved && (
+        <button type="button" className={css.remove} onClick={onRemove}>
+          X
+        </button>
+      )}
+      {isAvailable && (
+        <div className={css.icon}>
+          <img className={css.hammer} src="/svg/hammer.svg" alt="built" />
+        </div>
+      )}
+    </>
   );
 };
 
@@ -31,4 +42,5 @@ export default BuildingActions;
 type BuildingActionsProps = {
   castleID: CastleID;
   buildingID: BuildingID;
+  isAvailable: boolean;
 };
