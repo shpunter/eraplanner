@@ -11,7 +11,6 @@ export const useHistoryStore = create<Store & Action>((set) => {
     currCastleUUID: "",
     history: {} as Store["history"],
     disabledChanges: {},
-    marked: [],
     resources: {
       gold: 10_000,
       wood: 10,
@@ -24,6 +23,7 @@ export const useHistoryStore = create<Store & Action>((set) => {
       astrology: 0,
     },
     mines: [],
+    castleMines: {},
 
     addCastle: (castleUUID, castleID, castle, preBuilds) => {
       set((state) => {
@@ -49,14 +49,29 @@ export const useHistoryStore = create<Store & Action>((set) => {
       });
     },
 
+    addCastleMines: (buildingID, resource, amount) => {
+      set((state) => {
+        return {
+          ...state,
+          castleMines: {
+            ...state.castleMines,
+            [state.currCastleUUID]: {
+              ...state.castleMines[state.currCastleUUID],
+              [buildingID]: { resource, amount },
+            },
+          },
+        };
+      });
+    },
+
     addBuilding: (buildingID) => {
       set((state) => {
         const { currDay, currWeek, currMonth, currCastleUUID } = state;
+        const totalDays = currDay + currWeek * 7 + currMonth * 4 * 7;
 
         const newHistoryBuilt = structuredClone(
           state.history?.[currCastleUUID]?.built ?? [],
         );
-        const totalDays = currDay + currWeek * 7 + currMonth * 4 * 7;
 
         newHistoryBuilt[totalDays] = buildingID;
 
@@ -126,14 +141,6 @@ export const useHistoryStore = create<Store & Action>((set) => {
           currWeek: 0,
           currMonth: month,
           historyIDX: month * 4 * 7,
-        };
-      });
-    },
-
-    setMarked: (buildings) => {
-      set(() => {
-        return {
-          marked: buildings,
         };
       });
     },
@@ -211,7 +218,6 @@ type Store = {
         }
       | undefined;
   };
-  marked: BuildingID[];
   resources: {
     gold: number;
     wood: number;
@@ -224,6 +230,14 @@ type Store = {
     astrology: number;
   };
   mines: Mine[][];
+  castleMines: {
+    [castleUUID: string]: {
+      [buildingID in "id11" | "id21"]?: {
+        resource: "gold" | "law" | "astrology";
+        amount: number;
+      };
+    };
+  };
   historyIDX: number;
 };
 
@@ -266,11 +280,15 @@ type Action = {
     castle: BuildingsType,
     preBuilds: readonly BuildingID[],
   ) => void;
+  addCastleMines: (
+    buildingID: BuildingID,
+    resource: "gold" | "law" | "astrology",
+    amount: number,
+  ) => void;
 
   setDay: (day: CurrDay) => void;
   setWeek: (week: CurrWeek) => void;
   setMonth: (month: number) => void;
-  setMarked: (buildings: BuildingID[]) => void;
   setActiveTab: (castleUUID: string) => void;
   setNextDay: () => void;
   setPrevDay: () => void;

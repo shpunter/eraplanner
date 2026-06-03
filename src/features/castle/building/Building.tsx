@@ -5,9 +5,10 @@ import { trace } from "./utils";
 import { useHistoryStore } from "#/features/history/history.store";
 import BuildingActions from "./buildingActions/BuildingActions";
 import BuildingLabel from "./buildingLabel/BuildingLabel";
+import { useMarkedStore } from "../useMarked.store";
 
 const Building = ({ building, castleID }: BuildingProps) => {
-  const setMarked = useHistoryStore((state) => state.setMarked);
+  const setMarked = useMarkedStore((state) => state.setMarked);
   const addBuilding = useHistoryStore((state) => state.addBuilding);
 
   const isBuiltByCurDay = useHistoryStore((state) => {
@@ -56,11 +57,11 @@ const Building = ({ building, castleID }: BuildingProps) => {
     );
   });
 
-  const isMarked = useHistoryStore((state) => {
+  const isMarked = useMarkedStore((state) => {
     return state.marked.includes(building.id);
   });
 
-  const isMarkedAny = useHistoryStore((state) => {
+  const isMarkedAny = useMarkedStore((state) => {
     return state.marked.length > 0;
   });
 

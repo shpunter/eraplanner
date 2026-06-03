@@ -3,6 +3,7 @@ import { useShallow } from "zustand/react/shallow";
 import { useHistoryStore } from "../history/history.store";
 import {
   addResources,
+  calcCastleMineIncome,
   calcMineIncome,
   subtractResources,
   ZERO_RESOURCES,
@@ -19,6 +20,7 @@ export function useResourceTimeline(): {
   const currCastleUUID = useHistoryStore((state) => state.currCastleUUID);
   const castlesConfig = useHistoryStore(useShallow((state) => state.castles));
   const historyState = useHistoryStore(useShallow((state) => state.history));
+  const castleMines = useHistoryStore(useShallow((state) => state.castleMines));
 
   return useMemo(() => {
     const activeCastleConfig = castlesConfig[currCastleUUID];
@@ -82,6 +84,14 @@ export function useResourceTimeline(): {
           law: building.produces.law ?? 0,
           astrology: building.produces.astrology ?? 0,
         });
+
+        // player-chosen production attached to this dwelling
+        dailyProduces = addResources(
+          dailyProduces,
+          calcCastleMineIncome(
+            castleMines?.[castleUUID]?.[buildingID as "id11" | "id21"],
+          ),
+        );
       }
 
       // Apply the income earned so far (excluding buildings built today),
@@ -110,5 +120,6 @@ export function useResourceTimeline(): {
     castlesConfig,
     historyIDX,
     hMines,
+    castleMines,
   ]);
 }

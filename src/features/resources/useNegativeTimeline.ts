@@ -4,6 +4,7 @@ import { RESOURCE_KEYS } from "#/shared/constants";
 import { useHistoryStore } from "../history/history.store";
 import {
   addResources,
+  calcCastleMineIncome,
   calcMineIncome,
   subtractResources,
   ZERO_RESOURCES,
@@ -23,6 +24,7 @@ export function useNegativeTimeline(): boolean[] {
   const hMines = useHistoryStore((state) => state.mines);
   const castlesConfig = useHistoryStore(useShallow((state) => state.castles));
   const historyState = useHistoryStore(useShallow((state) => state.history));
+  const castleMines = useHistoryStore(useShallow((state) => state.castleMines));
 
   return useMemo(() => {
     const negativeByDay = Array.from<boolean>({ length: TOTAL_DAYS }).fill(
@@ -84,6 +86,14 @@ export function useNegativeTimeline(): boolean[] {
           law: building.produces.law ?? 0,
           astrology: building.produces.astrology ?? 0,
         });
+
+        // player-chosen production attached to this dwelling
+        dailyProduces = addResources(
+          dailyProduces,
+          calcCastleMineIncome(
+            castleMines?.[castleUUID]?.[buildingID as "id11" | "id21"],
+          ),
+        );
       }
 
       // Apply the income earned so far (excluding buildings built today),
@@ -106,5 +116,5 @@ export function useNegativeTimeline(): boolean[] {
     }
 
     return negativeByDay;
-  }, [initResources, historyState, castlesConfig, hMines]);
+  }, [initResources, historyState, castlesConfig, hMines, castleMines]);
 }

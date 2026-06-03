@@ -34,6 +34,22 @@ export function calcMineIncome(mines: Mine[]): ResourceRecord {
   return income;
 }
 
+export type CastleMine = {
+  resource: "gold" | "law" | "astrology";
+  amount: number;
+};
+
+// A castle mine is the player-chosen production attached to a dwelling
+// (see addCastleMines in the history store). Like other producers, the amount
+// is added to daily income from the day after the dwelling is built.
+export function calcCastleMineIncome(
+  mine: CastleMine | undefined,
+): ResourceRecord {
+  if (!mine) return ZERO_RESOURCES;
+
+  return { ...ZERO_RESOURCES, [mine.resource]: mine.amount };
+}
+
 export function addResources(
   a: ResourceRecord,
   b: ResourceRecord,

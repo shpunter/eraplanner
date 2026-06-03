@@ -2,6 +2,7 @@ import { useHistoryStore } from "#/features/history/history.store";
 import type { BuildingID, CastleID } from "#/routes/castle/$id";
 import { trace } from "../utils";
 import css from "./buildingActions.module.css";
+import CastleMine from "./castleMine/CastleMine";
 
 const BuildingActions = ({
   castleID,
@@ -32,6 +33,13 @@ const BuildingActions = ({
         <div className={css.icon}>
           <img className={css.hammer} src="/svg/hammer.svg" alt="built" />
         </div>
+      )}
+
+      {buildingID === "id11" && (
+        <CastleMine value={500} buildingID={buildingID} />
+      )}
+      {buildingID === "id21" && (
+        <CastleMine value={1000} buildingID={buildingID} />
       )}
     </>
   );

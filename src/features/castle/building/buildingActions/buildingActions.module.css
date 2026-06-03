@@ -36,3 +36,8 @@
   justify-content: center;
   border-radius: 50%;
 }
+
+.resources {
+  position: absolute;
+  right: -140px;
+}
