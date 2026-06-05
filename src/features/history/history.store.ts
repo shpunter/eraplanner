@@ -1,8 +1,23 @@
 import type { BuildingID, CastleID } from "#/routes/castle/$id";
 import { create } from "zustand";
 
+const initResources = {
+  gold: [25, 20, 15, 10, 5, 2.5],
+  wood: [30, 20, 15, 10, 5, 0],
+  ore: [30, 20, 15, 10, 5, 0],
+  gems: [20, 15, 10, 5, 2, 0],
+  crystals: [20, 15, 10, 5, 2, 0],
+  mercury: [20, 15, 10, 5, 2, 0],
+  dust: [250, 150, 100, 50, 25, 0],
+  law: [0, 0, 0, 0, 0, 0, ],
+  astrology: [0, 0, 0, 0, 0, 0],
+};
+
+const initDifficulty = 3;
+
 export const useHistoryStore = create<Store & Action>((set) => {
   return {
+    difficulty: initDifficulty,
     castles: {} as Store["castles"],
     currDay: 0,
     currWeek: 0,
@@ -12,15 +27,15 @@ export const useHistoryStore = create<Store & Action>((set) => {
     history: {} as Store["history"],
     disabledChanges: {},
     resources: {
-      gold: 10_000,
-      wood: 10,
-      ore: 10,
-      gems: 5,
-      crystals: 5,
-      mercury: 5,
-      dust: 50,
-      law: 0,
-      astrology: 0,
+      gold: initResources.gold[initDifficulty] * 1000,
+      wood: initResources.wood[initDifficulty],
+      ore: initResources.ore[initDifficulty],
+      gems: initResources.gems[initDifficulty],
+      crystals: initResources.crystals[initDifficulty],
+      mercury: initResources.mercury[initDifficulty],
+      dust: initResources.dust[initDifficulty],
+      law: initResources.law[initDifficulty],
+      astrology: initResources.astrology[initDifficulty],
     },
     mines: [],
     castleMines: {},
@@ -196,10 +211,30 @@ export const useHistoryStore = create<Store & Action>((set) => {
         };
       });
     },
+
+    setDifficulty: (difficulty) => {
+      set(() => {
+        return {
+          difficulty,
+          resources: {
+            gold: initResources.gold[difficulty] * 1000,
+            wood: initResources.wood[difficulty],
+            ore: initResources.ore[difficulty],
+            gems: initResources.gems[difficulty],
+            crystals: initResources.crystals[difficulty],
+            mercury: initResources.mercury[difficulty],
+            dust: initResources.dust[difficulty],
+            law: initResources.law[difficulty],
+            astrology: initResources.astrology[difficulty],
+          },
+        };
+      });
+    },
   };
 });
 
 type Store = {
+  difficulty: 0 | 1 | 2 | 3 | 4 | 5;
   currDay: CurrDay;
   currWeek: CurrWeek;
   currMonth: number;
@@ -292,6 +327,7 @@ type Action = {
   setActiveTab: (castleUUID: string) => void;
   setNextDay: () => void;
   setPrevDay: () => void;
+  setDifficulty: (difficulty: 0 | 1 | 2 | 3 | 4 | 5) => void;
 
   addBuilding: (buildingID: BuildingID) => void;
   removeBuildings: (buildingIDs: BuildingID[]) => void;

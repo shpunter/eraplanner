@@ -2,8 +2,7 @@ import { useResourceTimeline } from "./useResourceTimeline";
 import css from "./resources.module.css";
 import { RESOURCE_KEYS } from "#/shared/constants";
 import { classnames } from "#/shared/classnames";
-
-type ResourceKey = (typeof RESOURCE_KEYS)[number];
+import { useHistoryStore } from "../history/history.store";
 
 const RESOURCE_ICONS: Partial<Record<ResourceKey, string>> = {
   gold: "/img/resource/gold.webp",
@@ -17,31 +16,56 @@ const RESOURCE_ICONS: Partial<Record<ResourceKey, string>> = {
   astrology: "/img/resource/astrology.png",
 };
 
+const difficulties = ["♟", "♞", "♝", "♜", "♛", "♚"];
+
 const Resources = () => {
   const { available, incomePerDay } = useResourceTimeline();
+  const setDifficulty = useHistoryStore((state) => state.setDifficulty);
+  const difficulty = useHistoryStore((state) => state.difficulty);
 
   return (
     <div className={css.bar}>
-      {RESOURCE_KEYS.map((key) => {
-        const icon = RESOURCE_ICONS[key];
+      <div className={css.difficulties}>
+        {difficulties.map((currDifficulty, idx) => {
+          const onClick = () => setDifficulty(idx as 0 | 1 | 2 | 3 | 4 | 5);
 
-        const className = classnames({
-          [css.available]: true,
-          [css.negative]: available[key] < 0,
-        });
+          const className = classnames({
+            [css.difficulty]: true,
+            [css.active]: difficulty === idx,
+          });
 
-        return (
-          <div key={key} className={css.item}>
-            <img className={css.icon} src={icon} alt={key} />
-            <div className={css.resource}>
-              <div className={className}>{available[key]}</div>
-              <div className={css.income}>+{incomePerDay[key]}</div>
+          return (
+            <div key={currDifficulty} onClick={onClick} className={className}>
+              {currDifficulty}
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
+
+      <div className={css.resources}>
+        {RESOURCE_KEYS.map((key) => {
+          const icon = RESOURCE_ICONS[key];
+
+          const className = classnames({
+            [css.available]: true,
+            [css.negative]: available[key] < 0,
+          });
+
+          return (
+            <div key={key} className={css.item}>
+              <img className={css.icon} src={icon} alt={key} />
+              <div className={css.resource}>
+                <div className={className}>{available[key]}</div>
+                <div className={css.income}>+{incomePerDay[key]}</div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
 
 export default Resources;
+
+type ResourceKey = (typeof RESOURCE_KEYS)[number];

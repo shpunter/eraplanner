@@ -11,6 +11,7 @@ import { useMarkedStore } from "../useMarked.store";
 const Building = ({ building, castleID }: BuildingProps) => {
   const setMarked = useMarkedStore((state) => state.setMarked);
   const addBuilding = useHistoryStore((state) => state.addBuilding);
+  const removeBuildings = useHistoryStore((state) => state.removeBuildings);
 
   const { isBuiltByCurDay, isBuiltThisDay, isInTheHistory, isAvailable } =
     useBuildingStatus(building.id);
@@ -35,6 +36,10 @@ const Building = ({ building, castleID }: BuildingProps) => {
 
   const onClick = () => {
     if (!isAvailable || isBuiltByCurDay) return;
+
+    if (isInTheHistory) {
+      removeBuildings(trace(castleID, building.id, "next"));
+    }
 
     addBuilding(building.id);
   };
@@ -62,6 +67,7 @@ const Building = ({ building, castleID }: BuildingProps) => {
       onClick={onClick}
     >
       <img
+        key={`${castleID}-${building.id}`}
         src={`/img/factions/buildings/${castleID}/${building.id}.webp`}
         alt={building.name}
         className={css.image}

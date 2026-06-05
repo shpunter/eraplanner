@@ -63,4 +63,17 @@
   transform: translate(50%, -50%);
   border-radius: 12px;
   clip-path: inset(2px);
+  animation: imageIn 0.25s ease-out;
+}
+
+/* plays whenever the <img> remounts (keyed by castle + building) */
+@keyframes imageIn {
+  from {
+    opacity: 0;
+    transform: translate(50%, -50%) scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: translate(50%, -50%) scale(1);
+  }
 }

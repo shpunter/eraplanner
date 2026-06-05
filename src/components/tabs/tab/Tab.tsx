@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef } from "react";
+import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import { classnames } from "#/shared/classnames";
 import { useTabsContext } from "../context";
 import css from "./tab.module.css";
@@ -40,6 +40,7 @@ export default Tab;
 
 type TabProps<T extends string> = ComponentPropsWithoutRef<"button"> & {
   value: T;
+  children: ReactNode;
   /** shows a small yellow dot on the tab, e.g. to flag pending changes */
   indicator?: boolean;
 };

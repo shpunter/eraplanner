@@ -194,8 +194,8 @@ export const castles = {
     id14: {
       id: "id14",
       name: "Paper nest",
-      prev: null,
-      next: ["id24", "id24"],
+      prev: ["id05"],
+      next: ["id24"],
       pos: [1, 4],
       cost: {
         gold: 3000,
@@ -264,7 +264,7 @@ export const castles = {
     id25: {
       id: "id25",
       name: "Burning Soul Burrows",
-      prev: ["id14", "id17"],
+      prev: ["id17"],
       next: ["id35", "id36"],
       pos: [2, 5],
       cost: {

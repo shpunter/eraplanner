@@ -33,19 +33,11 @@ const History = () => {
         })}
 
         <div className={css.nav}>
-          <div
-            className={css.next}
-            onClick={setPrevDay}
-            data-testid="prev"
-          >
-            prev
+          <div className={css.next} onClick={setPrevDay} data-testid="prev">
+            {"<<"}
           </div>
-          <div
-            className={css.next}
-            onClick={setNextDay}
-            data-testid="next"
-          >
-            next
+          <div className={css.next} onClick={setNextDay} data-testid="next">
+            {">>"}
           </div>
         </div>
       </div>

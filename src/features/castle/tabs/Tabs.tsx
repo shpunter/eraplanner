@@ -1,5 +1,6 @@
 import Tabs from "#/components/tabs/Tabs";
 import { useHistoryStore } from "#/features/history/history.store";
+import css from "./tabs.module.css";
 
 const CastleTabs = () => {
   const castles = useHistoryStore((state) => state.castles);
@@ -20,7 +21,14 @@ const CastleTabs = () => {
 
         return (
           <Tabs.Tab key={uuid} value={uuid} indicator={hasChange}>
-            {castle.castleID}
+            <div className={css.item}>
+              <img
+                src={`/img/factions/logo/${castle.castleID}.webp`}
+                alt={castle.castleID}
+                className={css.logo}
+              />
+              <div>{castle.castleID}</div>
+            </div>
           </Tabs.Tab>
         );
       })}
