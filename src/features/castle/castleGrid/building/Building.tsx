@@ -1,4 +1,4 @@
-import type { CastleID, TBuilding } from "#/routes/castle/$id";
+import type { CastleID, TBuilding } from "#/routes/faction/$id";
 import { classnames } from "#/shared/classnames";
 import css from "./building.module.css";
 import { trace } from "./utils";
@@ -6,7 +6,7 @@ import { useHistoryStore } from "#/features/history/history.store";
 import { useBuildingStatus } from "./useBuildingStatus";
 import BuildingActions from "./buildingActions/BuildingActions";
 import BuildingLabel from "./buildingLabel/BuildingLabel";
-import { useMarkedStore } from "../useMarked.store";
+import { useMarkedStore } from "#/features/castle/useMarked.store";
 
 const Building = ({ building, castleID }: BuildingProps) => {
   const setMarked = useMarkedStore((state) => state.setMarked);

@@ -1,5 +1,5 @@
 import { useHistoryStore } from "#/features/history/history.store";
-import type { BuildingID, CastleID } from "#/routes/castle/$id";
+import type { BuildingID, CastleID } from "#/routes/faction/$id";
 import { trace } from "../utils";
 import css from "./buildingActions.module.css";
 import CastleMine from "./castleMine/CastleMine";

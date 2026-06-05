@@ -1,4 +1,4 @@
-import type { BuildingID } from "#/routes/castle/$id";
+import type { BuildingID } from "#/routes/faction/$id";
 import { create } from "zustand";
 
 export const useMarkedStore = create<Store & Action>((set) => {

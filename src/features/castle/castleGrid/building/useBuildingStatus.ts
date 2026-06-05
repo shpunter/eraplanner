@@ -1,5 +1,5 @@
 import { useShallow } from "zustand/react/shallow";
-import type { BuildingID } from "#/routes/castle/$id";
+import type { BuildingID } from "#/routes/faction/$id";
 import { useHistoryStore } from "#/features/history/history.store";
 
 export type BuildingStatus = {

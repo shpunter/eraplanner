@@ -1,4 +1,4 @@
-import type { BuildingID, CastleID } from "#/routes/castle/$id";
+import type { BuildingID, CastleID } from "#/routes/faction/$id";
 import { create } from "zustand";
 
 const initResources = {

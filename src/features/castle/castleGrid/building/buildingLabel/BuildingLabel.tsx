@@ -1,4 +1,4 @@
-import type { TBuilding } from "#/routes/castle/$id";
+import type { TBuilding } from "#/routes/faction/$id";
 
 import { classnames } from "#/shared/classnames";
 import css from "./buildingLabel.module.css";

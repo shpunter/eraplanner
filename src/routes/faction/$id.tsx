@@ -2,7 +2,7 @@ import Castle from "#/features/castle/Castle";
 import { createFileRoute, defer } from "@tanstack/react-router";
 import { castles } from "./castles.config";
 
-export const Route = createFileRoute("/castle/$id")({
+export const Route = createFileRoute("/faction/$id")({
   parseParams: (params) => ({
     id: params.id as CastleID,
   }),

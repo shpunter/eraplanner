@@ -1,5 +1,5 @@
-import type { BuildingID, CastleID } from "#/routes/castle/$id";
-import { castles } from "#/routes/castle/castles.config";
+import type { BuildingID, CastleID } from "#/routes/faction/$id";
+import { castles } from "#/routes/faction/castles.config";
 
 type Direction = "prev" | "next";
 
