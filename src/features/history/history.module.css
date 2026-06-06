@@ -31,8 +31,10 @@
 }
 
 .calendar {
+  grid-template-areas: "calendar";
+
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 10px;
 }
 
@@ -46,6 +48,7 @@
 
 .row {
   display: flex;
+  flex-direction: column;
   gap: 4px;
 }
 

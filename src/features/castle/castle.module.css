@@ -1,16 +1,12 @@
-.castle {
-  grid-area: buildings;
-  display: grid;
-  grid-template-columns: repeat(9, 130px);
-  grid-template-rows: repeat(5, 108px);
-  justify-items: center;
-  gap: 20px;
-}
-
 .board {
-  display: grid;
+  /* display: grid;
   grid-template-areas: "buildings mines";
   grid-template-columns: min-content 120px;
 
-  gap: 50px;
+  gap: 50px; */
+}
+
+.main {
+  grid-template-areas: "main";
+  display: grid;
 }

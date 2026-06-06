@@ -1,0 +1,51 @@
+.item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  font-family: inherit;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: left;
+
+  color: var(--text-main);
+  background: transparent;
+  border: none;
+  /* side-menu active indicator lives on the left edge */
+  border-left: 2px solid transparent;
+  padding: 10px 16px;
+  cursor: pointer;
+
+  transition:
+    color 0.12s ease-in-out,
+    border-color 0.12s ease-in-out,
+    background-image 0.12s ease-in-out;
+}
+
+/* lays out complex item content (icon + label + badge, …) */
+.content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.item:hover {
+  color: var(--color-yellow-border);
+  background-image: linear-gradient(
+    to right,
+    var(--dark-blue-40),
+    transparent
+  );
+}
+
+.active {
+  color: var(--color-yellow-border);
+  border-left-color: var(--color-yellow-border);
+  background-image: linear-gradient(
+    to right,
+    var(--dark-blue-50),
+    transparent
+  );
+}

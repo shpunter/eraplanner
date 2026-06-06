@@ -23,7 +23,7 @@ const Resources = () => {
   const setDifficulty = useHistoryStore((state) => state.setDifficulty);
   const difficulty = useHistoryStore((state) => state.difficulty);
 
-  return (
+  return (    
     <div className={css.bar}>
       <div className={css.difficulties}>
         {difficulties.map((currDifficulty, idx) => {

@@ -1,4 +1,4 @@
-import Castle from "#/features/castle/Castle";
+import Castle from "#/features/board/Board";
 import { createFileRoute, defer } from "@tanstack/react-router";
 import { castles } from "./castles.config";
 

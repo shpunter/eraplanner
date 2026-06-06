@@ -1,0 +1,26 @@
+.board {
+  display: grid;
+  grid-template-areas:
+    "header     header header"
+    "history    main   main"
+    "navigation main   main";
+    
+  grid-template-columns: auto 1fr 1fr;
+  grid-template-rows: auto 400px auto;
+}
+
+.header {
+  grid-area: header;
+}
+
+.history {
+  grid-area: history;
+}
+
+.main {
+  grid-area: main;
+}
+
+.navigation {
+  grid-area: navigation;
+}
