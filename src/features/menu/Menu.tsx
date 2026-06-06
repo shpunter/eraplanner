@@ -5,6 +5,7 @@ import Item from "./item/Item";
 const ITEMS = [
   { id: "castles", label: "Castles" },
   { id: "mines", label: "Mines" },
+  { id: "resources", label: "Resources" },
 ] as const;
 
 const BoardMenu = () => {
