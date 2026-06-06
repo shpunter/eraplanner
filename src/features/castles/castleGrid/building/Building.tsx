@@ -6,7 +6,7 @@ import { useHistoryStore } from "#/features/history/history.store";
 import { useBuildingStatus } from "./useBuildingStatus";
 import BuildingActions from "./buildingActions/BuildingActions";
 import BuildingLabel from "./buildingLabel/BuildingLabel";
-import { useMarkedStore } from "#/features/castle/useMarked.store";
+import { useMarkedStore } from "#/features/castles/useMarked.store";
 
 const Building = ({ building, castleID }: BuildingProps) => {
   const setMarked = useMarkedStore((state) => state.setMarked);

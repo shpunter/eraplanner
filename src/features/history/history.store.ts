@@ -71,8 +71,6 @@ export const useHistoryStore = create<Store & Action>((set) => {
 
     addCastleMines: (buildingID, resource, amount) => {
       set((state) => {
-        console.log(state);
-
         return {
           ...state,
           castleMines: {

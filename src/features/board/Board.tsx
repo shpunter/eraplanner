@@ -1,6 +1,6 @@
 import History from "../history/History";
 import Resources from "../resources/Resources";
-import Castle from "../castle/Castle";
+import CastleBoard from "../castles/CastleBoard";
 import Menu from "../menu/Menu";
 
 import css from "./board.module.css";
@@ -18,7 +18,7 @@ const Board = () => {
         <Menu />
       </div>
       <div className={css.main}>
-        <Castle />
+        <CastleBoard />
       </div>
     </div>
   );

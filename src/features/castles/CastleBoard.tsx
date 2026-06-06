@@ -1,13 +1,13 @@
 import { Route } from "#/routes/faction/$id";
 import { Suspense, useMemo } from "react";
-import css from "./castle.module.css";
+import css from "./castleBoard.module.css";
 import { Await, useParams } from "@tanstack/react-router";
-import CastleGrid from "../castle/castleGrid/CastleGrid";
+import CastleGrid from "./castleGrid/CastleGrid";
 import Mines from "../mines/Mines";
-import Add from "../castle/add/Add";
-import Tabs from "../castle/tabs/Tabs";
+import Add from "./add/Add";
+import Tabs from "./tabs/Tabs";
 
-const Castle = () => {
+const CastleBoard = () => {
   const { castle } = Route.useLoaderData();
   const { id: castleID } = useParams({ from: "/faction/$id" });
   const castleUUID = useMemo(() => crypto.randomUUID(), []);
@@ -38,4 +38,4 @@ const Castle = () => {
   );
 };
 
-export default Castle;
+export default CastleBoard;
