@@ -20,7 +20,10 @@ const day = (page: Page, index: number) =>
 const BUILDABLE = "#id20";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/castle/hive");
+  await page.goto("/faction/hive");
+  // wait for client hydration: BUILDABLE only renders after the deferred
+  // castle data resolves, so handlers are attached before we interact
+  await page.locator(BUILDABLE).waitFor();
 });
 
 test("renders 7 month cells labelled M1–M7", async ({ page }) => {

@@ -14,14 +14,17 @@ const days = (page: Page) => page.locator('[data-testid="day"]');
 const BUILDABLE = "#id20";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/castle/hive");
+  await page.goto("/faction/hive");
+  // wait for client hydration: BUILDABLE only renders after the deferred
+  // castle data resolves, so handlers are attached before we interact
+  await page.locator(BUILDABLE).waitFor();
 });
 
-test("renders 7 day cells labelled 1–7", async ({ page }) => {
+test("renders 7 day cells labelled D1–D7", async ({ page }) => {
   await expect(days(page)).toHaveCount(7);
 
   for (let i = 0; i < 7; i++) {
-    await expect(day(page, i)).toHaveText(String(i + 1));
+    await expect(day(page, i)).toHaveText(`D${i + 1}`);
   }
 });
 

@@ -18,7 +18,10 @@ const next = (page: Page) => page.locator('[data-testid="next"]');
 const prev = (page: Page) => page.locator('[data-testid="prev"]');
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/castle/hive");
+  await page.goto("/faction/hive");
+  // wait for client hydration: #id20 only renders after the deferred castle
+  // data resolves, so handlers are attached before we interact
+  await page.locator("#id20").waitFor();
 });
 
 test("next advances the active day within the week", async ({ page }) => {
