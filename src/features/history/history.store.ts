@@ -9,7 +9,7 @@ const initResources = {
   crystals: [20, 15, 10, 5, 2, 0],
   mercury: [20, 15, 10, 5, 2, 0],
   dust: [250, 150, 100, 50, 25, 0],
-  law: [0, 0, 0, 0, 0, 0, ],
+  law: [0, 0, 0, 0, 0, 0],
   astrology: [0, 0, 0, 0, 0, 0],
 };
 
@@ -26,7 +26,7 @@ export const useHistoryStore = create<Store & Action>((set) => {
     currCastleUUID: "",
     history: {} as Store["history"],
     disabledChanges: {},
-    resources: {
+    iniRes: {
       gold: initResources.gold[initDifficulty] * 1000,
       wood: initResources.wood[initDifficulty],
       ore: initResources.ore[initDifficulty],
@@ -51,7 +51,12 @@ export const useHistoryStore = create<Store & Action>((set) => {
           currCastleUUID: castleUUID,
           castles: {
             ...state.castles,
-            [castleUUID]: { buildings: castle, preBuilds, castleID },
+            [castleUUID]: {
+              buildings: castle,
+              preBuilds,
+              castleID,
+              foundDay: state.historyIDX,
+            },
           },
           history: {
             ...state.history,
@@ -66,6 +71,8 @@ export const useHistoryStore = create<Store & Action>((set) => {
 
     addCastleMines: (buildingID, resource, amount) => {
       set((state) => {
+        console.log(state);
+
         return {
           ...state,
           castleMines: {
@@ -216,7 +223,7 @@ export const useHistoryStore = create<Store & Action>((set) => {
       set(() => {
         return {
           difficulty,
-          resources: {
+          iniRes: {
             gold: initResources.gold[difficulty] * 1000,
             wood: initResources.wood[difficulty],
             ore: initResources.ore[difficulty],
@@ -250,10 +257,12 @@ type Store = {
           buildings: BuildingsType;
           preBuilds: readonly BuildingID[];
           castleID: CastleID;
+          /** day the castle was added (first castle = 0) */
+          foundDay: number;
         }
       | undefined;
   };
-  resources: {
+  iniRes: {
     gold: number;
     wood: number;
     ore: number;

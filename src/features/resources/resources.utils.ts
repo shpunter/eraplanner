@@ -22,7 +22,7 @@ const MINE_INCOME: Record<Mine, { key: ResourceKey; rate: number }> = {
   mercury: { key: "mercury", rate: 1 },
 };
 
-export function calcMineIncome(mines: Mine[]): ResourceRecord {
+export const calcMineIncome = (mines: Mine[]): ResourceRecord => {
   const income = { ...ZERO_RESOURCES };
 
   for (const mine of mines) {
@@ -32,7 +32,7 @@ export function calcMineIncome(mines: Mine[]): ResourceRecord {
   }
 
   return income;
-}
+};
 
 export type CastleMine = {
   resource: "gold" | "law" | "astrology";
@@ -42,18 +42,18 @@ export type CastleMine = {
 // A castle mine is the player-chosen production attached to a dwelling
 // (see addCastleMines in the history store). Like other producers, the amount
 // is added to daily income from the day after the dwelling is built.
-export function calcCastleMineIncome(
+export const calcCastleMineIncome = (
   mine: CastleMine | undefined,
-): ResourceRecord {
+): ResourceRecord => {
   if (!mine) return ZERO_RESOURCES;
 
   return { ...ZERO_RESOURCES, [mine.resource]: mine.amount };
-}
+};
 
-export function addResources(
+export const addResources = (
   a: ResourceRecord,
   b: ResourceRecord,
-): ResourceRecord {
+): ResourceRecord => {
   return {
     gold: a.gold + b.gold,
     wood: a.wood + b.wood,
@@ -65,12 +65,12 @@ export function addResources(
     astrology: a.astrology + b.astrology,
     dust: a.dust + b.dust,
   };
-}
+};
 
-export function subtractResources(
+export const subtractResources = (
   a: ResourceRecord,
   b: ResourceRecord,
-): ResourceRecord {
+): ResourceRecord => {
   return {
     gold: a.gold - b.gold,
     wood: a.wood - b.wood,
@@ -82,4 +82,4 @@ export function subtractResources(
     astrology: a.astrology - b.astrology,
     dust: a.dust - b.dust,
   };
-}
+};

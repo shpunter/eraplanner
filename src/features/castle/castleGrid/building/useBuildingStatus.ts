@@ -15,7 +15,7 @@ export type BuildingStatus = {
 
 // Derives every build-state flag for a single building from one store
 // subscription, so the slice of "what's been built so far" is computed once.
-export function useBuildingStatus(buildingID: BuildingID): BuildingStatus {
+export const useBuildingStatus = (buildingID: BuildingID): BuildingStatus => {
   return useHistoryStore(
     useShallow((state) => {
       const { history, currCastleUUID, castles, historyIDX } = state;
@@ -36,4 +36,4 @@ export function useBuildingStatus(buildingID: BuildingID): BuildingStatus {
       return { isBuiltByCurDay, isBuiltThisDay, isInTheHistory, isAvailable };
     }),
   );
-}
+};

@@ -22,10 +22,11 @@ export const Route = createFileRoute("/faction/$id")({
   component: Castle,
 });
 
-async function fetchCastleData(id: CastleID) {
+const fetchCastleData = async (id: CastleID) => {
   await new Promise((resolve) => setTimeout(resolve, 1));
+
   return castles[id] satisfies TCastle;
-}
+};
 
 // 1. Get the names of the castles ('hive' | 'necropolis')
 export type CastleID = keyof typeof castles;

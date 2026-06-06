@@ -14,9 +14,9 @@ export const Route = createFileRoute("/hero/$id")({
   component: Hero,
 });
 
-async function fetchHeroData(id: ID) {
+const fetchHeroData = async (id: ID) => {
   return heroes[id];
-}
+};
 
 type ID = keyof typeof heroes;
 

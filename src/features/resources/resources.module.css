@@ -1,4 +1,6 @@
 .bar {
+  min-width: 1076px;
+
   display: flex;
   justify-content: center;
   align-items: center;

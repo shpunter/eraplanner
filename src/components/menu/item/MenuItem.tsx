@@ -13,14 +13,9 @@ const MenuItem = <T extends string>({ value, children }: MenuItemProps<T>) => {
   };
 
   return (
-    <button
-      type="button"
-      aria-current={isActive ? "page" : undefined}
-      className={className}
-      onClick={onClick}
-    >
-      <span className={css.content}>{children}</span>
-    </button>
+    <div className={className} onClick={onClick}>
+      <div className={css.content}>{children}</div>
+    </div>
   );
 };
 
