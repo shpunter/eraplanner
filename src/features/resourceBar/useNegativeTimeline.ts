@@ -1,5 +1,5 @@
 import { useHistoryStore } from "../history/history.store";
-import { selectTimeline } from "./timeline";
+import { selectTimeline } from "./timeline.utils";
 
 /**
  * For every day in the calendar, whether the available resources would be

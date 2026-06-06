@@ -1,5 +1,5 @@
 import { classnames } from "#/shared/classnames";
-import { useNegativeTimeline } from "#/features/resources/useNegativeTimeline";
+import { useNegativeTimeline } from "#/features/resourceBar/useNegativeTimeline";
 import { useHistoryStore } from "../history.store";
 import css from "../history.module.css";
 

@@ -3,7 +3,6 @@ import { Suspense, useMemo } from "react";
 import css from "./castleBoard.module.css";
 import { Await, useParams } from "@tanstack/react-router";
 import CastleGrid from "./castleGrid/CastleGrid";
-import Mines from "../mines/Mines";
 import Add from "./add/Add";
 import Tabs from "./tabs/Tabs";
 
@@ -31,8 +30,7 @@ const CastleBoard = () => {
               />
             )}
           </Await>
-        </Suspense>
-        <Mines />
+        </Suspense>        
       </div>
     </section>
   );

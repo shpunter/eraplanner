@@ -6,6 +6,9 @@ export const Route = createFileRoute("/faction/$id")({
   parseParams: (params) => ({
     id: params.id as CastleID,
   }),
+  validateSearch: (search: Record<string, unknown>): { m: MenuTab } => ({
+    m: search.m === "mines" ? "mines" : "castles",
+  }),
   loader: async ({ params }) => {
     const id = params.id as CastleID;
 
@@ -27,6 +30,9 @@ const fetchCastleData = async (id: CastleID) => {
 
   return castles[id] satisfies TCastle;
 };
+
+// Menu tab persisted in the URL search param `m`
+export type MenuTab = "castles" | "mines";
 
 // 1. Get the names of the castles ('hive' | 'necropolis')
 export type CastleID = keyof typeof castles;

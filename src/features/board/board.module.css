@@ -4,13 +4,31 @@
     "header     header header"
     "history    main   main"
     "navigation main   main";
-    
+
   grid-template-columns: auto 1fr 1fr;
-  grid-template-rows: auto 400px auto;
+  grid-template-rows: auto 400px 1fr;
+
+  gap: 16px;
+  padding: 16px;
+}
+
+/* shared card surface for each region */
+.history,
+.navigation,
+.main {
+  padding: 16px;
+
+  background-color: var(--item);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px var(--shadow-40);
 }
 
 .header {
   grid-area: header;
+
+  /* sit flush — cancel the board padding/gap around the header */
+  margin: -16px -16px 0;
 }
 
 .history {
@@ -19,6 +37,10 @@
 
 .main {
   grid-area: main;
+
+  /* scroll when content overflows the grid row */
+  min-height: 0;
+  overflow-y: auto;
 }
 
 .navigation {

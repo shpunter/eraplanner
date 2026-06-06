@@ -1,6 +1,6 @@
 import type { ResourceRecord } from "#/shared/types";
 import { useHistoryStore } from "../history/history.store";
-import { selectTimeline, TOTAL_DAYS } from "./timeline";
+import { selectTimeline, TOTAL_DAYS } from "./timeline.utils";
 
 /**
  * Resources available and per-day income on the currently selected day

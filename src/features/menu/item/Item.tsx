@@ -16,10 +16,10 @@ const Item = ({ label, id }: ItemProps) => {
   });
 
   return (
-    <span className={css.item}>
+    <div className={css.item}>
       <span>{label}</span>
-      {count > 0 && <span className={css.badge}>{count}</span>}
-    </span>
+      {count > 0 && <div className={css.badge}>{count}</div>}
+    </div>
   );
 };
 

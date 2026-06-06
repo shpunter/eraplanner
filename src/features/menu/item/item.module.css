@@ -4,6 +4,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+
+  line-height: 18px;
 }
 
 /* count of changes for the selected day */
@@ -17,6 +19,7 @@
 
   font-size: 11px;
   font-weight: 600;
+  line-height: 1;
   color: var(--background);
   background-color: var(--color-yellow-border);
   border-radius: 9px;

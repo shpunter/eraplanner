@@ -1,5 +1,6 @@
 import { useHistoryStore, type Mine as TMine } from "../history/history.store";
 import Mine from "./mine/Mine";
+import css from "./mines.module.css";
 
 const Mines = () => {
   const addMine = useHistoryStore((state) => state.addMine);
@@ -9,7 +10,7 @@ const Mines = () => {
   };
 
   return (
-    <div>
+    <div className={css.mines}>
       {(["gold", "ore", "wood", "crystal", "gem", "mercury"] as const).map(
         (item) => {
           return <Mine key={item} type={item} onClick={onClick(item)} />;

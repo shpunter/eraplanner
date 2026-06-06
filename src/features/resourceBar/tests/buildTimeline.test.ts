@@ -6,7 +6,7 @@ import type {
 import type { BuildingID, CastleID } from "#/routes/faction/$id";
 import type { ResourceRecord } from "#/shared/types";
 import { ZERO_RESOURCES } from "../resources.utils";
-import { buildTimeline, TOTAL_DAYS } from "../timeline";
+import { buildTimeline, TOTAL_DAYS } from "../timeline.utils";
 
 type Input = Parameters<typeof buildTimeline>[0];
 

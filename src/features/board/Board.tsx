@@ -1,15 +1,14 @@
 import History from "../history/History";
-import Resources from "../resources/Resources";
-import CastleBoard from "../castles/CastleBoard";
+import ResourceBar from "../resourceBar/ResourceBar";
 import Menu from "../menu/Menu";
-
 import css from "./board.module.css";
+import Main from "./main/Main";
 
 const Board = () => {
   return (
     <div className={css.board}>
       <div className={css.header}>
-        <Resources />
+        <ResourceBar />
       </div>
       <div className={css.history}>
         <History />
@@ -18,7 +17,7 @@ const Board = () => {
         <Menu />
       </div>
       <div className={css.main}>
-        <CastleBoard />
+        <Main />
       </div>
     </div>
   );

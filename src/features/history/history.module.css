@@ -13,6 +13,11 @@
   user-select: none;
 }
 
+.next {
+  width: 62px;
+  border-radius: 50px;
+}
+
 .cell {
   letter-spacing: 1px;
   text-indent: 2px;
@@ -53,7 +58,8 @@
 }
 
 .nav {
-  margin: 0 28px;
+  padding: 10px 0;
+  
   display: flex;
   gap: 8px;
   justify-content: center;

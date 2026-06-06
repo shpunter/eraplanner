@@ -1,5 +1,4 @@
-// import { useResourceTimeline } from "./useResourceTimeline";
-import css from "./resources.module.css";
+import css from "./resourceBar.module.css";
 import { RESOURCE_KEYS } from "#/shared/constants";
 import { classnames } from "#/shared/classnames";
 import { useHistoryStore } from "../history/history.store";
@@ -19,16 +18,10 @@ const RESOURCE_ICONS: Partial<Record<ResourceKey, string>> = {
 
 const difficulties = ["♟", "♞", "♝", "♜", "♛", "♚"];
 
-const Resources = () => {
-  // const { available, incomePerDay } = useResourceTimeline();
+const ResourceBar = () => {
   const setDifficulty = useHistoryStore((state) => state.setDifficulty);
   const difficulty = useHistoryStore((state) => state.difficulty);
-
   const { available, incomePerDay }  = useResources();
-
-  // console.log("available", test.available);
-  // console.log("incomePerDay", test.incomePerDay);
-
 
   return (    
     <div className={css.bar}>
@@ -73,6 +66,6 @@ const Resources = () => {
   );
 };
 
-export default Resources;
+export default ResourceBar;
 
 type ResourceKey = (typeof RESOURCE_KEYS)[number];
