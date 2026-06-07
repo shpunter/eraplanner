@@ -1,8 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type {
-  BuildingType,
-  Mine,
-} from "#/features/history/history.store";
+import type { BuildingType, Mine } from "#/features/history/history.store";
 import type { BuildingID, CastleID } from "#/routes/faction/$id";
 import type { ResourceRecord } from "#/shared/types";
 import { ZERO_RESOURCES } from "../resources.utils";

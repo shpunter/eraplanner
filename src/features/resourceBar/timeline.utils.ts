@@ -67,7 +67,10 @@ export const buildTimeline = ({
     available = addResources(available, incomePerDay);
 
     // one-time resource piles dropped today are available the same day
-    available = addResources(available, calcResourceGain(resources?.[day] ?? []));
+    available = addResources(
+      available,
+      calcResourceGain(resources?.[day] ?? []),
+    );
 
     // pre-builds found today start producing from the next day
     const preIncome = preIncomeByFoundDay.get(day);

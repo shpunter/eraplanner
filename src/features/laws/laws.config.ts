@@ -1,8 +1,14 @@
+// The law groups configured for a single faction.
+export type FactionLaws = (typeof LAWS)[keyof typeof LAWS];
+export type LawType = FactionLaws[number][number];
+// A law is identified by its `id` from the config (e.g. "l00").
+export type LawID = LawType["id"];
+
 export const LAWS = {
   hive: [
     [
       {
-        id: "00",
+        id: "l00",
         cost: 1,
         max: 1,
         curr: 0,
@@ -15,7 +21,7 @@ export const LAWS = {
         },
       },
       {
-        id: "01",
+        id: "l01",
         cost: 1,
         max: 2,
         curr: 0,
@@ -23,7 +29,7 @@ export const LAWS = {
         incomeType: "none",
       },
       {
-        id: "02",
+        id: "l02",
         cost: 2,
         max: 3,
         curr: 0,
@@ -31,7 +37,7 @@ export const LAWS = {
         incomeType: "none",
       },
       {
-        id: "03",
+        id: "l03",
         cost: 3,
         max: 1,
         curr: 0,
@@ -41,7 +47,7 @@ export const LAWS = {
     ],
     [
       {
-        id: "10",
+        id: "l10",
         cost: 2,
         max: 3,
         curr: 0,
@@ -52,7 +58,7 @@ export const LAWS = {
         },
       },
       {
-        id: "11",
+        id: "l11",
         cost: 2,
         max: 2,
         curr: 0,
@@ -63,7 +69,7 @@ export const LAWS = {
         },
       },
       {
-        id: "12",
+        id: "l12",
         cost: 4,
         max: 1,
         curr: 0,

@@ -22,15 +22,16 @@ describe("calcMineIncome", () => {
     expect(calcMineIncome([])).toEqual(ZERO_RESOURCES);
   });
 
-  it.each(MINES)(
-    "maps a single $mine mine to $produces +$rate",
-    ({ mine, produces, rate }) => {
-      expect(calcMineIncome([mine])).toEqual({
-        ...ZERO_RESOURCES,
-        [produces]: rate,
-      });
-    },
-  );
+  it.each(MINES)("maps a single $mine mine to $produces +$rate", ({
+    mine,
+    produces,
+    rate,
+  }) => {
+    expect(calcMineIncome([mine])).toEqual({
+      ...ZERO_RESOURCES,
+      [produces]: rate,
+    });
+  });
 
   it("accumulates repeated mines of the same type", () => {
     expect(calcMineIncome(["gold", "gold", "gold"]).gold).toBe(3000);

@@ -12,8 +12,12 @@
   object-position: center;
 }
 
-.law:hover .image {
+.law:not(.maxed):hover .image {
   filter: drop-shadow(0 0 4px var(--black-90));
+}
+
+.maxed {
+  cursor: default;
 }
 
 .dots {
@@ -40,7 +44,7 @@
 }
 
 .dotFilled {
-  background-color: #3cdc3c;
+  background-color: white;
 }
 
 .cost {

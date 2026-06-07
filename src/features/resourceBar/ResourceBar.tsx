@@ -21,9 +21,9 @@ const difficulties = ["♟", "♞", "♝", "♜", "♛", "♚"];
 const ResourceBar = () => {
   const setDifficulty = useHistoryStore((state) => state.setDifficulty);
   const difficulty = useHistoryStore((state) => state.difficulty);
-  const { available, incomePerDay }  = useResources();
+  const { available, incomePerDay } = useResources();
 
-  return (    
+  return (
     <div className={css.bar}>
       <div className={css.difficulties}>
         {difficulties.map((currDifficulty, idx) => {
