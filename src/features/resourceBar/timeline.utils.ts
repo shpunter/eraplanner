@@ -5,6 +5,7 @@ import {
   addResources,
   calcCastleMineIncome,
   calcMineIncome,
+  calcResourceGain,
   subtractResources,
   ZERO_RESOURCES,
 } from "./resources.utils";
@@ -33,6 +34,7 @@ export const buildTimeline = ({
   castles,
   mines,
   castleMines,
+  resources,
 }: TimelineInput): DaySnapshot[] => {
   const days: DaySnapshot[] = new Array(TOTAL_DAYS);
 
@@ -63,6 +65,9 @@ export const buildTimeline = ({
   for (let day = 0; day < TOTAL_DAYS; day++) {
     // income produced by everything that appeared on earlier days
     available = addResources(available, incomePerDay);
+
+    // one-time resource piles dropped today are available the same day
+    available = addResources(available, calcResourceGain(resources?.[day] ?? []));
 
     // pre-builds found today start producing from the next day
     const preIncome = preIncomeByFoundDay.get(day);
@@ -115,6 +120,7 @@ export const selectTimeline = (state: State): Timeline => {
     state.castles,
     state.mines,
     state.castleMines,
+    state.resources,
   ];
 
   if (cache && keys.every((key, i) => key === cache?.keys[i])) {
@@ -149,5 +155,5 @@ export type DaySnapshot = {
 type State = ReturnType<typeof useHistoryStore.getState>;
 type TimelineInput = Pick<
   State,
-  "iniRes" | "history" | "castles" | "mines" | "castleMines"
+  "iniRes" | "history" | "castles" | "mines" | "castleMines" | "resources"
 >;

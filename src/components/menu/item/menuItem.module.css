@@ -45,7 +45,3 @@
   border-left-color: var(--color-yellow-border);
   background-image: linear-gradient(to right, var(--dark-blue-50), transparent);
 }
-
-.active .content {
-  transform: translateX(4px);
-}

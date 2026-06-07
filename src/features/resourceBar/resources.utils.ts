@@ -45,6 +45,33 @@ export const calcCastleMineIncome = (
   return { ...ZERO_RESOURCES, [mine.resource]: mine.amount };
 };
 
+// One-time resource piles the player drops on a day. Each gives an amount in a
+// min–max range; the timeline uses the conservative minimum.
+export const RESOURCE_GAIN_RANGES = {
+  gold: { min: 400, max: 900 },
+  wood: { min: 4, max: 6 },
+  ore: { min: 4, max: 6 },
+  crystals: { min: 2, max: 4 },
+  gems: { min: 2, max: 4 },
+  mercury: { min: 2, max: 4 },
+  dust: { min: 8, max: 12 },
+} satisfies Partial<Record<ResourceKey, { min: number; max: number }>>;
+
+export type ResourceGainKey = keyof typeof RESOURCE_GAIN_RANGES;
+
+// Sums the one-time gains for resources dropped on a single day, using each
+// resource's minimum (conservative) amount.
+export const calcResourceGain = (resources: ResourceKey[]): ResourceRecord => {
+  const gain = { ...ZERO_RESOURCES };
+
+  for (const key of resources) {
+    const range = RESOURCE_GAIN_RANGES[key as ResourceGainKey];
+    if (range) gain[key] += range.min;
+  }
+
+  return gain;
+};
+
 export const addResources = (
   a: ResourceRecord,
   b: ResourceRecord,

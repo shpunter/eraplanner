@@ -1,18 +1,17 @@
 import { useHistoryStore } from "#/features/history/history.store";
+import { RESOURCE_GAIN_RANGES } from "#/features/resourceBar/resources.utils";
 import type { ResourceKey } from "#/shared/types";
 import css from "./resource.module.css";
 
-const RESOURCES = {
-  gold: { img: "/img/resource/gold.webp", min: 400, max: 900 },
-  wood: { img: "/img/resource/wood.webp", min: 4, max: 6 },
-  ore: { img: "/img/resource/ore.webp", min: 4, max: 6 },
-  crystals: { img: "/img/resource/crystal.webp", min: 2, max: 4 },
-  gems: { img: "/img/resource/gems.webp", min: 2, max: 4 },
-  mercury: { img: "/img/resource/mercury.webp", min: 2, max: 4 },
-  dust: { img: "/img/resource/dust.webp", min: 8, max: 12 },
-} satisfies Partial<
-  Record<ResourceKey, { img: string; min: number; max: number }>
->;
+const RESOURCE_IMAGES = {
+  gold: "/img/resource/gold.webp",
+  wood: "/img/resource/wood.webp",
+  ore: "/img/resource/ore.webp",
+  crystals: "/img/resource/crystal.webp",
+  gems: "/img/resource/gems.webp",
+  mercury: "/img/resource/mercury.webp",
+  dust: "/img/resource/dust.webp",
+} satisfies Partial<Record<ResourceKey, string>>;
 
 const Resource = ({ type, onClick }: ResourceProps) => {
   const count = useHistoryStore((state) => {
@@ -32,20 +31,18 @@ const Resource = ({ type, onClick }: ResourceProps) => {
     <div onClick={onClick} className={css.container}>
       <img
         alt={type}
-        src={RESOURCES[type].img}
+        src={RESOURCE_IMAGES[type]}
         draggable={false}
         className={css.image}
       />
-      <div className={css.text}>
-        <div>
-          {count > 0 ? `+${count}` : 0}
+      {count > 0 && (
+        <div className={css.text}>
+          <div>{`+${count}`}</div>
+          <div>
+            {`+(${count * RESOURCE_GAIN_RANGES[type].min}-${count * RESOURCE_GAIN_RANGES[type].max})`}
+          </div>
         </div>
-        <div>
-          {count > 0
-            ? `+(${count * RESOURCES[type].min}-${count * RESOURCES[type].max})`
-            : 0}
-        </div>
-      </div>
+      )}
     </div>
   );
 };
@@ -57,4 +54,4 @@ type ResourceProps = {
   onClick: () => void;
 };
 
-export type ResourceType = keyof typeof RESOURCES;
+export type ResourceType = keyof typeof RESOURCE_IMAGES;
