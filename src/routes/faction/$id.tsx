@@ -1,5 +1,5 @@
 import Castle from "#/features/board/Board";
-import { createFileRoute, defer } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { castles } from "./castles.config";
 
 export const Route = createFileRoute("/faction/$id")({
@@ -9,26 +9,21 @@ export const Route = createFileRoute("/faction/$id")({
   validateSearch: (search: Record<string, unknown>): { m: MenuTab } => ({
     m: MENU_TABS.includes(search.m as MenuTab) ? (search.m as MenuTab) : "castles",
   }),
-  loader: async ({ params }) => {
-    const id = params.id as CastleID;
-
-    if (!Object.hasOwn(castles, id)) {
-      return {
-        castle: defer(fetchCastleData("hive")),
-      };
-    }
+  loader: ({ params }) => {
+    const id = Object.hasOwn(castles, params.id) ? params.id : "hive";
 
     return {
-      castle: defer(fetchCastleData(id)),
+      castle: fetchCastleData(id),
+      castleUUID: crypto.randomUUID(),
     };
   },
   component: Castle,
 });
 
-const fetchCastleData = async (id: CastleID) => {
-  await new Promise((resolve) => setTimeout(resolve, 1));
-
-  return castles[id] satisfies TCastle;
+const fetchCastleData = async (id: CastleID): Promise<TCastle> => {
+  // TODO(BE): replace with real API call, e.g. fetch(`/api/castles/${id}`)
+  await new Promise((resolve) => setTimeout(resolve, 300)); // simulate latency
+  return castles[id];
 };
 
 // Menu tab persisted in the URL search param `m`
