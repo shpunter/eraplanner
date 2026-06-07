@@ -32,7 +32,7 @@ const fetchCastleData = async (id: CastleID) => {
 };
 
 // Menu tab persisted in the URL search param `m`
-export const MENU_TABS = ["castles", "mines", "resources"] as const;
+export const MENU_TABS = ["castles", "mines", "resources", "laws"] as const;
 export type MenuTab = (typeof MENU_TABS)[number];
 
 // 1. Get the names of the castles ('hive' | 'necropolis')

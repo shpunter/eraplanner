@@ -1,0 +1,10 @@
+.laws {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.group {
+  display: flex;
+  gap: 50px;
+}

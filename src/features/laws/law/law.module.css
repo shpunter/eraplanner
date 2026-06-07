@@ -1,0 +1,72 @@
+.law {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+.law:hover .image {
+  filter: drop-shadow(0 0 4px var(--black-90));
+}
+
+.dots {
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 3px;
+  pointer-events: none;
+}
+
+.dot,
+.dotFilled {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid black;
+  box-shadow: 0 0 2px black;
+}
+
+.dot {
+  background-color: var(--black-40);
+}
+
+.dotFilled {
+  background-color: #3cdc3c;
+}
+
+.cost {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+.value {
+  color: #3cdc3c;
+  font-weight: bold;
+  font-size: 12px;
+  filter: drop-shadow(2px 0 0 black) drop-shadow(-2px 0 0 black)
+    drop-shadow(0 2px 0 black) drop-shadow(0 -2px 0 black)
+    drop-shadow(0 0 2px black);
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  filter: drop-shadow(1px 0 0 black) drop-shadow(-1px 0 0 black)
+    drop-shadow(0 1px 0 black) drop-shadow(0 -1px 0 black)
+    drop-shadow(0 0 2px black);
+}

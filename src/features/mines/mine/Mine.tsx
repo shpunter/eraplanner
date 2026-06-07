@@ -9,7 +9,7 @@ const MINE_ASSET_PATHS: Record<TMine, string> = {
   wood: "/img/mines/wood_mine.webp",
   ore: "/img/mines/ore_mine.webp",
   gem: "/img/mines/gem_mine.webp",
-  crystal: "/img/mines/crystal_mine.webp",
+  crystals: "/img/mines/crystal_mine.webp",
   mercury: "/img/mines/mercury_mine.webp",
 };
 
@@ -17,7 +17,7 @@ const MULTIPLIER_MAP = {
   gold: 1000,
   ore: 2,
   wood: 2,
-  crystal: 1,
+  crystals: 1,
   gem: 1,
   mercury: 1,
 } as const;

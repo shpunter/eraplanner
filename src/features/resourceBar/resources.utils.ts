@@ -17,7 +17,7 @@ const MINE_INCOME: Record<Mine, { key: ResourceKey; rate: number }> = {
   gold: { key: "gold", rate: 1000 },
   wood: { key: "wood", rate: 2 },
   ore: { key: "ore", rate: 2 },
-  crystal: { key: "crystals", rate: 1 },
+  crystals: { key: "crystals", rate: 1 },
   gem: { key: "gems", rate: 1 },
   mercury: { key: "mercury", rate: 1 },
 };

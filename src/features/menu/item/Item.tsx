@@ -14,6 +14,11 @@ const Item = ({ label, id }: ItemProps) => {
       return state.resources[historyIDX]?.length ?? 0;
     }
 
+    if (id === "laws") {
+      return  0;
+    }
+
+
     // castles: buildings constructed on the selected day across all castles
     return Object.values(state.history).filter(
       (entry) => entry?.built?.[historyIDX],

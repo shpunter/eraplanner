@@ -332,7 +332,7 @@ export type BuildingType = {
 
 export type CurrDay = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 export type CurrWeek = 0 | 1 | 2 | 3;
-export type Mine = "ore" | "wood" | "crystal" | "gem" | "mercury" | "gold";
+export type Mine = "ore" | "wood" | "crystals" | "gem" | "mercury" | "gold";
 
 type Action = {
   addCastle: (
