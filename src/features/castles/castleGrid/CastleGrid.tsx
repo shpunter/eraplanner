@@ -1,6 +1,9 @@
 import type { CastleID, TBuilding } from "#/routes/faction/$id";
 import { useEffect, useMemo } from "react";
-import { useHistoryStore, type BuildingsType } from "#/features/history/history.store";
+import {
+  useHistoryStore,
+  type BuildingsType,
+} from "#/features/history/history.store";
 import { initCastlePreBuilds } from "#/routes/faction/castles.config";
 import Building from "./building/Building";
 import css from "./castleGrid.module.css";

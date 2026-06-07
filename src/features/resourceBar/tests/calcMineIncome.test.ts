@@ -9,7 +9,7 @@ describe("calcMineIncome", () => {
     { mine: "gold", produces: "gold", rate: 1000 },
     { mine: "wood", produces: "wood", rate: 2 },
     { mine: "ore", produces: "ore", rate: 2 },
-    { mine: "crystal", produces: "crystals", rate: 1 },
+    { mine: "crystals", produces: "crystals", rate: 1 },
     { mine: "gem", produces: "gems", rate: 1 },
     { mine: "mercury", produces: "mercury", rate: 1 },
   ] as const satisfies ReadonlyArray<{

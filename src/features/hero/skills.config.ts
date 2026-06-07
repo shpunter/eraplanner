@@ -99,8 +99,7 @@ export const skills = {
       {
         img: "firmness.webp",
         title: "Firmness",
-        description:
-          "–15% Defense to enemy creatures.",
+        description: "–15% Defense to enemy creatures.",
       },
     ],
   },

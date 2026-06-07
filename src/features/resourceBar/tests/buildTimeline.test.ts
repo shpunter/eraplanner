@@ -44,6 +44,8 @@ const makeInput = (over: Partial<Input> = {}): Input => ({
   mines: [],
   castleMines: {},
   resources: [],
+  lawsHistory: [],
+  lawsConfig: {},
   ...over,
 });
 

@@ -17,7 +17,9 @@ const Week = ({ week }: WeekProps) => {
   });
 
   const negativeByDay = useNegativeTimeline();
-  const weekStart = useHistoryStore((state) => state.currMonth * 4 * 7 + week * 7);
+  const weekStart = useHistoryStore(
+    (state) => state.currMonth * 4 * 7 + week * 7,
+  );
   const hasNegative = negativeByDay
     .slice(weekStart, weekStart + 7)
     .some(Boolean);

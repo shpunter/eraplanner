@@ -36,11 +36,10 @@ const Law = ({ law, factionID }: { law: LawType; factionID: CastleID }) => {
     addLaw(law.id);
   };
 
+  const classNames = classnames({ [css.maxed]: isMax }, [css.law]);
+
   return (
-    <div
-      className={classnames({ [css.maxed]: isMax }, [css.law])}
-      onClick={onClick}
-    >
+    <div className={classNames} onClick={onClick}>
       <div className={css.dots}>
         {dots.map((dot) => (
           <div key={dot.id} className={dot.filled ? css.dotFilled : css.dot} />

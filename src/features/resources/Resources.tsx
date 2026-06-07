@@ -1,6 +1,6 @@
 import type { ResourceKey } from "#/shared/types";
-import { useHistoryStore } from "../history/history.store";
 import Resource from "./resource/Resource";
+import { useResourcesStore } from "./resources.store";
 import css from "./resources.module.css";
 
 const RESOURCES = [
@@ -14,10 +14,10 @@ const RESOURCES = [
 ] as const satisfies readonly ResourceKey[];
 
 const Resources = () => {
-  const addResources = useHistoryStore((state) => state.addResources);
+  const addResource = useResourcesStore((state) => state.addResource);
 
   const onClick = (resource: ResourceKey) => () => {
-    addResources(resource);
+    addResource(resource);
   };
 
   return (

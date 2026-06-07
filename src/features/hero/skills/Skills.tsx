@@ -6,7 +6,7 @@ const Skills = () => {
   return (
     <section className={css.skills}>
       {Array.from({ length: 8 }).map((_, i) => {
-        const key = `key-${i}`; 
+        const key = `key-${i}`;
 
         return <CellSkill key={key} idx={i as IDX} />;
       })}

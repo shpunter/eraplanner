@@ -30,7 +30,7 @@ const CastleBoard = () => {
               />
             )}
           </Await>
-        </Suspense>        
+        </Suspense>
       </div>
     </section>
   );

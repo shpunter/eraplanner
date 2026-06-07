@@ -1,6 +1,7 @@
-import type { ResourceRecord } from "#/shared/types";
+import type { ResourceKey, ResourceRecord } from "#/shared/types";
 import { RESOURCE_KEYS } from "#/shared/constants";
-import type { useHistoryStore } from "../history/history.store";
+import type { Mine, useHistoryStore } from "../history/history.store";
+import type { LawID, LawType } from "../laws/laws.config";
 import {
   addResources,
   calcCastleMineIncome,
@@ -19,22 +20,48 @@ const toRecord = (partial: Partial<ResourceRecord>): ResourceRecord => ({
   ...partial,
 });
 
+// Income from the laws enacted on a single day, split by how it pays out:
+// "once" is a one-off gain (same day), "daily" is a recurring rate (next day).
+const lawIncomeForDay = (
+  lawIDs: LawID[],
+  config: Record<LawID, LawType>,
+): { once: ResourceRecord; daily: ResourceRecord } => {
+  const once = { ...ZERO_RESOURCES };
+  const daily = { ...ZERO_RESOURCES };
+
+  for (const id of lawIDs) {
+    const law = config[id];
+    if (!law || !("income" in law) || !law.income) continue;
+
+    const bucket = law.incomeType === "once" ? once : daily;
+
+    for (const [key, amount] of Object.entries(law.income)) {
+      bucket[key as ResourceKey] += amount;
+    }
+  }
+
+  return { once, daily };
+};
+
 /**
  * Walks the whole calendar once, recording a per-day snapshot of available
  * resources, income rate and negativity. Single source of truth for both the
  * resource bar (current day) and the day/week/month overspend flags (every
- * day). Each producer starts the day after it appears (build today → income
- * tomorrow): built buildings (`cost` then `produces`), the chosen output of a
- * built id11/id21 (castle mines), tile mines placed that day, and a castle's
- * free pre-builds from its found day.
+ * day). Every recurring producer pays out the day after it appears (build
+ * today → income tomorrow): built buildings (`cost` then `produces`), the
+ * chosen output of a built id11/id21 (castle mines), tile mines, a castle's
+ * free pre-builds (from its found day) and "daily" laws. One-off gains land the
+ * same day: dropped resource piles and "once" laws.
  */
 export const buildTimeline = ({
   iniRes,
   history,
   castles,
-  mines,
   castleMines,
+  mines,
   resources,
+  lawsHistory,
+  lawsConfig,
 }: TimelineInput): DaySnapshot[] => {
   const days: DaySnapshot[] = new Array(TOTAL_DAYS);
 
@@ -63,14 +90,17 @@ export const buildTimeline = ({
   let incomePerDay: ResourceRecord = ZERO_RESOURCES;
 
   for (let day = 0; day < TOTAL_DAYS; day++) {
+    const law = lawIncomeForDay(lawsHistory?.[day] ?? [], lawsConfig);
+
     // income produced by everything that appeared on earlier days
     available = addResources(available, incomePerDay);
 
-    // one-time resource piles dropped today are available the same day
+    // one-time gains land the same day: resource piles and "once" laws
     available = addResources(
       available,
       calcResourceGain(resources?.[day] ?? []),
     );
+    available = addResources(available, law.once);
 
     // pre-builds found today start producing from the next day
     const preIncome = preIncomeByFoundDay.get(day);
@@ -96,11 +126,12 @@ export const buildTimeline = ({
       );
     }
 
-    // tile mines placed today start producing from the next day
+    // tile mines and "daily" laws placed today start producing from the next day
     incomePerDay = addResources(
       incomePerDay,
       calcMineIncome(mines?.[day] ?? []),
     );
+    incomePerDay = addResources(incomePerDay, law.daily);
 
     days[day] = {
       available,
@@ -113,24 +144,41 @@ export const buildTimeline = ({
 };
 
 // Single-slot memo so the bar and all calendar cells share one computation;
-// the store is a singleton, so identical input refs ⇒ a cache hit for everyone.
+// the stores are singletons, so identical input refs ⇒ a cache hit for everyone.
 let cache: { keys: unknown[]; value: Timeline } | null = null;
 
-export const selectTimeline = (state: State): Timeline => {
+export const selectTimeline = (
+  state: State,
+  mines: Mine[][],
+  resources: ResourceKey[][],
+  lawsHistory: LawID[][],
+  lawsConfig: Record<LawID, LawType>,
+): Timeline => {
   const keys = [
     state.iniRes,
     state.history,
     state.castles,
-    state.mines,
     state.castleMines,
-    state.resources,
+    mines,
+    resources,
+    lawsHistory,
+    lawsConfig,
   ];
 
   if (cache && keys.every((key, i) => key === cache?.keys[i])) {
     return cache.value;
   }
 
-  const days = buildTimeline(state);
+  const days = buildTimeline({
+    iniRes: state.iniRes,
+    history: state.history,
+    castles: state.castles,
+    castleMines: state.castleMines,
+    mines,
+    resources,
+    lawsHistory,
+    lawsConfig,
+  });
   const value: Timeline = {
     days,
     negativeByDay: days.map((d) => d.isNegative),
@@ -158,5 +206,10 @@ export type DaySnapshot = {
 type State = ReturnType<typeof useHistoryStore.getState>;
 type TimelineInput = Pick<
   State,
-  "iniRes" | "history" | "castles" | "mines" | "castleMines" | "resources"
->;
+  "iniRes" | "history" | "castles" | "castleMines"
+> & {
+  mines: Mine[][];
+  resources: ResourceKey[][];
+  lawsHistory: LawID[][];
+  lawsConfig: Record<LawID, LawType>;
+};

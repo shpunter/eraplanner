@@ -1,5 +1,8 @@
 import type { ResourceRecord } from "#/shared/types";
 import { useHistoryStore } from "../history/history.store";
+import { useLawsStore } from "../laws/laws.store";
+import { useMinesStore } from "../mines/mines.store";
+import { useResourcesStore } from "../resources/resources.store";
 import { selectTimeline, TOTAL_DAYS } from "./timeline.utils";
 
 /**
@@ -11,7 +14,15 @@ export const useResources = (): {
   available: ResourceRecord;
   incomePerDay: ResourceRecord;
 } => {
-  const days = useHistoryStore((state) => selectTimeline(state).days);
+  const mines = useMinesStore((state) => state.history);
+  const resources = useResourcesStore((state) => state.history);
+  const lawsHistory = useLawsStore((state) => state.history);
+  const lawsConfig = useLawsStore((state) => state.config);
+
+  const days = useHistoryStore(
+    (state) =>
+      selectTimeline(state, mines, resources, lawsHistory, lawsConfig).days,
+  );
   const historyIDX = useHistoryStore((state) => state.historyIDX);
 
   const { available, incomePerDay } =

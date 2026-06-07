@@ -1,5 +1,4 @@
 import type { BuildingID, CastleID } from "#/routes/faction/$id";
-import type { ResourceKey } from "#/shared/types";
 import { create } from "zustand";
 
 const initResources = {
@@ -38,8 +37,6 @@ export const useHistoryStore = create<Store & Action>((set) => {
       law: initResources.law[initDifficulty],
       astrology: initResources.astrology[initDifficulty],
     },
-    mines: [],
-    resources: [],
     castleMines: {},
 
     addCastle: (castleUUID, castleID, castle, preBuilds) => {
@@ -106,38 +103,6 @@ export const useHistoryStore = create<Store & Action>((set) => {
               disabled: state.history[currCastleUUID]?.disabled ?? [],
             },
           },
-        };
-      });
-    },
-
-    addMine: (newMine) => {
-      set((state) => {
-        const mines = structuredClone(state.mines);
-
-        mines[state.historyIDX] = [
-          ...(mines?.[state.historyIDX] ?? []),
-          newMine,
-        ];
-
-        return {
-          ...state,
-          mines,
-        };
-      });
-    },
-
-    addResources: (newResource) => {
-      set((state) => {
-        const resources = structuredClone(state.resources);
-
-        resources[state.historyIDX] = [
-          ...(resources?.[state.historyIDX] ?? []),
-          newResource,
-        ];
-
-        return {
-          ...state,
-          resources,
         };
       });
     },
@@ -289,8 +254,6 @@ type Store = {
     law: number;
     astrology: number;
   };
-  mines: Mine[][];
-  resources: ResourceKey[][];
   castleMines: {
     [castleUUID: string]: {
       [buildingID in "id11" | "id21"]?: {
@@ -348,8 +311,6 @@ type Action = {
     amount: number,
   ) => void;
 
-  addResources: (newResource: ResourceKey) => void;
-
   setDay: (day: CurrDay) => void;
   setWeek: (week: CurrWeek) => void;
   setMonth: (month: number) => void;
@@ -360,5 +321,4 @@ type Action = {
 
   addBuilding: (buildingID: BuildingID) => void;
   removeBuildings: (buildingIDs: BuildingID[]) => void;
-  addMine: (mine: Mine) => void;
 };

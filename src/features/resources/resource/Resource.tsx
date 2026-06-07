@@ -1,4 +1,5 @@
 import { useHistoryStore } from "#/features/history/history.store";
+import { useResourcesStore } from "#/features/resources/resources.store";
 import { RESOURCE_GAIN_RANGES } from "#/features/resourceBar/resources.utils";
 import type { ResourceKey } from "#/shared/types";
 import css from "./resource.module.css";
@@ -14,8 +15,9 @@ const RESOURCE_IMAGES = {
 } satisfies Partial<Record<ResourceKey, string>>;
 
 const Resource = ({ type, onClick }: ResourceProps) => {
-  const count = useHistoryStore((state) => {
-    const list = state.resources[state.historyIDX] ?? [];
+  const historyIDX = useHistoryStore((state) => state.historyIDX);
+  const count = useResourcesStore((state) => {
+    const list = state.history[historyIDX] ?? [];
     let total = 0;
 
     for (let i = 0; i < list.length; i++) {

@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useHistoryStore } from "#/features/history/history.store";
-import { castles, secondaryCastlePreBuilds } from "#/routes/faction/castles.config";
+import {
+  castles,
+  secondaryCastlePreBuilds,
+} from "#/routes/faction/castles.config";
 import type { CastleID } from "#/routes/faction/$id";
 import Button from "#/components/button/Button";
 import Dropdown from "#/components/dropdown/Dropdown";
