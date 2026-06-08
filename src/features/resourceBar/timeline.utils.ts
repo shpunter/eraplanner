@@ -24,7 +24,7 @@ const toRecord = (partial: Partial<ResourceRecord>): ResourceRecord => ({
 // "once" is a one-off gain (same day), "daily" is a recurring rate (next day).
 const lawIncomeForDay = (
   lawIDs: LawID[],
-  config: Record<LawID, LawType>,
+  config: Partial<Record<LawID, LawType>>,
 ): { once: ResourceRecord; daily: ResourceRecord } => {
   const once = { ...ZERO_RESOURCES };
   const daily = { ...ZERO_RESOURCES };
@@ -152,7 +152,7 @@ export const selectTimeline = (
   mines: Mine[][],
   resources: ResourceKey[][],
   lawsHistory: LawID[][],
-  lawsConfig: Record<LawID, LawType>,
+  lawsConfig: Partial<Record<LawID, LawType>>,
 ): Timeline => {
   const keys = [
     state.iniRes,
@@ -211,5 +211,5 @@ type TimelineInput = Pick<
   mines: Mine[][];
   resources: ResourceKey[][];
   lawsHistory: LawID[][];
-  lawsConfig: Record<LawID, LawType>;
+  lawsConfig: Partial<Record<LawID, LawType>>;
 };

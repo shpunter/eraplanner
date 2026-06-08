@@ -10,16 +10,7 @@ export const useLawsStore = create<Store & Action>((set) => ({
   mine: [],
 
   setConfig: (config) => {
-    set((state) => {
-      return {
-        ...state,
-        config: config.flat().reduce<Record<LawID, LawType>>((acc, law) => {
-          acc[law.id] = law;
-
-          return acc;
-        }, {}),
-      };
-    });
+    set((state) => ({ ...state, config }));
   },
 
   addLaw: (lawID) => {
@@ -60,7 +51,8 @@ type Store = {
   mine: { resID: ResourceKey; amount: number }[];
 
   // The current faction's laws, keyed by law id, set on init via setConfig.
-  config: Record<LawID, LawType>;
+  // Empty until the Laws panel mounts; lookups guard for missing ids.
+  config: Partial<Record<LawID, LawType>>;
   // Law upgrades recorded per timeline day (index = historyIDX), mirroring the
   // built-buildings timeline in useHistoryStore. Each entry is one upgrade of
   // that law, so a law's level on a given day is how many times it appears up

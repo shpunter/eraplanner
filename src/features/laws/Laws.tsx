@@ -1,7 +1,7 @@
 import { Route } from "#/routes/faction/$id";
 import { useEffect } from "react";
 import Law from "./law/Law";
-import { LAWS } from "./laws.config";
+import { LAW_LAYOUT, LAWS } from "./laws.config";
 import { useLawsStore } from "./laws.store";
 import css from "./laws.module.css";
 
@@ -9,18 +9,21 @@ const Laws = () => {
   const { id } = Route.useParams();
   const setConfig = useLawsStore((state) => state.setConfig);
 
-  const groups = LAWS[id as keyof typeof LAWS] ?? [];
+  const laws = LAWS[id as keyof typeof LAWS];
+  const layout = LAW_LAYOUT[id as keyof typeof LAW_LAYOUT] ?? [];
 
   useEffect(() => {
-    setConfig(groups);
-  }, [groups, setConfig]);
+    if (laws) setConfig(laws);
+  }, [laws, setConfig]);
+
+  if (!laws) return null;
 
   return (
     <div className={css.laws}>
-      {groups.map((group) => (
-        <div key={group.map((law) => law.img).join()} className={css.group}>
-          {group.map((law) => (
-            <Law key={law.img} law={law} factionID={id} />
+      {layout.map((group) => (
+        <div key={group.join()} className={css.group}>
+          {group.map((lawID) => (
+            <Law key={lawID} law={laws[lawID]} factionID={id} />
           ))}
         </div>
       ))}
