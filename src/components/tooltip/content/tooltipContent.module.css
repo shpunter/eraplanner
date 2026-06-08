@@ -5,7 +5,9 @@
   background-color: var(--dark-blue-30);
   border: 1px solid var(--black-40);
   border-radius: 5px;
-  box-shadow: 0 2px 8px var(--shadow-50);
+  box-shadow:
+    0 2px 8px var(--shadow-50),
+    0 0 6px var(--highlight-25);
   color: var(--text-main);
   font-size: 12px;
 

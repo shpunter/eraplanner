@@ -61,15 +61,17 @@ const Law = ({ law, factionID }: { law: LawType; factionID: CastleID }) => {
           alt=""
           draggable={false}
         />
-        <div className={css.cost}>
-          <img
-            className={css.icon}
-            src="/img/resource/law.png"
-            alt="law"
-            draggable={false}
-          />
-          <span className={css.value}>{law.cost}</span>
-        </div>
+        {lawLvl < law.max && (
+          <div className={css.cost}>
+            <img
+              className={css.icon}
+              src="/img/resource/law.png"
+              alt="law"
+              draggable={false}
+            />
+            <span className={css.value}>{law.cost}</span>
+          </div>
+        )}
       </Tooltip.Trigger>
       <Tooltip.Content className={css.tooltip}>
         <LawTooltip law={law} lawLvl={lawLvl} />

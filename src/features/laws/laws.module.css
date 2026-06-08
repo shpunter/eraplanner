@@ -2,6 +2,13 @@
   display: flex;
   flex-direction: column;
   gap: 30px;
+  height: 100%;
+
+  background-image: url("/img/law-scroll.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  /* contain keeps the whole scroll visible at any size — cover would crop it */
+  background-size: contain;
 }
 
 .group {
