@@ -14,7 +14,9 @@ const TooltipContent = ({
     <div
       className={`${styles.content} ${className ?? ""}`.trim()}
       ref={popoverRef}
-      popover="auto"
+      // manual, not auto: hover fully drives show/hide, so an "auto" popover's
+      // light-dismiss would close it on the click that lands on the trigger
+      popover="manual"
       style={{ ...style, positionAnchor: anchorName } as AnchorStyle}
       {...props}
     >

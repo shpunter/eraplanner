@@ -10,43 +10,26 @@
   font-size: 12px;
 
   /* position-anchor is set per-instance inline; anchor() targets it.
-   * default placement: above the trigger, left-aligned */
+   * default placement: above the trigger, horizontally centered on it.
+   * justify-self: anchor-center centers the box over the anchor (and, unlike a
+   * translate, it's allowed inside @position-try so it survives the flip). */
   position: absolute;
-  top: auto;
-  right: auto;
-  bottom: anchor(top);
-  left: anchor(left);
-
-  position-try-fallbacks:
-    --top-left, --bottom-left, --top-right, --bottom-right;
-}
-
-/* each fallback sets two sides and clears the other two (longhands only, so the
- * base placement is fully overridden) */
-@position-try --top-left {
-  top: auto;
-  right: auto;
-  bottom: anchor(top);
-  left: anchor(left);
-}
-
-@position-try --bottom-left {
-  bottom: auto;
-  right: auto;
-  top: anchor(bottom);
-  left: anchor(left);
-}
-
-@position-try --top-right {
+  /* reset the UA popover inset:0 (else top:0 pins it to the top of the screen),
+   * then anchor only the bottom edge */
   top: auto;
   left: auto;
+  right: auto;
   bottom: anchor(top);
-  right: anchor(right);
+  justify-self: anchor-center;
+  margin-block-end: 6px;
+
+  position-try-fallbacks: --below;
 }
 
-@position-try --bottom-right {
-  bottom: auto;
-  left: auto;
+/* no room above -> flip below, still centered (justify-self carries over) */
+@position-try --below {
   top: anchor(bottom);
-  right: anchor(right);
+  bottom: auto;
+  margin-block-start: 6px;
+  margin-block-end: 0;
 }

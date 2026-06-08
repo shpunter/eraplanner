@@ -5,10 +5,7 @@ import { useHistoryStore } from "../../history/history.store";
 import type { LawType } from "../laws.config";
 import { useLawsStore } from "../laws.store";
 import css from "./law.module.css";
-
-// description signatures vary per law (some read lvl, some sight, some neither);
-// they all ignore the extra fields at runtime, so call them with a full context
-type LawCtx = { lvl: number; sight: number };
+import LawTooltip from "./LawTooltip";
 
 const Law = ({ law, factionID }: { law: LawType; factionID: CastleID }) => {
   const addLaw = useLawsStore((state) => state.addLaw);
@@ -43,16 +40,6 @@ const Law = ({ law, factionID }: { law: LawType; factionID: CastleID }) => {
 
   const classNames = classnames({ [css.maxed]: isMax }, [css.law]);
 
-  const descNext = (law.description as (ctx: LawCtx) => string)({
-    lvl: lawLvl + 1,
-    sight: 1,
-  });
-
-  const descCurr = (law.description as (ctx: LawCtx) => string)({
-    lvl: lawLvl,
-    sight: 1,
-  });
-
   return (
     <Tooltip>
       <Tooltip.Trigger
@@ -85,14 +72,7 @@ const Law = ({ law, factionID }: { law: LawType; factionID: CastleID }) => {
         </div>
       </Tooltip.Trigger>
       <Tooltip.Content className={css.tooltip}>
-        <strong className={css.tooltipTitle}>{law.title}</strong>
-        {lawLvl > 0 && lawLvl < law.max ? (
-          <>
-            <p className={css.tooltipBody}>{descCurr}</p>
-            <p>After improvement</p>
-          </>
-        ) : null}
-        <p className={css.tooltipBody}>{descNext}</p>
+        <LawTooltip law={law} lawLvl={lawLvl} />
       </Tooltip.Content>
     </Tooltip>
   );

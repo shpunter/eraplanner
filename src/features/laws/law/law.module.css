@@ -69,6 +69,15 @@
 /* law info is read-only, so let clicks pass through to the tiles underneath */
 .tooltip {
   pointer-events: none;
+  max-width: 350px;
+  line-height: 18px;
+  letter-spacing: 0.5px;
+
+  padding: 12px 18px;
+}
+
+.tooltip .afterImprovement {
+  text-align: center;
 }
 
 .tooltipTitle {
@@ -76,12 +85,17 @@
   margin-bottom: 4px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: var(--text-dim);
+  color: var(--yellow-70);
+}
+
+.currentLVL {
+  color: var(--black-90);
 }
 
 .tooltipBody {
   margin: 0;
   line-height: 1.4;
+  color: var(--text-dim);
 }
 
 .icon {
@@ -91,4 +105,10 @@
   filter: drop-shadow(1px 0 0 black) drop-shadow(-1px 0 0 black)
     drop-shadow(0 1px 0 black) drop-shadow(0 -1px 0 black)
     drop-shadow(0 0 2px black);
+}
+
+.nextLabel {
+  color: var(--yellow-70);
+  margin: 14px 0;
+  text-align: center;
 }
