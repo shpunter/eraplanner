@@ -6,7 +6,7 @@ const Item = ({ label, id }: ItemProps) => {
   const count = useDayChangeCount(id);
 
   return (
-    <div className={css.item}>
+    <div className={css.item} data-testid={`tab-${id}`}>
       <span>{label}</span>
       {count > 0 && <div className={css.badge}>{count}</div>}
     </div>

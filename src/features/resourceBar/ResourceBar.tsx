@@ -55,8 +55,12 @@ const ResourceBar = () => {
             <div key={key} className={css.item}>
               <img className={css.icon} src={icon} alt={key} />
               <div className={css.resource}>
-                <div className={className}>{available[key]}</div>
-                <div className={css.income}>+{incomePerDay[key]}</div>
+                <div className={className} data-testid={`available-${key}`}>
+                  {available[key]}
+                </div>
+                <div className={css.income} data-testid={`income-${key}`}>
+                  +{incomePerDay[key]}
+                </div>
               </div>
             </div>
           );

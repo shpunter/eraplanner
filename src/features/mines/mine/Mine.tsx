@@ -37,7 +37,11 @@ const Mine = ({ type, onClick }: { type: TMine; onClick: () => void }) => {
   });
 
   return (
-    <div onClick={onClick} className={css.container}>
+    <div
+      onClick={onClick}
+      className={css.container}
+      data-testid={`mine-${type}`}
+    >
       <img
         alt={type}
         src={MINE_ASSET_PATHS[type]}

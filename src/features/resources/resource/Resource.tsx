@@ -30,7 +30,11 @@ const Resource = ({ type, onClick }: ResourceProps) => {
   });
 
   return (
-    <div onClick={onClick} className={css.container}>
+    <div
+      onClick={onClick}
+      className={css.container}
+      data-testid={`resource-${type}`}
+    >
       <img
         alt={type}
         src={RESOURCE_IMAGES[type]}
