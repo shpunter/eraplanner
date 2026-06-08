@@ -1,0 +1,52 @@
+.content {
+  margin: 0;
+  padding: 6px 10px;
+
+  background-color: var(--dark-blue-30);
+  border: 1px solid var(--black-40);
+  border-radius: 5px;
+  box-shadow: 0 2px 8px var(--shadow-50);
+  color: var(--text-main);
+  font-size: 12px;
+
+  /* position-anchor is set per-instance inline; anchor() targets it.
+   * default placement: above the trigger, left-aligned */
+  position: absolute;
+  top: auto;
+  right: auto;
+  bottom: anchor(top);
+  left: anchor(left);
+
+  position-try-fallbacks:
+    --top-left, --bottom-left, --top-right, --bottom-right;
+}
+
+/* each fallback sets two sides and clears the other two (longhands only, so the
+ * base placement is fully overridden) */
+@position-try --top-left {
+  top: auto;
+  right: auto;
+  bottom: anchor(top);
+  left: anchor(left);
+}
+
+@position-try --bottom-left {
+  bottom: auto;
+  right: auto;
+  top: anchor(bottom);
+  left: anchor(left);
+}
+
+@position-try --top-right {
+  top: auto;
+  left: auto;
+  bottom: anchor(top);
+  right: anchor(right);
+}
+
+@position-try --bottom-right {
+  bottom: auto;
+  left: auto;
+  top: anchor(bottom);
+  right: anchor(right);
+}

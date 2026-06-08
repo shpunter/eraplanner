@@ -66,6 +66,24 @@
     drop-shadow(0 0 2px black);
 }
 
+/* law info is read-only, so let clicks pass through to the tiles underneath */
+.tooltip {
+  pointer-events: none;
+}
+
+.tooltipTitle {
+  display: block;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-dim);
+}
+
+.tooltipBody {
+  margin: 0;
+  line-height: 1.4;
+}
+
 .icon {
   width: 18px;
   height: 18px;

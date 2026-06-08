@@ -21,6 +21,9 @@ export const LAWS = {
         wood: 5,
         ore: 5,
       },
+      title: "Resource Riches I",
+      description: () =>
+        "Provides a one-time allotment of 2500 Gold, 5 Wood, and 5 Ore when enacted.",
     },
     l010: {
       id: "l010",
@@ -28,6 +31,9 @@ export const LAWS = {
       max: 2,
       img: "010.webp",
       incomeType: "none",
+      title: "Laws of the Hive",
+      description: ({ lvl }: LVL) =>
+        `Requirements for unlocking higher-level Laws are reduced by ${Math.min(4, (lvl) * 2)}.`,
     },
     l020: {
       id: "l020",
@@ -35,6 +41,9 @@ export const LAWS = {
       max: 3,
       img: "020.webp",
       incomeType: "none",
+      title: "Mana Devour",
+      description: ({ lvl }: LVL) =>
+        `Your heroes' spells const  -${Math.min(3, lvl)} mana`,
     },
     l030: {
       id: "l030",
@@ -42,6 +51,8 @@ export const LAWS = {
       max: 1,
       img: "030.webp",
       incomeType: "none",
+      title: "Focus Reserves",
+      description: () => "Start each battle with +1 Focus Charge(s).",
     },
     l100: {
       id: "l100",
@@ -52,6 +63,9 @@ export const LAWS = {
       income: {
         gold: 250,
       },
+      title: "Tax Collectors",
+      description: ({ lvl }: LVL) =>
+        `Produces ${Math.min(750, (lvl) * 250)} Gold daily.`,
     },
     l110: {
       id: "l110",
@@ -62,6 +76,9 @@ export const LAWS = {
       income: {
         crystals: 1,
       },
+      title: "Mining: Crystals",
+      description: ({ lvl }: LVL) =>
+        `Produces ${Math.min(2, lvl)} Crystal(s) daily.`,
     },
     l120: {
       id: "l120",
@@ -69,6 +86,9 @@ export const LAWS = {
       max: 1,
       img: "120.webp",
       incomeType: "none",
+      title: "Hidden Desires",
+      description: ({ sight }: Sight) =>
+        `Your Hive heroes see exact information about neutral squads within ${3 * sight} squares.`,
     },
     l200: {
       id: "l200",
@@ -81,6 +101,9 @@ export const LAWS = {
         wood: 10,
         ore: 10,
       },
+      title: "Resource Riches II",
+      description: () =>
+        "Provides a one-time allotment of 5000 Gold, 10 Wood, and 10 Ore when enacted.",
     },
     l210: {
       id: "l210",
@@ -88,6 +111,9 @@ export const LAWS = {
       max: 1,
       img: "210.webp",
       incomeType: "none",
+      title: "Natural Selection",
+      description: () =>
+        "External dwellings in an area that you control produce upgraded creatures.",
     },
     l220: {
       id: "l220",
@@ -95,6 +121,8 @@ export const LAWS = {
       max: 1,
       img: "220.webp",
       incomeType: "none",
+      title: "Ancient Power",
+      description: () => "Primal spells of your heroes gain 1 level(s).",
     },
     l300: {
       id: "l300",
@@ -102,6 +130,9 @@ export const LAWS = {
       max: 2,
       img: "300.webp",
       incomeType: "none",
+      title: "Prosper and Flourish",
+      description: ({ lvl }: LVL) =>
+        `External dwellings increase respective creature growth in the cities by ${Math.min(100, (lvl) * 50)}.`,
     },
     l310: {
       id: "l310",
@@ -109,6 +140,9 @@ export const LAWS = {
       max: 1,
       img: "310.webp",
       incomeType: "none",
+      title: "Beelzebub's Gaze",
+      description: ({ sight }: Sight) =>
+        `Your Hive heroes see exact information about enemy heroes and cities within ${3 * sight} squares.`,
     },
     l400: {
       id: "l400",
@@ -116,6 +150,9 @@ export const LAWS = {
       max: 2,
       img: "400.webp",
       incomeType: "none",
+      title: "Evolve, Adapt, Overcome",
+      description: ({ lvl }: LVL) =>
+        `Upgrading your Hive creatures costs –${Math.min(20, (lvl) * 10)}% Gold. Recruiting upgraded creatures is discounted by the same amount.`,
     },
     l410: {
       id: "l410",
@@ -128,6 +165,9 @@ export const LAWS = {
         wood: 15,
         ore: 15,
       },
+      title: "Resource Riches III",
+      description: () =>
+        "Provides a one-time allotment of 7500 Gold, 15 Wood, and 15 Ore when enacted.",
     },
     l420: {
       id: "l420",
@@ -135,6 +175,9 @@ export const LAWS = {
       max: 3,
       img: "420.webp",
       incomeType: "none",
+      title: "Hive Magic",
+      description: ({ lvl }: LVL) =>
+        `Your heroes deal +${Math.min(30, (lvl) * 10)}% Magic Damage.`,
     },
   },
 } as const;
@@ -150,3 +193,6 @@ export const LAW_LAYOUT: Record<keyof typeof LAWS, LawID[][]> = {
     ["l400", "l410", "l420"],
   ],
 };
+
+type LVL = { lvl: number };
+type Sight = { sight: number };
