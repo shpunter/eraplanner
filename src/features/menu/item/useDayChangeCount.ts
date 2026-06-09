@@ -3,9 +3,9 @@ import { useLawsStore } from "#/features/laws/laws.store";
 import { useMinesStore } from "#/features/mines/mines.store";
 import { useResourcesStore } from "#/features/resources/resources.store";
 import type { MenuTab } from "#/routes/faction/$id";
+import { state$ } from "#/shared/microBus";
+import { useObservable } from "#/shared/useObservable";
 
-// Number of changes made on the currently selected day for a given menu tab,
-// shown as the tab's badge. Each feature owns its own per-day history store.
 export const useDayChangeCount = (id: MenuTab): number => {
   const historyIDX = useHistoryStore((state) => state.historyIDX);
 
@@ -26,10 +26,15 @@ export const useDayChangeCount = (id: MenuTab): number => {
         .length,
   );
 
+  // law changes on the selected day, published by the micro remote over the bus
+  const { laws } = useObservable(state$, state$.getValue());
+  const microCount = laws.history[historyIDX]?.length ?? 0;
+
   if (id === "mines") return minesCount;
   if (id === "resources") return resourcesCount;
   if (id === "laws") return lawsCount;
   if (id === "castles") return castlesCount;
+  if (id === "micro") return microCount;
 
   return 0;
 };

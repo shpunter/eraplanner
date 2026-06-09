@@ -14,7 +14,6 @@
   background: transparent;
   border: none;
   border-radius: 6px;
-  /* side-menu active indicator lives on the left edge */
   border-left: 2px solid transparent;
   padding: 10px 16px;
   cursor: pointer;
@@ -25,7 +24,6 @@
     background-image 0.18s ease-in-out;
 }
 
-/* lays out complex item content (icon + label + badge, …) */
 .content {
   display: flex;
   align-items: center;

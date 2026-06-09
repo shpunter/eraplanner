@@ -1,26 +1,13 @@
-import { ClientOnly } from "@tanstack/react-router";
-import { Component, type ReactNode, Suspense, lazy } from "react";
+import { CatchBoundary, ClientOnly } from "@tanstack/react-router";
+import { Suspense, lazy, useEffect } from "react";
+import { useHistoryStore } from "#/features/history/history.store";
+import { patchState } from "#/shared/microBus";
 import css from "./micro.module.css";
 
 // Federated remote, loaded at runtime from the URL configured via
 // VITE_MICRO_REMOTE_ENTRY (see vite.config.ts). Until a remote is deployed and
 // that env var is set, loading fails and the error boundary renders a fallback.
 const RemoteApp = lazy(() => import("micro/App"));
-
-class RemoteBoundary extends Component<
-  { fallback: ReactNode; children: ReactNode },
-  { failed: boolean }
-> {
-  state = { failed: false };
-
-  static getDerivedStateFromError() {
-    return { failed: true };
-  }
-
-  render() {
-    return this.state.failed ? this.props.fallback : this.props.children;
-  }
-}
 
 const Loading = () => <div className={css.status}>Loading microfrontend…</div>;
 
@@ -35,14 +22,24 @@ const NotConfigured = () => (
 );
 
 const Micro = () => {
+  const historyIDX = useHistoryStore((state) => state.historyIDX);
+
+  // Publish the host's current timeline day to the remote whenever it changes.
+  useEffect(() => {
+    patchState({ historyIDX });
+  }, [historyIDX]);
+
   return (
     <section className={css.micro}>
       <ClientOnly fallback={<Loading />}>
-        <RemoteBoundary fallback={<NotConfigured />}>
+        <CatchBoundary
+          getResetKey={() => "micro"}
+          errorComponent={NotConfigured}
+        >
           <Suspense fallback={<Loading />}>
             <RemoteApp />
           </Suspense>
-        </RemoteBoundary>
+        </CatchBoundary>
       </ClientOnly>
     </section>
   );

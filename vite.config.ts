@@ -17,6 +17,12 @@ const config = defineConfig(({ mode }) => {
 
   return {
     resolve: { tsconfigPaths: true },
+    // rxjs is shared/handled by Module Federation. Keep it out of Vite's dep
+    // optimizer so it isn't discovered late and trigger a mid-session SSR
+    // re-optimize+reload, which re-bundles React and splits it into two server
+    // instances (null dispatcher -> "Cannot read properties of null").
+    optimizeDeps: { exclude: ['rxjs'] },
+    ssr: { optimizeDeps: { exclude: ['rxjs'] } },
     plugins: [
       federation({
         name: 'host',
@@ -35,6 +41,10 @@ const config = defineConfig(({ mode }) => {
         shared: {
           react: { singleton: true },
           'react-dom': { singleton: true },
+          // Singleton so host and remote share one RxJS instance; the bus
+          // module itself is loaded once from the host, so its Subjects are a
+          // single shared instance across both apps.
+          rxjs: { singleton: true },
         },
       }),
       devtools(),

@@ -8,13 +8,12 @@
   line-height: 18px;
 }
 
-/* count of changes for the selected day */
 .badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 18px;
-  height: 18px;
+  min-width: 17px;
+  height: 17px;
   padding: 0 5px;
 
   font-size: 11px;
