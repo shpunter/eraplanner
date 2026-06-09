@@ -17,7 +17,6 @@ const Laws = () => {
   }, [laws, setConfig]);
 
   if (!laws) return null;
-
   return (
     <div className={css.laws}>
       <div className={css.scroll}>
