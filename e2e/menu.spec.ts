@@ -12,7 +12,7 @@ const building = (page: Page, id: string) => page.locator(`#${id}`);
 const castlesPanel = (page: Page) => building(page, "id20");
 const minesPanel = (page: Page) => page.getByTestId("mine-gold");
 const resourcesPanel = (page: Page) => page.getByTestId("resource-gold");
-const lawsPanel = (page: Page) => page.getByTestId("law-l000");
+const lawsPanel = (page: Page) => page.getByTestId("law-l000").first();
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/faction/hive");

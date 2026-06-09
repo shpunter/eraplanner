@@ -159,13 +159,14 @@ test("a 'once' law lands today and a 'daily' law raises income", async ({
 }) => {
   await tab(page, "laws").click();
 
-  // l000 is a one-off: gold 2500 / wood 5 / ore 5, granted the same day
-  await page.getByTestId("law-l000").click();
+  // l000 is a one-off: gold 2500 / wood 5 / ore 5, granted the same day.
+  // .first() because the tree is mirrored onto both halves of the scroll.
+  await page.getByTestId("law-l000").first().click();
   await expectAvailable(page, { gold: 12500, wood: 15, ore: 15 });
   await expectIncome(page, { gold: 500 });
 
   // l100 is "daily": +250 gold/day, so the income rate goes 500 -> 750
-  await page.getByTestId("law-l100").click();
+  await page.getByTestId("law-l100").first().click();
   await expectIncome(page, { gold: 750 });
 
   // next day the once-gain stays banked and the daily rate accrues
@@ -229,7 +230,7 @@ test("mixed: building + castle mine + tile mine + pile + daily law on D1", async
   await page.getByTestId("mine-gold").click(); // +1000 gold/day
 
   await tab(page, "laws").click();
-  await page.getByTestId("law-l100").click(); // +250 gold/day (daily)
+  await page.getByTestId("law-l100").first().click(); // +250 gold/day (daily)
 
   await tab(page, "castles").click();
   await building(page, "id11").click(); // -cost, +250/250/250 income

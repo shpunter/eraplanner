@@ -20,13 +20,26 @@ const Laws = () => {
 
   return (
     <div className={css.laws}>
-      {layout.map((group) => (
-        <div key={group.join()} className={css.group}>
-          {group.map((lawID) => (
-            <Law key={lawID} law={laws[lawID]} factionID={id} />
+      <div className={css.scroll}>
+        <div className={`${css.side} ${css.left}`}>
+          {layout.left.map((group) => (
+            <div key={group.join()} className={css.group}>
+              {group.map((lawID) => (
+                <Law key={lawID} law={laws[lawID]} factionID={id} />
+              ))}
+            </div>
           ))}
         </div>
-      ))}
+        <div className={`${css.side} ${css.right}`}>
+          {layout.right.map((group) => (
+            <div key={group.join()} className={css.group}>
+              {group.map((lawID) => (
+                <Law key={lawID} law={laws[lawID]} factionID={id} />
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

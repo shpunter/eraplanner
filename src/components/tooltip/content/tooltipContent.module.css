@@ -11,6 +11,18 @@
   color: var(--text-main);
   font-size: 12px;
 
+  /* show/hide animation. A popover toggles `display`, so display + overlay are
+   * transitioned with allow-discrete (keeps it painted through the exit), and
+   * @starting-style below supplies the entry's "from" state. This rule holds
+   * the hidden/exit state; :popover-open is the shown state. */
+  opacity: 0;
+  transform: scale(0.95);
+  transition:
+    opacity 150ms ease,
+    transform 150ms ease,
+    display 150ms allow-discrete,
+    overlay 150ms allow-discrete;
+
   /* position-anchor is set per-instance inline; anchor() targets it.
    * default placement: above the trigger, horizontally centered on it.
    * justify-self: anchor-center centers the box over the anchor (and, unlike a
@@ -26,6 +38,25 @@
   margin-block-end: 6px;
 
   position-try-fallbacks: --below;
+}
+
+.content:popover-open {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* entry "from" state (the first style when the popover starts showing) */
+@starting-style {
+  .content:popover-open {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .content {
+    transition: none;
+  }
 }
 
 /* no room above -> flip below, still centered (justify-self carries over) */

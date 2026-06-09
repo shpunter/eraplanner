@@ -40,11 +40,11 @@
 }
 
 .dot {
-  background-color: var(--black-40);
+  background-color: var(--black-60);
 }
 
 .dotFilled {
-  background-color: white;
+  background-color: var(--black-90);
 }
 
 .cost {
@@ -73,13 +73,41 @@
   line-height: 18px;
   letter-spacing: 0.5px;
 
-  padding: 12px 18px;
+  padding: 22px 28px;
 
   /* concave ("scooped") corners: border-radius sizes the cut, corner-shape
    * curves it inward instead of the default rounded outward (Chromium 139+) */
   border-radius: 14px;
   /* biome-ignore lint/correctness/noUnknownProperty: corner-shape is newer than biome's CSS data */
   corner-shape: scoop;
+}
+
+.tooltip::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: calc(100% - 16px);
+  height: calc(100% - 20px);
+  border: solid 1px var(--black-40);
+
+  border-radius: 12px;
+  /* biome-ignore lint/correctness/noUnknownProperty: <explanation> */
+  corner-shape: scoop;
+}
+
+.tooltip::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: calc(100% - 24px);
+  height: calc(100% - 28px);
+  border: solid 1px var(--black-40);
 }
 
 .tooltip .afterImprovement {
