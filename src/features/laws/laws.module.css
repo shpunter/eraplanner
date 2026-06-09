@@ -1,6 +1,5 @@
 .laws {
-  /* query container so the scroll box can size itself to whatever fits */
-  container-type: size;
+  /* center the fixed-size scroll within the panel */
   width: 100%;
   height: 100%;
   display: grid;
@@ -10,25 +9,22 @@
 .scroll {
   position: relative;
 
-  /* Lock to the scroll image's aspect ratio and size to the largest box that
-   * fits the panel (whichever of width/height is the limiting dimension). Since
-   * the box always keeps the image's ratio, the percentage-positioned columns
-   * below stay aligned to the artwork at every screen size. */
-  aspect-ratio: 2478 / 1842;
-  width: min(100cqw, 100cqh * 2478 / 1842);
+  /* static size, kept to the artwork's 2478:1842 ratio */
+  width: 700px;
+  height: 520px;
 
   background-image: url("/img/law-scroll.webp");
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 100% 100%;
+  background-size: contain;
 }
 
 /* the two pages of the scroll — same data, mirrored across the central spine */
 .side {
   position: absolute;
-  top: 21%;
-  bottom: 21%;
-  width: 40%;
+  top: 109px;
+  bottom: 109px;
+  width: 280px;
 
   display: flex;
   flex-direction: column;
@@ -36,12 +32,12 @@
 }
 
 .left {
-  left: 6%;
+  left: 42px;
   align-items: center;
 }
 
 .right {
-  right: 6%;
+  right: 42px;
   align-items: center;
 }
 
