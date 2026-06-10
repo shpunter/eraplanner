@@ -72,6 +72,21 @@ export const calcResourceGain = (resources: ResourceKey[]): ResourceRecord => {
   return gain;
 };
 
+// Sums law income entries published by the micro remote over the bus into a
+// resource record. `resID` arrives as a plain string (the bus is domain
+// agnostic), so unknown keys are ignored.
+export const sumLawEntries = (
+  entries: { resID: string; amount: number }[],
+): ResourceRecord => {
+  const out = { ...ZERO_RESOURCES };
+
+  for (const { resID, amount } of entries) {
+    if (resID in out) out[resID as ResourceKey] += amount;
+  }
+
+  return out;
+};
+
 export const addResources = (
   a: ResourceRecord,
   b: ResourceRecord,

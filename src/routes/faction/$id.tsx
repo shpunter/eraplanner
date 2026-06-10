@@ -7,7 +7,9 @@ export const Route = createFileRoute("/faction/$id")({
     id: params.id as CastleID,
   }),
   validateSearch: (search: Record<string, unknown>): { m: MenuTab } => ({
-    m: MENU_TABS.includes(search.m as MenuTab) ? (search.m as MenuTab) : "castles",
+    m: MENU_TABS.includes(search.m as MenuTab)
+      ? (search.m as MenuTab)
+      : "castles",
   }),
   loader: ({ params }) => {
     const id = Object.hasOwn(castles, params.id) ? params.id : "hive";
@@ -27,7 +29,7 @@ const fetchCastleData = async (id: CastleID): Promise<TCastle> => {
 };
 
 // Menu tab persisted in the URL search param `m`
-export const MENU_TABS = ["castles", "mines", "resources", "laws", "micro"] as const;
+export const MENU_TABS = ["castles", "mines", "resources", "micro"] as const;
 export type MenuTab = (typeof MENU_TABS)[number];
 
 // 1. Get the names of the castles ('hive' | 'necropolis')

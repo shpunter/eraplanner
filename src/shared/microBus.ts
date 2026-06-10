@@ -18,14 +18,8 @@ export type MicroEvent =
 
 /** Shared, replayable state. Late subscribers immediately get the latest value. */
 export type MicroState = {
-  // Index of the day the host's timeline is viewing. Published by the host from
-  // useHistoryStore; the remote (Law board) reads it to render levels "as of"
-  // that day. Must stay in sync with the remote's copy of this file.
   historyIDX: number;
-  // Outputs the micro (laws) remote publishes back to the host as the user
-  // enacts laws: one-time resource grants, daily mine income, and the per-day
-  // law-upgrade history. Kept as primitive shapes so the bus stays domain- and
-  // framework-agnostic. Empty until the remote mounts and starts publishing.
+  resLaw: number;
   laws: {
     resource: { resID: string; amount: number }[][];
     mine: { resID: string; amount: number }[][];
@@ -35,6 +29,7 @@ export type MicroState = {
 
 const initialState: MicroState = {
   historyIDX: 0,
+  resLaw: 0,
   laws: { resource: [], mine: [], history: [] },
 };
 

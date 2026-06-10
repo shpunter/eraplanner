@@ -1,5 +1,6 @@
+import { state$ } from "#/shared/microBus";
+import { useObservable } from "#/shared/useObservable";
 import { useHistoryStore } from "../history/history.store";
-import { useLawsStore } from "../laws/laws.store";
 import { useMinesStore } from "../mines/mines.store";
 import { useResourcesStore } from "../resources/resources.store";
 import { selectTimeline } from "./timeline.utils";
@@ -13,12 +14,9 @@ import { selectTimeline } from "./timeline.utils";
 export const useNegativeTimeline = (): boolean[] => {
   const mines = useMinesStore((state) => state.history);
   const resources = useResourcesStore((state) => state.history);
-  const lawsHistory = useLawsStore((state) => state.history);
-  const lawsConfig = useLawsStore((state) => state.config);
+  const busLaws = useObservable(state$, state$.getValue()).laws;
 
   return useHistoryStore(
-    (state) =>
-      selectTimeline(state, mines, resources, lawsHistory, lawsConfig)
-        .negativeByDay,
+    (state) => selectTimeline(state, mines, resources, busLaws).negativeByDay,
   );
 };

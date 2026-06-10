@@ -1,8 +1,10 @@
+import { useEffect } from "react";
 import css from "./resourceBar.module.css";
 import { RESOURCE_KEYS } from "#/shared/constants";
 import { classnames } from "#/shared/classnames";
 import { useHistoryStore } from "../history/history.store";
 import { useResources } from "./useResources";
+import { patchState } from "#/shared/microBus";
 
 const RESOURCE_ICONS: Partial<Record<ResourceKey, string>> = {
   gold: "/img/resource/gold.webp",
@@ -22,6 +24,10 @@ const ResourceBar = () => {
   const setDifficulty = useHistoryStore((state) => state.setDifficulty);
   const difficulty = useHistoryStore((state) => state.difficulty);
   const { available, incomePerDay } = useResources();
+
+  useEffect(() => {
+    patchState({ resLaw: available.law });
+  }, [available.law]);
 
   return (
     <div className={css.bar}>

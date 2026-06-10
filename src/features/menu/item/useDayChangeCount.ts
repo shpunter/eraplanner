@@ -1,5 +1,4 @@
 import { useHistoryStore } from "#/features/history/history.store";
-import { useLawsStore } from "#/features/laws/laws.store";
 import { useMinesStore } from "#/features/mines/mines.store";
 import { useResourcesStore } from "#/features/resources/resources.store";
 import type { MenuTab } from "#/routes/faction/$id";
@@ -13,9 +12,6 @@ export const useDayChangeCount = (id: MenuTab): number => {
     (state) => state.history[historyIDX]?.length ?? 0,
   );
   const resourcesCount = useResourcesStore(
-    (state) => state.history[historyIDX]?.length ?? 0,
-  );
-  const lawsCount = useLawsStore(
     (state) => state.history[historyIDX]?.length ?? 0,
   );
 
@@ -32,7 +28,6 @@ export const useDayChangeCount = (id: MenuTab): number => {
 
   if (id === "mines") return minesCount;
   if (id === "resources") return resourcesCount;
-  if (id === "laws") return lawsCount;
   if (id === "castles") return castlesCount;
   if (id === "micro") return microCount;
 

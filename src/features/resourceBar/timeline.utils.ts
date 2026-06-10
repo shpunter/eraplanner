@@ -1,15 +1,20 @@
 import type { ResourceKey, ResourceRecord } from "#/shared/types";
 import { RESOURCE_KEYS } from "#/shared/constants";
 import type { Mine, useHistoryStore } from "../history/history.store";
-import type { LawID, LawType } from "../laws/laws.config";
 import {
   addResources,
   calcCastleMineIncome,
   calcMineIncome,
   calcResourceGain,
   subtractResources,
+  sumLawEntries,
   ZERO_RESOURCES,
 } from "./resources.utils";
+
+// Per-day law income published by the micro remote: `resource[day]` are one-off
+// grants ("once"), `mine[day]` are recurring rates ("daily").
+type LawEntry = { resID: string; amount: number };
+export type BusLaws = { resource: LawEntry[][]; mine: LawEntry[][] };
 
 // Full calendar grid: 7 months × 4 weeks × 7 days.
 export const TOTAL_DAYS = 7 * 4 * 7;
@@ -19,29 +24,6 @@ const toRecord = (partial: Partial<ResourceRecord>): ResourceRecord => ({
   ...ZERO_RESOURCES,
   ...partial,
 });
-
-// Income from the laws enacted on a single day, split by how it pays out:
-// "once" is a one-off gain (same day), "daily" is a recurring rate (next day).
-const lawIncomeForDay = (
-  lawIDs: LawID[],
-  config: Partial<Record<LawID, LawType>>,
-): { once: ResourceRecord; daily: ResourceRecord } => {
-  const once = { ...ZERO_RESOURCES };
-  const daily = { ...ZERO_RESOURCES };
-
-  for (const id of lawIDs) {
-    const law = config[id];
-    if (!law || !("income" in law) || !law.income) continue;
-
-    const bucket = law.incomeType === "once" ? once : daily;
-
-    for (const [key, amount] of Object.entries(law.income)) {
-      bucket[key as ResourceKey] += amount;
-    }
-  }
-
-  return { once, daily };
-};
 
 /**
  * Walks the whole calendar once, recording a per-day snapshot of available
@@ -60,8 +42,7 @@ export const buildTimeline = ({
   castleMines,
   mines,
   resources,
-  lawsHistory,
-  lawsConfig,
+  busLaws,
 }: TimelineInput): DaySnapshot[] => {
   const days: DaySnapshot[] = new Array(TOTAL_DAYS);
 
@@ -90,7 +71,11 @@ export const buildTimeline = ({
   let incomePerDay: ResourceRecord = ZERO_RESOURCES;
 
   for (let day = 0; day < TOTAL_DAYS; day++) {
-    const law = lawIncomeForDay(lawsHistory?.[day] ?? [], lawsConfig);
+    // law income from the micro remote: resource -> once, mine -> daily
+    const law = {
+      once: sumLawEntries(busLaws?.resource?.[day] ?? []),
+      daily: sumLawEntries(busLaws?.mine?.[day] ?? []),
+    };
 
     // income produced by everything that appeared on earlier days
     available = addResources(available, incomePerDay);
@@ -151,8 +136,7 @@ export const selectTimeline = (
   state: State,
   mines: Mine[][],
   resources: ResourceKey[][],
-  lawsHistory: LawID[][],
-  lawsConfig: Partial<Record<LawID, LawType>>,
+  busLaws: BusLaws,
 ): Timeline => {
   const keys = [
     state.iniRes,
@@ -161,8 +145,7 @@ export const selectTimeline = (
     state.castleMines,
     mines,
     resources,
-    lawsHistory,
-    lawsConfig,
+    busLaws,
   ];
 
   if (cache && keys.every((key, i) => key === cache?.keys[i])) {
@@ -176,8 +159,7 @@ export const selectTimeline = (
     castleMines: state.castleMines,
     mines,
     resources,
-    lawsHistory,
-    lawsConfig,
+    busLaws,
   });
   const value: Timeline = {
     days,
@@ -210,6 +192,6 @@ type TimelineInput = Pick<
 > & {
   mines: Mine[][];
   resources: ResourceKey[][];
-  lawsHistory: LawID[][];
-  lawsConfig: Partial<Record<LawID, LawType>>;
+  // Optional so callers/tests that don't use the micro remote still work.
+  busLaws?: BusLaws;
 };
