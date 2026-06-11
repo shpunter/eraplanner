@@ -1,4 +1,4 @@
-import { state$ } from "#/shared/microBus";
+import { state$ } from "#/shared/lawBus";
 import { useObservable } from "#/shared/useObservable";
 import { useHistoryStore } from "../history/history.store";
 import { useMinesStore } from "../mines/mines.store";

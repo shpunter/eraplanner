@@ -12,8 +12,8 @@ const config = defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
   // URL of the remote's `remoteEntry.js`. Provided once the microfrontend is
-  // deployed; until then the `/micro` page renders its fallback (see Micro.tsx).
-  const microRemoteEntry = env.VITE_MICRO_REMOTE_ENTRY ?? ''
+  // deployed; until then the law tab renders its fallback (see Law.tsx).
+  const lawRemoteEntry = env.VITE_LAW_REMOTE_ENTRY ?? ''
 
   return {
     resolve: { tsconfigPaths: true },
@@ -26,24 +26,21 @@ const config = defineConfig(({ mode }) => {
     plugins: [
       federation({
         name: 'host',
-        // Remote types are declared manually in src/features/micro/remotes.d.ts,
+        // Remote types are declared manually in src/features/law/remotes.d.ts,
         // so the auto type-hint plugin (and its dev-time warning) isn't needed.
         dts: false,
         remotes: {
-          micro: {
+          law: {
             type: 'module',
-            name: 'micro',
-            entry: microRemoteEntry,
-            entryGlobalName: 'micro',
+            name: 'law',
+            entry: lawRemoteEntry,
+            entryGlobalName: 'law',
             shareScope: 'default',
           },
         },
         shared: {
           react: { singleton: true },
           'react-dom': { singleton: true },
-          // Singleton so host and remote share one RxJS instance; the bus
-          // module itself is loaded once from the host, so its Subjects are a
-          // single shared instance across both apps.
           rxjs: { singleton: true },
         },
       }),

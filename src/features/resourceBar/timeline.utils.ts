@@ -11,7 +11,7 @@ import {
   ZERO_RESOURCES,
 } from "./resources.utils";
 
-// Per-day law income published by the micro remote: `resource[day]` are one-off
+// Per-day law income published by the law remote: `resource[day]` are one-off
 // grants ("once"), `mine[day]` are recurring rates ("daily").
 type LawEntry = { resID: string; amount: number };
 export type BusLaws = { resource: LawEntry[][]; mine: LawEntry[][] };
@@ -71,7 +71,7 @@ export const buildTimeline = ({
   let incomePerDay: ResourceRecord = ZERO_RESOURCES;
 
   for (let day = 0; day < TOTAL_DAYS; day++) {
-    // law income from the micro remote: resource -> once, mine -> daily
+    // law income from the law remote: resource -> once, mine -> daily
     const law = {
       once: sumLawEntries(busLaws?.resource?.[day] ?? []),
       daily: sumLawEntries(busLaws?.mine?.[day] ?? []),
@@ -192,6 +192,6 @@ type TimelineInput = Pick<
 > & {
   mines: Mine[][];
   resources: ResourceKey[][];
-  // Optional so callers/tests that don't use the micro remote still work.
+  // Optional so callers/tests that don't use the law remote still work.
   busLaws?: BusLaws;
 };

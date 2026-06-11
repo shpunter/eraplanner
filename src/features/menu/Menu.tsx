@@ -6,7 +6,7 @@ const ITEMS = [
   { id: "castles", label: "Castles" },
   { id: "mines", label: "Mines" },
   { id: "resources", label: "Resources" },
-  { id: "micro", label: "Micro" },
+  { id: "law", label: "Law" },
 ] as const;
 
 const BoardMenu = () => {

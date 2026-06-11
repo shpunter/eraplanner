@@ -1,11 +1,3 @@
-.board {
-  /* display: grid;
-  grid-template-areas: "buildings mines";
-  grid-template-columns: min-content 120px;
-
-  gap: 50px; */
-}
-
 .main {
   grid-template-areas: "main";
   display: grid;

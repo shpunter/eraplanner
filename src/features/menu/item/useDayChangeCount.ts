@@ -2,7 +2,7 @@ import { useHistoryStore } from "#/features/history/history.store";
 import { useMinesStore } from "#/features/mines/mines.store";
 import { useResourcesStore } from "#/features/resources/resources.store";
 import type { MenuTab } from "#/routes/faction/$id";
-import { state$ } from "#/shared/microBus";
+import { state$ } from "#/shared/lawBus";
 import { useObservable } from "#/shared/useObservable";
 
 export const useDayChangeCount = (id: MenuTab): number => {
@@ -22,14 +22,14 @@ export const useDayChangeCount = (id: MenuTab): number => {
         .length,
   );
 
-  // law changes on the selected day, published by the micro remote over the bus
+  // law changes on the selected day, published by the law remote over the bus
   const { laws } = useObservable(state$, state$.getValue());
-  const microCount = laws.history[historyIDX]?.length ?? 0;
+  const lawCount = laws.history[historyIDX]?.length ?? 0;
 
   if (id === "mines") return minesCount;
   if (id === "resources") return resourcesCount;
   if (id === "castles") return castlesCount;
-  if (id === "micro") return microCount;
+  if (id === "law") return lawCount;
 
   return 0;
 };

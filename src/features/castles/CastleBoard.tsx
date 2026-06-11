@@ -16,7 +16,7 @@ const CastleBoard = () => {
         <Add />
         <Tabs />
       </div>
-      <div className={css.board}>
+      <div>
         <Suspense
           fallback={<div className={css.loader}>Loading Castle Data...</div>}
         >
