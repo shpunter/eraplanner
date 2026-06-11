@@ -41,6 +41,15 @@ export const useHistoryStore = create<Store & Action>((set) => {
 
     addCastle: (castleUUID, castleID, castle, preBuilds) => {
       set((state) => {
+        // Idempotent registration. The castles tab remounts CastleGrid on every
+        // visit (it re-runs this with the route loader's stable castleUUID), so
+        // re-initializing here would wipe the built history. Only set up a UUID
+        // the first time it's seen; afterwards just re-activate it. New castles
+        // from the "+" button always carry a fresh UUID, so they still init.
+        if (state.castles[castleUUID]) {
+          return { ...state, currCastleUUID: castleUUID };
+        }
+
         const historyDisabled = Array.from<boolean>({
           length: state.historyIDX,
         }).fill(true);

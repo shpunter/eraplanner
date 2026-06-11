@@ -27,22 +27,28 @@ test("castles is the default panel", async ({ page }) => {
   await expect(lawsPanel(page)).toHaveCount(0);
 });
 
-test("each menu item swaps in its own panel", async ({ page }) => {
+test("each menu item swaps in its own panel mines", async ({ page }) => {
   await tab(page, "mines").click();
   await expect(page).toHaveURL(/m=mines/);
   await expect(minesPanel(page)).toBeVisible();
   await expect(castlesPanel(page)).toHaveCount(0);
+});
 
+test("each menu item swaps in its own panel resources", async ({ page }) => {
   await tab(page, "resources").click();
   await expect(page).toHaveURL(/m=resources/);
   await expect(resourcesPanel(page)).toBeVisible();
   await expect(minesPanel(page)).toHaveCount(0);
+});
 
-  await tab(page, "laws").click();
-  await expect(page).toHaveURL(/m=laws/);
+test("each menu item swaps in its own panel laws", async ({ page }) => {
+  await tab(page, "law").click();
+  await expect(page).toHaveURL(/m=law/);
   await expect(lawsPanel(page)).toBeVisible();
   await expect(resourcesPanel(page)).toHaveCount(0);
+});
 
+test("each menu item swaps in its own panel castles", async ({ page }) => {
   await tab(page, "castles").click();
   await expect(page).toHaveURL(/m=castles/);
   await expect(castlesPanel(page)).toBeVisible();
@@ -50,7 +56,7 @@ test("each menu item swaps in its own panel", async ({ page }) => {
 });
 
 test("the active tab survives a page reload via the URL", async ({ page }) => {
-  await tab(page, "laws").click();
+  await tab(page, "law").click();
   await expect(lawsPanel(page)).toBeVisible();
 
   await page.reload();
@@ -68,7 +74,7 @@ test("returning to castles does not spawn an extra castle tab", async ({
   // leaving and re-entering the castles panel remounts the board; the castle's
   // id must stay stable (it comes from the route loader) so no duplicate tab is
   // registered. Round-trip a few times to be sure it doesn't accumulate.
-  for (const other of ["mines", "resources", "laws"]) {
+  for (const other of ["mines", "resources", "law"]) {
     await tab(page, other).click();
     await tab(page, "castles").click();
     await expect(castlesPanel(page)).toBeVisible();

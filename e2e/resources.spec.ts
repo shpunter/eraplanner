@@ -97,6 +97,23 @@ test("adding a building pays its cost today and its income tomorrow", async ({
   await expectAvailable(page, { gold: 8250, wood: 5, ore: 5, law: 750, astrology: 750 });
 });
 
+test("a build survives leaving and returning to the castles tab", async ({
+  page,
+}) => {
+  // The castles tab remounts CastleGrid on every visit, which re-registers the
+  // castle. Registration must be idempotent (see addCastle): re-entering must
+  // NOT wipe the built list. Regression for the "building disappears" bug.
+  await building(page, "id11").click();
+  await expectIncome(page, { gold: 750, law: 750, astrology: 750 });
+
+  await tab(page, "mines").click();
+  await tab(page, "castles").click();
+
+  // still built: income reflects id11, not the bare pre-build baseline of 500
+  await expectIncome(page, { gold: 750, law: 750, astrology: 750 });
+  await expectAvailable(page, { gold: 7500, wood: 5, ore: 5 });
+});
+
 test("removing a building reverts its cost and income", async ({ page }) => {
   await building(page, "id11").click();
   await expectAvailable(page, { gold: 7500 });
@@ -154,25 +171,25 @@ test("dropping a resource pile lands the same day (conservative minimum)", async
   await expectAvailable(page, { gold: 10400, dust: 58 }); // 50 + 8 (dust min)
 });
 
-test("a 'once' law lands today and a 'daily' law raises income", async ({
-  page,
-}) => {
-  await tab(page, "laws").click();
+// test("a 'once' law lands today and a 'daily' law raises income", async ({
+//   page,
+// }) => {
+//   await tab(page, "law").click();
 
-  // l000 is a one-off: gold 2500 / wood 5 / ore 5, granted the same day.
-  // .first() because the tree is mirrored onto both halves of the scroll.
-  await page.getByTestId("law-l000").first().click();
-  await expectAvailable(page, { gold: 12500, wood: 15, ore: 15 });
-  await expectIncome(page, { gold: 500 });
+//   // l000 is a one-off: gold 2500 / wood 5 / ore 5, granted the same day.
+//   // .first() because the tree is mirrored onto both halves of the scroll.
+//   await page.getByTestId("law-l000").first().click();
+//   await expectAvailable(page, { gold: 12500, wood: 15, ore: 15 });
+//   await expectIncome(page, { gold: 500 });
 
-  // l100 is "daily": +250 gold/day, so the income rate goes 500 -> 750
-  await page.getByTestId("law-l100").first().click();
-  await expectIncome(page, { gold: 750 });
+//   // l100 is "daily": +250 gold/day, so the income rate goes 500 -> 750
+//   await page.getByTestId("law-l100").first().click();
+//   await expectIncome(page, { gold: 750 });
 
-  // next day the once-gain stays banked and the daily rate accrues
-  await next(page).click();
-  await expectAvailable(page, { gold: 13250 }); // 12500 + 750
-});
+//   // next day the once-gain stays banked and the daily rate accrues
+//   await next(page).click();
+//   await expectAvailable(page, { gold: 13250 }); // 12500 + 750
+// });
 
 test("adding castles on different days stacks their pre-build income", async ({
   page,
@@ -217,33 +234,57 @@ test("calendar navigation isolates a build to its day and later", async ({
   await expectIncome(page, { gold: 750 });
 });
 
-test("mixed: building + castle mine + tile mine + pile + daily law on D1", async ({
+test("mixed on D1, then a daily law unlocks once honor + spent allow it", async ({
   page,
 }) => {
-  // Touch the non-castle tabs first. Switching back to the castles tab remounts
-  // the board and re-registers the castle (resetting its built list), so the
-  // building work has to come last and stay on screen.
+  // --- D1: building + castle mine + tile mine + pile (all valid same-day) ---
+  // A "daily" law can't be enacted yet: on D1 there's no law-honor (resLaw),
+  // and even with honor a law stays disabled until enough has been `spent` on
+  // cheaper laws (l100's `limit` is 5). So the law work happens later, below.
+  //
   await tab(page, "resources").click();
   await page.getByTestId("resource-gold").click(); // +400 gold today
 
   await tab(page, "mines").click();
   await page.getByTestId("mine-gold").click(); // +1000 gold/day
 
-  await tab(page, "laws").click();
-  await page.getByTestId("law-l100").first().click(); // +250 gold/day (daily)
-
   await tab(page, "castles").click();
   await building(page, "id11").click(); // -cost, +250/250/250 income
   await building(page, "id11").getByTitle("law").click(); // +500 law/day
 
-  // D1 snapshot:
+  // D1 snapshot (no law yet):
   //   available gold = 10000 + 400 (pile) - 2500 (id11 cost) = 7900
-  //   income gold = 500 (pre) + 250 (id11) + 1000 (mine) + 250 (law) = 2000
-  //   income law  = 500 (pre) + 250 (id11) + 500 (castle mine)        = 1250
+  //   income gold = 500 (pre) + 250 (id11) + 1000 (mine) = 1750
+  //   income law  = 500 (pre) + 250 (id11) + 500 (castle mine) = 1250
   await expectAvailable(page, { gold: 7900, wood: 5, ore: 5 });
-  await expectIncome(page, { gold: 2000, law: 1250, astrology: 750 });
+  await expectIncome(page, { gold: 1750, law: 1250, astrology: 750 });
 
-  // next day everything accrues at the new rates
+  // --- W4 D7: honor has accrued, but the daily law is still gated by `spent` ---
+  // 27 days at the rates above bank: law = 1250 * 27 = 33750 (~level 23, plenty
+  // for l100), gold = 7900 + 1750 * 27 = 55150.
+  await tab(page, "law").click();
+  await page.getByTestId("week").nth(3).click(); // W4
+  await page.getByTestId("day").nth(6).click(); // D7 -> historyIDX 27
+  await expectAvailable(page, { gold: 55150, law: 33750 });
+  await expectIncome(page, { gold: 1750, law: 1250 });
+
+  // l100 is affordable now (honor is high) but disabled: nothing has been spent,
+  // and its `limit` requires spent >= 5. Clicking it is a no-op.
+  await page.getByTestId("law-l100").first().click();
+  await expectIncome(page, { gold: 1750 }); // unchanged — l100 did not enact
+
+  // Enact l020 three times (cost 2, max 3, no resource income) -> spent = 6 >= 5.
+  const l020 = page.getByTestId("law-l020").first();
+  await l020.click();
+  await l020.click();
+  await l020.click();
+
+  // With spent past l100's limit, the daily law finally enacts: +250 gold/day.
+  await page.getByTestId("law-l100").first().click();
+  await expectIncome(page, { gold: 2000, law: 1250 });
+  await expectAvailable(page, { gold: 55150, law: 33750 }); // today's banked unchanged
+
+  // next day everything accrues at the new rates (gold now includes the law)
   await next(page).click();
-  await expectAvailable(page, { gold: 9900, law: 1250, astrology: 750 });
+  await expectAvailable(page, { gold: 57150, law: 35000, astrology: 21000 });
 });

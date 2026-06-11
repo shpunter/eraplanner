@@ -3,8 +3,9 @@ import { useHistoryStore } from "#/features/history/history.store";
 import { emit, patchDown } from "#/shared/lawBus";
 import css from "./law.module.css";
 import { CreateRemoteComponent } from "#/features/menu/CreateRemoteComponent";
+import Button from "#/components/button/Button";
 
-const Loading = () => <div className={css.status}>Loading microfrontend…</div>;
+const Loading = () => <div className={css.status}>Loading...</div>;
 
 const NotConfigured = () => (
   <div className={css.status}>
@@ -28,17 +29,13 @@ const Law = () => {
     patchDown({ historyIDX });
   }, [historyIDX]);
 
+  const onClick = () => emit({ type: "law:reset-all" });
+
   return (
     <section className={css.law}>
-      <button
-        type="button"
-        onClick={() => emit({ type: "law:reset-curr-day" })}
-      >
-        reset-curr-day
-      </button>
-      <button type="button" onClick={() => emit({ type: "law:reset-all" })}>
-        reset-all
-      </button>
+      <Button size="sm" className={css.reset} onClick={onClick}>
+        Reset all
+      </Button>
       <RemoteApp />
     </section>
   );

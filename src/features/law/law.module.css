@@ -5,6 +5,10 @@
   padding: 1.5rem;
 }
 
+.reset {
+  align-self: flex-end;
+}
+
 .status {
   margin: auto;
   text-align: center;
