@@ -12,6 +12,7 @@ import { BehaviorSubject, Subject } from "rxjs";
 
 const initialState: LawState = {
   down: {
+    faction: "hive",
     historyIDX: 0,
     resLaw: 0,
   },
@@ -63,6 +64,7 @@ export type LawEvent =
 /** Shared, replayable state. Late subscribers immediately get the latest value. */
 export type LawState = {
   down: {
+    faction: Faction;
     historyIDX: number;
     resLaw: number;
   };
@@ -79,3 +81,11 @@ type BusGlobal = typeof globalThis & {
   __lawEvents$?: Subject<LawEvent>;
   __lawState$?: BehaviorSubject<LawState>;
 };
+
+export type Faction =
+  | "hive"
+  | "schism"
+  | "temple"
+  | "dungeon"
+  | "grove"
+  | "necropolis";

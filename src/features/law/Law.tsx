@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useParams } from "@tanstack/react-router";
 import { useHistoryStore } from "#/features/history/history.store";
 import { emit, patchDown } from "#/shared/lawBus";
 import css from "./law.module.css";
@@ -24,10 +25,15 @@ const RemoteApp = CreateRemoteComponent(() => import("law/App"), {
 
 const Law = () => {
   const historyIDX = useHistoryStore((state) => state.historyIDX);
+  const { id: faction } = useParams({ from: "/faction/$id" });
 
   useEffect(() => {
     patchDown({ historyIDX });
   }, [historyIDX]);
+
+  useEffect(() => {
+    patchDown({ faction });
+  }, [faction]);
 
   const onClick = () => emit({ type: "law:reset-all" });
 
