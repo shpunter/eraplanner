@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useHistoryStore } from "#/features/history/history.store";
-import { patchState } from "#/shared/lawBus";
+import { emit, patchDown } from "#/shared/lawBus";
 import css from "./law.module.css";
 import { CreateRemoteComponent } from "#/features/menu/CreateRemoteComponent";
 
@@ -25,11 +25,20 @@ const Law = () => {
   const historyIDX = useHistoryStore((state) => state.historyIDX);
 
   useEffect(() => {
-    patchState({ historyIDX });
+    patchDown({ historyIDX });
   }, [historyIDX]);
 
   return (
     <section className={css.law}>
+      <button
+        type="button"
+        onClick={() => emit({ type: "law:reset-curr-day" })}
+      >
+        reset-curr-day
+      </button>
+      <button type="button" onClick={() => emit({ type: "law:reset-all" })}>
+        reset-all
+      </button>
       <RemoteApp />
     </section>
   );

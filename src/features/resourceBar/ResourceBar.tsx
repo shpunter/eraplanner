@@ -4,7 +4,7 @@ import { RESOURCE_KEYS } from "#/shared/constants";
 import { classnames } from "#/shared/classnames";
 import { useHistoryStore } from "../history/history.store";
 import { useResources } from "./useResources";
-import { patchState } from "#/shared/lawBus";
+import { patchDown } from "#/shared/lawBus";
 
 const RESOURCE_ICONS: Partial<Record<ResourceKey, string>> = {
   gold: "/img/resource/gold.webp",
@@ -26,7 +26,7 @@ const ResourceBar = () => {
   const { available, incomePerDay } = useResources();
 
   useEffect(() => {
-    patchState({ resLaw: available.law });
+    patchDown({ resLaw: available.law });
   }, [available.law]);
 
   return (

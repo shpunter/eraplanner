@@ -23,8 +23,8 @@ export const useDayChangeCount = (id: MenuTab): number => {
   );
 
   // law changes on the selected day, published by the law remote over the bus
-  const { laws } = useObservable(state$, state$.getValue());
-  const lawCount = laws.history[historyIDX]?.length ?? 0;
+  const { up } = useObservable(state$, state$.getValue());
+  const lawCount = up.history[historyIDX]?.length ?? 0;
 
   if (id === "mines") return minesCount;
   if (id === "resources") return resourcesCount;

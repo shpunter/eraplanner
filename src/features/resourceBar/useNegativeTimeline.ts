@@ -14,7 +14,7 @@ import { selectTimeline } from "./timeline.utils";
 export const useNegativeTimeline = (): boolean[] => {
   const mines = useMinesStore((state) => state.history);
   const resources = useResourcesStore((state) => state.history);
-  const busLaws = useObservable(state$, state$.getValue()).laws;
+  const busLaws = useObservable(state$, state$.getValue()).up;
 
   return useHistoryStore(
     (state) => selectTimeline(state, mines, resources, busLaws).negativeByDay,
