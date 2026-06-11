@@ -68,7 +68,7 @@ export const buildTimeline = ({
   }
 
   let available: ResourceRecord = iniRes;
-  let incomePerDay: ResourceRecord = ZERO_RESOURCES;
+  let incomePerDay: ResourceRecord = {...ZERO_RESOURCES};
 
   for (let day = 0; day < TOTAL_DAYS; day++) {
     // law income from the law remote: resource -> once, mine -> daily

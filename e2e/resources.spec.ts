@@ -194,9 +194,11 @@ test("dropping a resource pile lands the same day (conservative minimum)", async
 test("adding castles on different days stacks their pre-build income", async ({
   page,
 }) => {
-  // add a second hive on D1: another id01 pre-build -> income doubles to 1000
+  // add a second hive on D1: another id01 pre-build -> income doubles to 1000.
+  // "+" opens the castle picker popup; click the hive icon to add it.
   await tab(page, "castles").click();
   await page.getByRole("button", { name: "+" }).click();
+  await page.getByTestId("add-hive").click();
   await expectIncome(page, { gold: 1000, law: 1000, astrology: 1000 });
 
   // jump to D3 and add a third castle there (found day = D3, not D1)
@@ -205,6 +207,7 @@ test("adding castles on different days stacks their pre-build income", async ({
   await expectAvailable(page, { gold: 12000, law: 2000, astrology: 2000 });
 
   await page.getByRole("button", { name: "+" }).click();
+  await page.getByTestId("add-hive").click();
   // the third castle's pre-build income kicks in from D3: 1000 -> 1500
   await expectIncome(page, { gold: 1500, law: 1500, astrology: 1500 });
   // available on D3 is unchanged (the new rate only accrues from D4)
