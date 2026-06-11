@@ -9,6 +9,7 @@ export const useObservable = <T>(source$: Observable<T>, initial: T): T => {
 
   useEffect(() => {
     const sub = source$.subscribe(setValue);
+    
     return () => sub.unsubscribe();
   }, [source$]);
 
