@@ -217,6 +217,33 @@ test("adding castles on different days stacks their pre-build income", async ({
   await expectAvailable(page, { gold: 13500, law: 3500, astrology: 3500 });
 });
 
+test("a deferred loader revalidation does not spawn a phantom castle", async ({
+  page,
+}) => {
+  // Regression: the route loader's primary-castle id must be stable. When it was
+  // `crypto.randomUUID()`, a loader re-run (revalidation) re-registered the
+  // primary under a fresh UUID once its deferred data resolved — a phantom extra
+  // castle that inflates pre-build income (and is sometimes hidden from the tab
+  // bar when its found day is in the future). The race surfaced ~loader-latency
+  // after a board mutation, so wait it out and assert nothing changed.
+  await tab(page, "castles").click();
+  await page.getByRole("button", { name: "+" }).click();
+  await page.getByTestId("add-hive").click();
+  await day(page, 2).click();
+  await page.getByRole("button", { name: "+" }).click();
+  await page.getByTestId("add-hive").click();
+
+  // three hives: D3 income 1500, exactly three castle tabs
+  await expect(page.getByRole("tab")).toHaveCount(3);
+  await expectIncome(page, { gold: 1500, law: 1500, astrology: 1500 });
+
+  // wait past the loader's simulated latency: a phantom 4th castle used to
+  // register here and push income to 2000 / a 4th tab
+  await page.waitForTimeout(700);
+  await expect(page.getByRole("tab")).toHaveCount(3);
+  await expectIncome(page, { gold: 1500, law: 1500, astrology: 1500 });
+});
+
 test("calendar navigation isolates a build to its day and later", async ({
   page,
 }) => {

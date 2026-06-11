@@ -27,7 +27,6 @@ const CastleTabs = () => {
                 alt={castle.castleID}
                 className={css.logo}
               />
-              <div>{castle.castleID}</div>
             </div>
           </Tabs.Tab>
         );

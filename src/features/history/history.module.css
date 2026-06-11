@@ -36,10 +36,9 @@
 }
 
 .calendar {
-  grid-template-areas: "calendar";
-
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   gap: 10px;
 }
 

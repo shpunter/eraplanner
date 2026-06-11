@@ -12,9 +12,9 @@ const CastleBoard = () => {
 
   return (
     <section className={css.main}>
-      <div>
-        <Add />
+      <div className={css.tabsWrapper}>
         <Tabs />
+        <Add />
       </div>
       <div>
         <Suspense

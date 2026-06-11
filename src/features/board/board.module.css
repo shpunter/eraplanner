@@ -11,6 +11,9 @@
   gap: 16px;
   padding: 16px;
   height: 100vh;
+
+  max-width: 1600px;
+  margin: 0 auto;
 }
 
 /* shared card surface for each region */

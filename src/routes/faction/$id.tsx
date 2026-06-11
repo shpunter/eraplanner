@@ -16,7 +16,12 @@ export const Route = createFileRoute("/faction/$id")({
 
     return {
       castle: fetchCastleData(id),
-      castleUUID: crypto.randomUUID(),
+      // Stable identity for the route's primary castle. Must NOT be random:
+      // the loader can re-run (revalidation), and a fresh id each run would make
+      // CastleGrid register a brand-new castle every time its deferred `castle`
+      // resolves — a phantom duplicate that still feeds pre-build income.
+      // Secondary castles (Add) mint their own random UUIDs and never collide.
+      castleUUID: `primary-${id}`,
     };
   },
   component: Castle,

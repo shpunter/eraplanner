@@ -30,25 +30,28 @@ const Add = () => {
       <Popover.Content>
         {({ close }) => (
           <div className={css.options}>
-            {castleIDs.map((castleID) => (
-              <button
-                key={castleID}
-                type="button"
-                className={css.option}
-                data-testid={`add-${castleID}`}
-                onClick={() => {
-                  close();
-                  onAdd(castleID);
-                }}
-              >
-                <img
-                  src={`/img/factions/logo/${castleID}.webp`}
-                  alt={castleID}
-                  className={css.icon}
-                />
-                <span className={css.label}>{castleID}</span>
-              </button>
-            ))}
+            {castleIDs.map((castleID) => {
+              const onClick = () => {
+                close();
+                onAdd(castleID);
+              };
+
+              return (
+                <button
+                  key={castleID}
+                  type="button"
+                  className={css.option}
+                  data-testid={`add-${castleID}`}
+                  onClick={onClick}
+                >
+                  <img
+                    src={`/img/factions/logo/${castleID}.webp`}
+                    alt={castleID}
+                    className={css.icon}
+                  />
+                </button>
+              );
+            })}
           </div>
         )}
       </Popover.Content>

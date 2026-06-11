@@ -34,7 +34,7 @@ const Law = () => {
   return (
     <section className={css.law}>
       <Button size="sm" className={css.reset} onClick={onClick}>
-        Reset all
+        Reset
       </Button>
       <RemoteApp />
     </section>

@@ -4,7 +4,7 @@
   inset: auto;
   position: absolute;
   top: anchor(bottom);
-  left: anchor(left);
+  right: anchor(right);
   margin-top: 6px;
 
   /* Deliberately no `display` here: an author `display` overrides the UA
