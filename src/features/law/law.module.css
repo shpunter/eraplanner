@@ -8,21 +8,3 @@
 .reset {
   align-self: flex-end;
 }
-
-.status {
-  margin: auto;
-  text-align: center;
-  color: var(--color-muted, #888);
-}
-
-.title {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-.hint code {
-  padding: 0.1rem 0.3rem;
-  border-radius: 0.25rem;
-  background: rgba(127, 127, 127, 0.15);
-  font-size: 0.85em;
-}

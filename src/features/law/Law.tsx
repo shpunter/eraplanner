@@ -5,18 +5,8 @@ import { emit, patchDown } from "#/shared/lawBus";
 import css from "./law.module.css";
 import { CreateRemoteComponent } from "#/features/menu/CreateRemoteComponent";
 import Button from "#/components/button/Button";
-
-const Loading = () => <div className={css.status}>Loading...</div>;
-
-const NotConfigured = () => (
-  <div className={css.status}>
-    <p className={css.title}>Microfrontend not connected yet</p>
-    <p className={css.hint}>
-      Set <code>VITE_LAW_REMOTE_ENTRY</code> to the remote's{" "}
-      <code>remoteEntry.js</code> URL and reload.
-    </p>
-  </div>
-);
+import Loading from "#/components/mfe/loading/Loading";
+import NotConfigured from "#/components/mfe/notConfigured/NotConfigured";
 
 const RemoteApp = CreateRemoteComponent(() => import("law/App"), {
   loading: <Loading />,

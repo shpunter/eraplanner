@@ -1,0 +1,5 @@
+.status {
+  margin: auto;
+  text-align: center;
+  color: var(--color-muted, #888);
+}

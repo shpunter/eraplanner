@@ -1,9 +1,9 @@
-import { state$ } from "#/shared/lawBus";
+import { state$ as lawState$ } from "#/shared/lawBus";
+import { state$ as minesState$ } from "#/shared/minesBus";
+import { state$ as resourcesState$ } from "#/shared/resourcesBus";
 import type { ResourceRecord } from "#/shared/types";
 import { useObservable } from "#/shared/useObservable";
 import { useHistoryStore } from "../history/history.store";
-import { useMinesStore } from "../mines/mines.store";
-import { useResourcesStore } from "../resources/resources.store";
 import { selectTimeline, TOTAL_DAYS } from "./timeline.utils";
 
 /**
@@ -15,9 +15,9 @@ export const useResources = (): {
   available: ResourceRecord;
   incomePerDay: ResourceRecord;
 } => {
-  const mines = useMinesStore((state) => state.history);
-  const resources = useResourcesStore((state) => state.history);
-  const busLaws = useObservable(state$, state$.getValue()).up;
+  const mines = useObservable(minesState$, minesState$.getValue()).up.history;
+  const resources = useObservable(resourcesState$, resourcesState$.getValue()).up.history;
+  const busLaws = useObservable(lawState$, lawState$.getValue()).up;
 
   const days = useHistoryStore(
     (state) => selectTimeline(state, mines, resources, busLaws).days,

@@ -8,15 +8,52 @@ import tailwindcss from '@tailwindcss/vite'
 import { cloudflare } from '@cloudflare/vite-plugin'
 import { federation } from '@module-federation/vite'
 
-const config = defineConfig(({ mode }) => {
+const config = defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
-  // URL of the remote's `remoteEntry.js`. Provided once the microfrontend is
-  // deployed; until then the law tab renders its fallback (see Law.tsx).
+  // URLs of each remote's `remoteEntry.js`. Provided once the microfrontend is
+  // deployed; until then the tab renders its fallback (see Law.tsx / Mines.tsx).
   const lawRemoteEntry = env.VITE_LAW_REMOTE_ENTRY ?? ''
+  const minesRemoteEntry = env.VITE_MINES_REMOTE_ENTRY ?? ''
+  const resourcesRemoteEntry = env.VITE_RESOURCES_REMOTE_ENTRY ?? ''
+
+  // In dev mode, proxy external remotes through the local dev server so the
+  // browser fetches remoteEntry.js same-origin, bypassing any CORS issues from
+  // duplicate or missing Access-Control-Allow-Origin headers on the remote.
+  const lawEntry =
+    command === 'serve' && lawRemoteEntry
+      ? 'http://localhost:3000/law-remote/remoteEntry.js'
+      : lawRemoteEntry
+  const minesEntry =
+    command === 'serve' && minesRemoteEntry
+      ? 'http://localhost:3000/mines-remote/remoteEntry.js'
+      : minesRemoteEntry
+  const resourcesEntry =
+    command === 'serve' && resourcesRemoteEntry
+      ? 'http://localhost:3000/resources-remote/remoteEntry.js'
+      : resourcesRemoteEntry
+
+  const proxyEntries = [
+    lawRemoteEntry && (['law-remote', lawRemoteEntry] as const),
+    minesRemoteEntry && (['mines-remote', minesRemoteEntry] as const),
+    resourcesRemoteEntry && (['resources-remote', resourcesRemoteEntry] as const),
+  ]
+    .filter(Boolean)
+    .reduce(
+      (acc, [prefix, url]) => {
+        acc[`/${prefix}`] = {
+          target: new URL(url).origin,
+          changeOrigin: true,
+          rewrite: (path: string) => path.replace(`/${prefix}`, ''),
+        }
+        return acc
+      },
+      {} as Record<string, { target: string; changeOrigin: boolean; rewrite: (p: string) => string }>,
+    )
 
   return {
     resolve: { tsconfigPaths: true },
+    server: Object.keys(proxyEntries).length ? { proxy: proxyEntries } : undefined,
     // rxjs is shared/handled by Module Federation. Keep it out of Vite's dep
     // optimizer so it isn't discovered late and trigger a mid-session SSR
     // re-optimize+reload, which re-bundles React and splits it into two server
@@ -26,15 +63,29 @@ const config = defineConfig(({ mode }) => {
     plugins: [
       federation({
         name: 'host',
-        // Remote types are declared manually in src/features/law/remotes.d.ts,
+        // Remote types are declared manually in src/features/*/remotes.d.ts,
         // so the auto type-hint plugin (and its dev-time warning) isn't needed.
         dts: false,
         remotes: {
           law: {
             type: 'module',
             name: 'law',
-            entry: lawRemoteEntry,
+            entry: lawEntry,
             entryGlobalName: 'law',
+            shareScope: 'default',
+          },
+          mines: {
+            type: 'module',
+            name: 'mines',
+            entry: minesEntry,
+            entryGlobalName: 'mines',
+            shareScope: 'default',
+          },
+          resources: {
+            type: 'module',
+            name: 'resources',
+            entry: resourcesEntry,
+            entryGlobalName: 'resources',
             shareScope: 'default',
           },
         },

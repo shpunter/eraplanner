@@ -1,4 +1,10 @@
 .resources {
   display: flex;
-  gap: 50px;
+  flex-direction: column;
+  min-height: 60vh;
+  padding: 1.5rem;
+}
+
+.reset {
+  align-self: flex-end;
 }
