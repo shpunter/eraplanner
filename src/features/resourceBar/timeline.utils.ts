@@ -43,6 +43,7 @@ export const buildTimeline = ({
   mines,
   resources,
   busLaws,
+  busCastles,
 }: TimelineInput): DaySnapshot[] => {
   const days: DaySnapshot[] = new Array(TOTAL_DAYS);
 
@@ -76,6 +77,11 @@ export const buildTimeline = ({
       once: sumLawEntries(busLaws?.resource?.[day] ?? []),
       daily: sumLawEntries(busLaws?.mine?.[day] ?? []),
     };
+    // castle income from the castles remote: same shape as busLaws
+    const castlesIncome = {
+      once: sumLawEntries(busCastles?.resource?.[day] ?? []),
+      daily: sumLawEntries(busCastles?.mine?.[day] ?? []),
+    };
 
     // income produced by everything that appeared on earlier days
     available = addResources(available, incomePerDay);
@@ -86,6 +92,7 @@ export const buildTimeline = ({
       calcResourceGain(resources?.[day] ?? []),
     );
     available = addResources(available, law.once);
+    available = addResources(available, castlesIncome.once);
 
     // pre-builds found today start producing from the next day
     const preIncome = preIncomeByFoundDay.get(day);
@@ -117,6 +124,7 @@ export const buildTimeline = ({
       calcMineIncome(mines?.[day] ?? []),
     );
     incomePerDay = addResources(incomePerDay, law.daily);
+    incomePerDay = addResources(incomePerDay, castlesIncome.daily);
 
     days[day] = {
       available,
@@ -137,6 +145,7 @@ export const selectTimeline = (
   mines: Mine[][],
   resources: ResourceKey[][],
   busLaws: BusLaws,
+  busCastles: BusLaws,
 ): Timeline => {
   const keys = [
     state.iniRes,
@@ -146,6 +155,7 @@ export const selectTimeline = (
     mines,
     resources,
     busLaws,
+    busCastles,
   ];
 
   if (cache && keys.every((key, i) => key === cache?.keys[i])) {
@@ -160,6 +170,7 @@ export const selectTimeline = (
     mines,
     resources,
     busLaws,
+    busCastles,
   });
   const value: Timeline = {
     days,
@@ -192,6 +203,7 @@ type TimelineInput = Pick<
 > & {
   mines: Mine[][];
   resources: ResourceKey[][];
-  // Optional so callers/tests that don't use the law remote still work.
+  // Optional so callers/tests that don't use the law/castles remotes still work.
   busLaws?: BusLaws;
+  busCastles?: BusLaws;
 };

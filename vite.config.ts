@@ -16,6 +16,7 @@ const config = defineConfig(({ mode, command }) => {
   const lawRemoteEntry = env.VITE_LAW_REMOTE_ENTRY ?? ''
   const minesRemoteEntry = env.VITE_MINES_REMOTE_ENTRY ?? ''
   const resourcesRemoteEntry = env.VITE_RESOURCES_REMOTE_ENTRY ?? ''
+  const castlesRemoteEntry = env.VITE_CASTLES_REMOTE_ENTRY ?? ''
 
   // In dev mode, proxy external remotes through the local dev server so the
   // browser fetches remoteEntry.js same-origin, bypassing any CORS issues from
@@ -32,11 +33,16 @@ const config = defineConfig(({ mode, command }) => {
     command === 'serve' && resourcesRemoteEntry
       ? 'http://localhost:3000/resources-remote/remoteEntry.js'
       : resourcesRemoteEntry
+  const castlesEntry =
+    command === 'serve' && castlesRemoteEntry
+      ? 'http://localhost:3000/castles-remote/remoteEntry.js'
+      : castlesRemoteEntry
 
   const proxyEntries = [
     lawRemoteEntry && (['law-remote', lawRemoteEntry] as const),
     minesRemoteEntry && (['mines-remote', minesRemoteEntry] as const),
     resourcesRemoteEntry && (['resources-remote', resourcesRemoteEntry] as const),
+    castlesRemoteEntry && (['castles-remote', castlesRemoteEntry] as const),
   ]
     .filter(Boolean)
     .reduce(
@@ -86,6 +92,13 @@ const config = defineConfig(({ mode, command }) => {
             name: 'resources',
             entry: resourcesEntry,
             entryGlobalName: 'resources',
+            shareScope: 'default',
+          },
+          castles: {
+            type: 'module',
+            name: 'castles',
+            entry: castlesEntry,
+            entryGlobalName: 'castles',
             shareScope: 'default',
           },
         },

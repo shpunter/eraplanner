@@ -1,36 +1,38 @@
-import { Route } from "#/routes/faction/$id";
-import { Suspense } from "react";
+import { useEffect } from "react";
+import { useParams } from "@tanstack/react-router";
+import { useHistoryStore } from "#/features/history/history.store";
+import { emit, patchDown } from "#/shared/castlesBus";
+import { CreateRemoteComponent } from "#/features/menu/CreateRemoteComponent";
+import Button from "#/components/button/Button";
+import Loading from "#/components/mfe/loading/Loading";
+import NotConfigured from "#/components/mfe/notConfigured/NotConfigured";
 import css from "./castleBoard.module.css";
-import { Await, useParams } from "@tanstack/react-router";
-import CastleGrid from "./castleGrid/CastleGrid";
-import Add from "./add/Add";
-import Tabs from "./tabs/Tabs";
+
+const RemoteApp = CreateRemoteComponent(() => import("castles/App"), {
+  loading: <Loading />,
+  error: NotConfigured,
+});
 
 const CastleBoard = () => {
-  const { castle, castleUUID } = Route.useLoaderData();
-  const { id: castleID } = useParams({ from: "/faction/$id" });
+  const historyIDX = useHistoryStore((state) => state.historyIDX);
+  const { id: faction } = useParams({ from: "/faction/$id" });
+
+  useEffect(() => {
+    patchDown({ historyIDX });
+  }, [historyIDX]);
+
+  useEffect(() => {
+    patchDown({ faction });
+  }, [faction]);
+
+  const onClick = () => emit({ type: "castles:reset-all" });
 
   return (
-    <section className={css.main}>
-      <div className={css.tabsWrapper}>
-        <Tabs />
-        <Add />
-      </div>
-      <div>
-        <Suspense
-          fallback={<div className={css.loader}>Loading Castle Data...</div>}
-        >
-          <Await promise={castle}>
-            {(resolvedCastle) => (
-              <CastleGrid
-                castle={resolvedCastle}
-                castleID={castleID}
-                castleUUID={castleUUID}
-              />
-            )}
-          </Await>
-        </Suspense>
-      </div>
+    <section className={css.castleBoard}>
+      <Button size="sm" className={css.reset} onClick={onClick}>
+        Reset
+      </Button>
+      <RemoteApp />
     </section>
   );
 };

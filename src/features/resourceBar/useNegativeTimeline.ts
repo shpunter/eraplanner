@@ -1,6 +1,7 @@
 import { state$ as lawState$ } from "#/shared/lawBus";
 import { state$ as minesState$ } from "#/shared/minesBus";
 import { state$ as resourcesState$ } from "#/shared/resourcesBus";
+import { state$ as castlesState$ } from "#/shared/castlesBus";
 import { useObservable } from "#/shared/useObservable";
 import { useHistoryStore } from "../history/history.store";
 import { selectTimeline } from "./timeline.utils";
@@ -15,8 +16,9 @@ export const useNegativeTimeline = (): boolean[] => {
   const mines = useObservable(minesState$, minesState$.getValue()).up.history;
   const resources = useObservable(resourcesState$, resourcesState$.getValue()).up.history;
   const busLaws = useObservable(lawState$, lawState$.getValue()).up;
+  const busCastles = useObservable(castlesState$, castlesState$.getValue()).up;
 
   return useHistoryStore(
-    (state) => selectTimeline(state, mines, resources, busLaws).negativeByDay,
+    (state) => selectTimeline(state, mines, resources, busLaws, busCastles).negativeByDay,
   );
 };
