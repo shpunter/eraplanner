@@ -26,7 +26,11 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         content: "width=device-width, initial-scale=1",
       },
       {
-        title: "TanStack Start Starter",
+        title: "Era Planner — Olden Era",
+      },
+      {
+        name: "description",
+        content: "Planning tool for the online game Olden Era. Track your resources, buildings, mines and army across the full campaign timeline.",
       },
     ],
     links: [

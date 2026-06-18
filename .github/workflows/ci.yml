@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Biome check
+        run: pnpm check
+
+      - name: Unit tests
+        run: pnpm test
+
+  deploy:
+    needs: verify
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Deploy to Cloudflare
+        run: pnpm run deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          VITE_LAW_REMOTE_ENTRY: ${{ secrets.VITE_LAW_REMOTE_ENTRY }}
+          VITE_MINES_REMOTE_ENTRY: ${{ secrets.VITE_MINES_REMOTE_ENTRY }}
+          VITE_RESOURCES_REMOTE_ENTRY: ${{ secrets.VITE_RESOURCES_REMOTE_ENTRY }}
+          VITE_CASTLES_REMOTE_ENTRY: ${{ secrets.VITE_CASTLES_REMOTE_ENTRY }}
