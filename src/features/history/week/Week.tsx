@@ -12,8 +12,11 @@ const Week = ({ week }: WeekProps) => {
     (state) => state.currMonth * 4 * 7 + week * 7,
   );
 
-  const castlesHistory = useObservable(castlesState$, castlesState$.getValue()).up.history;
-  const hasAction = castlesHistory.slice(weekStart, weekStart + 7).some((d) => d.length > 0);
+  const castlesHistory = useObservable(castlesState$, castlesState$.getValue())
+    .up.history;
+  const hasAction = castlesHistory
+    .slice(weekStart, weekStart + 7)
+    .some((d) => d.length > 0);
 
   const negativeByDay = useNegativeTimeline();
   const hasNegative = negativeByDay

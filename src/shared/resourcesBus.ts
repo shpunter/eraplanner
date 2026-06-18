@@ -53,7 +53,10 @@ export const patchUp = (patch: Partial<ResourcesState["up"]>): void => {
 export type ResourcesEvent =
   | { type: "resources:reset-all" }
   | { type: "resources:ready" }
-  | { type: "resources:add"; payload: { resource: ResourceType; historyIDX: number } };
+  | {
+      type: "resources:add";
+      payload: { resource: ResourceType; historyIDX: number };
+    };
 
 /** Shared, replayable state. Late subscribers immediately get the latest value. */
 export type ResourcesState = {

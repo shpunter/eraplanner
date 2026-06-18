@@ -17,12 +17,14 @@ export const useResources = (): {
   incomePerDay: ResourceRecord;
 } => {
   const mines = useObservable(minesState$, minesState$.getValue()).up.history;
-  const resources = useObservable(resourcesState$, resourcesState$.getValue()).up.history;
+  const resources = useObservable(resourcesState$, resourcesState$.getValue())
+    .up.history;
   const busLaws = useObservable(lawState$, lawState$.getValue()).up;
   const busCastles = useObservable(castlesState$, castlesState$.getValue()).up;
 
   const days = useHistoryStore(
-    (state) => selectTimeline(state, mines, resources, busLaws, busCastles).days,
+    (state) =>
+      selectTimeline(state, mines, resources, busLaws, busCastles).days,
   );
   const historyIDX = useHistoryStore((state) => state.historyIDX);
 

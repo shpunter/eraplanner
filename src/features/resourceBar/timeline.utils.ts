@@ -51,12 +51,18 @@ export const buildTimeline = ({
     available = addResources(available, incomePerDay);
 
     // one-time gains: resource piles, law grants, castle building costs (pre-negated by remote)
-    available = addResources(available, calcResourceGain(resources?.[day] ?? []));
+    available = addResources(
+      available,
+      calcResourceGain(resources?.[day] ?? []),
+    );
     available = addResources(available, law.once);
     available = addResources(available, castles.once);
 
     // recurring producers that start from the next day: tile mines, law daily, castle daily income
-    incomePerDay = addResources(incomePerDay, calcMineIncome(mines?.[day] ?? []));
+    incomePerDay = addResources(
+      incomePerDay,
+      calcMineIncome(mines?.[day] ?? []),
+    );
     incomePerDay = addResources(incomePerDay, law.daily);
     incomePerDay = addResources(incomePerDay, castles.daily);
 
@@ -87,7 +93,13 @@ export const selectTimeline = (
     return cache.value;
   }
 
-  const days = buildTimeline({ iniRes: state.iniRes, mines, resources, busLaws, busCastles });
+  const days = buildTimeline({
+    iniRes: state.iniRes,
+    mines,
+    resources,
+    busLaws,
+    busCastles,
+  });
   const value: Timeline = {
     days,
     negativeByDay: days.map((d) => d.isNegative),

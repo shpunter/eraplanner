@@ -40,6 +40,5 @@ export const heroes = {
       xp: 1000,
       mana: 20,
     },
-    
   },
 } as const;
