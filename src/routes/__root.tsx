@@ -30,7 +30,8 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       },
       {
         name: "description",
-        content: "Planning tool for the online game Olden Era. Track your resources, buildings, mines and army across the full campaign timeline.",
+        content:
+          "Planning tool for the online game Olden Era. Track your resources, buildings, mines and army across the full campaign timeline.",
       },
     ],
     links: [
