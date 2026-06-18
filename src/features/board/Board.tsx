@@ -1,6 +1,7 @@
 import History from "../history/History";
 import ResourceBar from "../resourceBar/ResourceBar";
 import Menu from "../menu/Menu";
+import FactionPicker from "./factionPicker/FactionPicker";
 import css from "./board.module.css";
 import Main from "./main/Main";
 
@@ -15,6 +16,7 @@ const Board = () => {
       </div>
       <div className={css.navigation}>
         <Menu />
+        <FactionPicker />
       </div>
       <div className={css.main}>
         <Main />

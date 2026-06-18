@@ -12,7 +12,7 @@
   padding: 16px;
   height: 100vh;
 
-  max-width: 1600px;
+  max-width: 1630px;
   margin: 0 auto;
 }
 
@@ -49,4 +49,7 @@
 
 .navigation {
   grid-area: navigation;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
