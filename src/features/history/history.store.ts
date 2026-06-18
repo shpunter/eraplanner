@@ -110,6 +110,26 @@ export const useHistoryStore = create<Store & Action>((set) => {
         };
       });
     },
+
+    reset: () => {
+      set((state) => ({
+        currDay: 0,
+        currWeek: 0,
+        currMonth: 0,
+        historyIDX: 0,
+        iniRes: {
+          gold: initResources.gold[state.difficulty] * 1000,
+          wood: initResources.wood[state.difficulty],
+          ore: initResources.ore[state.difficulty],
+          gems: initResources.gems[state.difficulty],
+          crystals: initResources.crystals[state.difficulty],
+          mercury: initResources.mercury[state.difficulty],
+          dust: initResources.dust[state.difficulty],
+          law: initResources.law[state.difficulty],
+          astrology: initResources.astrology[state.difficulty],
+        },
+      }));
+    },
   };
 });
 
@@ -171,4 +191,5 @@ type Action = {
   setNextDay: () => void;
   setPrevDay: () => void;
   setDifficulty: (difficulty: 0 | 1 | 2 | 3 | 4 | 5) => void;
+  reset: () => void;
 };
