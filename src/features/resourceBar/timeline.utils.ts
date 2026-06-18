@@ -3,43 +3,30 @@ import { RESOURCE_KEYS } from "#/shared/constants";
 import type { Mine, useHistoryStore } from "../history/history.store";
 import {
   addResources,
-  calcCastleMineIncome,
   calcMineIncome,
   calcResourceGain,
-  subtractResources,
   sumLawEntries,
   ZERO_RESOURCES,
 } from "./resources.utils";
 
-// Per-day law income published by the law remote: `resource[day]` are one-off
-// grants ("once"), `mine[day]` are recurring rates ("daily").
+// Per-day bus income: `resource[day]` = one-off grants, `mine[day]` = recurring daily rate.
 type LawEntry = { resID: string; amount: number };
 export type BusLaws = { resource: LawEntry[][]; mine: LawEntry[][] };
 
 // Full calendar grid: 7 months × 4 weeks × 7 days.
 export const TOTAL_DAYS = 7 * 4 * 7;
 
-// Fills in the missing keys so a `cost`/`produces` becomes a full record.
-const toRecord = (partial: Partial<ResourceRecord>): ResourceRecord => ({
-  ...ZERO_RESOURCES,
-  ...partial,
-});
-
 /**
  * Walks the whole calendar once, recording a per-day snapshot of available
  * resources, income rate and negativity. Single source of truth for both the
- * resource bar (current day) and the day/week/month overspend flags (every
- * day). Every recurring producer pays out the day after it appears (build
- * today → income tomorrow): built buildings (`cost` then `produces`), the
- * chosen output of a built id11/id21 (castle mines), tile mines, a castle's
- * free pre-builds (from its found day) and "daily" laws. One-off gains land the
- * same day: dropped resource piles and "once" laws.
+ * resource bar (current day) and the day/week/month overspend flags.
+ *
+ * Castle building costs and income come pre-computed from the castles remote
+ * via `busCastles` (`resource[day]` = costs as negatives, `mine[0]` = daily
+ * income). Law grants arrive the same way via `busLaws`.
  */
 export const buildTimeline = ({
   iniRes,
-  history,
-  castles,
-  castleMines,
   mines,
   resources,
   busLaws,
@@ -47,84 +34,31 @@ export const buildTimeline = ({
 }: TimelineInput): DaySnapshot[] => {
   const days: DaySnapshot[] = new Array(TOTAL_DAYS);
 
-  // pre-build income each castle starts emitting on its found day
-  const preIncomeByFoundDay = new Map<number, ResourceRecord>();
-
-  for (const castle of Object.values(castles)) {
-    if (!castle) continue;
-
-    const produce = castle.preBuilds.reduce(
-      (acc, id) =>
-        addResources(acc, toRecord(castle.buildings[id]?.produces ?? {})),
-      ZERO_RESOURCES,
-    );
-
-    preIncomeByFoundDay.set(
-      castle.foundDay,
-      addResources(
-        preIncomeByFoundDay.get(castle.foundDay) ?? ZERO_RESOURCES,
-        produce,
-      ),
-    );
-  }
-
   let available: ResourceRecord = iniRes;
-  let incomePerDay: ResourceRecord = {...ZERO_RESOURCES};
+  let incomePerDay: ResourceRecord = { ...ZERO_RESOURCES };
 
   for (let day = 0; day < TOTAL_DAYS; day++) {
-    // law income from the law remote: resource -> once, mine -> daily
     const law = {
       once: sumLawEntries(busLaws?.resource?.[day] ?? []),
       daily: sumLawEntries(busLaws?.mine?.[day] ?? []),
     };
-    // castle income from the castles remote: same shape as busLaws
-    const castlesIncome = {
+    const castles = {
       once: sumLawEntries(busCastles?.resource?.[day] ?? []),
       daily: sumLawEntries(busCastles?.mine?.[day] ?? []),
     };
 
-    // income produced by everything that appeared on earlier days
+    // apply all recurring income from previous days
     available = addResources(available, incomePerDay);
 
-    // one-time gains land the same day: resource piles and "once" laws
-    available = addResources(
-      available,
-      calcResourceGain(resources?.[day] ?? []),
-    );
+    // one-time gains: resource piles, law grants, castle building costs (pre-negated by remote)
+    available = addResources(available, calcResourceGain(resources?.[day] ?? []));
     available = addResources(available, law.once);
-    available = addResources(available, castlesIncome.once);
+    available = addResources(available, castles.once);
 
-    // pre-builds found today start producing from the next day
-    const preIncome = preIncomeByFoundDay.get(day);
-    if (preIncome) incomePerDay = addResources(incomePerDay, preIncome);
-
-    for (const [castleUUID, timeline] of Object.entries(history)) {
-      const buildingID = timeline?.built?.[day];
-      if (!buildingID) continue;
-
-      const building = castles[castleUUID]?.buildings?.[buildingID];
-      if (!building) continue;
-
-      // pay the build cost on the day it's built
-      available = subtractResources(available, toRecord(building.cost));
-
-      // building output + the dwelling's chosen mine start the next day
-      incomePerDay = addResources(incomePerDay, toRecord(building.produces));
-      incomePerDay = addResources(
-        incomePerDay,
-        calcCastleMineIncome(
-          castleMines?.[castleUUID]?.[buildingID as "id11" | "id21"],
-        ),
-      );
-    }
-
-    // tile mines and "daily" laws placed today start producing from the next day
-    incomePerDay = addResources(
-      incomePerDay,
-      calcMineIncome(mines?.[day] ?? []),
-    );
+    // recurring producers that start from the next day: tile mines, law daily, castle daily income
+    incomePerDay = addResources(incomePerDay, calcMineIncome(mines?.[day] ?? []));
     incomePerDay = addResources(incomePerDay, law.daily);
-    incomePerDay = addResources(incomePerDay, castlesIncome.daily);
+    incomePerDay = addResources(incomePerDay, castles.daily);
 
     days[day] = {
       available,
@@ -147,31 +81,13 @@ export const selectTimeline = (
   busLaws: BusLaws,
   busCastles: BusLaws,
 ): Timeline => {
-  const keys = [
-    state.iniRes,
-    state.history,
-    state.castles,
-    state.castleMines,
-    mines,
-    resources,
-    busLaws,
-    busCastles,
-  ];
+  const keys = [state.iniRes, mines, resources, busLaws, busCastles];
 
   if (cache && keys.every((key, i) => key === cache?.keys[i])) {
     return cache.value;
   }
 
-  const days = buildTimeline({
-    iniRes: state.iniRes,
-    history: state.history,
-    castles: state.castles,
-    castleMines: state.castleMines,
-    mines,
-    resources,
-    busLaws,
-    busCastles,
-  });
+  const days = buildTimeline({ iniRes: state.iniRes, mines, resources, busLaws, busCastles });
   const value: Timeline = {
     days,
     negativeByDay: days.map((d) => d.isNegative),
@@ -197,13 +113,10 @@ export type DaySnapshot = {
 };
 
 type State = ReturnType<typeof useHistoryStore.getState>;
-type TimelineInput = Pick<
-  State,
-  "iniRes" | "history" | "castles" | "castleMines"
-> & {
+type TimelineInput = {
+  iniRes: State["iniRes"];
   mines: Mine[][];
   resources: ResourceKey[][];
-  // Optional so callers/tests that don't use the law/castles remotes still work.
   busLaws?: BusLaws;
   busCastles?: BusLaws;
 };

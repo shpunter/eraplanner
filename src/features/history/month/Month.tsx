@@ -1,5 +1,7 @@
 import { classnames } from "#/shared/classnames";
 import { useNegativeTimeline } from "#/features/resourceBar/useNegativeTimeline";
+import { state$ as castlesState$ } from "#/shared/castlesBus";
+import { useObservable } from "#/shared/useObservable";
 import { useHistoryStore } from "../history.store";
 import css from "../history.module.css";
 
@@ -7,17 +9,11 @@ const Month = ({ month }: MonthProps) => {
   const setMonth = useHistoryStore((state) => state.setMonth);
   const isActive = useHistoryStore((state) => state.currMonth === month);
 
-  const hasAction = useHistoryStore((state) => {
-    const { history, currCastleUUID } = state;
-    const idxInHistoryStart = month * 4 * 7;
-
-    return (history[currCastleUUID]?.built ?? [])
-      .slice(idxInHistoryStart, idxInHistoryStart + 4 * 7)
-      .some((el) => !!el);
-  });
+  const castlesHistory = useObservable(castlesState$, castlesState$.getValue()).up.history;
+  const monthStart = month * 4 * 7;
+  const hasAction = castlesHistory.slice(monthStart, monthStart + 4 * 7).some((d) => d.length > 0);
 
   const negativeByDay = useNegativeTimeline();
-  const monthStart = month * 4 * 7;
   const hasNegative = negativeByDay
     .slice(monthStart, monthStart + 4 * 7)
     .some(Boolean);

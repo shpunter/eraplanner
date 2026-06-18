@@ -1,4 +1,4 @@
-import type { BuildingID, CastleID } from "#/routes/faction/$id";
+import type { BuildingID } from "#/routes/faction/$id";
 import { create } from "zustand";
 
 const initResources = {
@@ -18,13 +18,10 @@ const initDifficulty = 3;
 export const useHistoryStore = create<Store & Action>((set) => {
   return {
     difficulty: initDifficulty,
-    castles: {} as Store["castles"],
     currDay: 0,
     currWeek: 0,
     currMonth: 0,
     historyIDX: 0,
-    currCastleUUID: "",
-    history: {} as Store["history"],
     disabledChanges: {},
     iniRes: {
       gold: initResources.gold[initDifficulty] * 1000,
@@ -36,111 +33,6 @@ export const useHistoryStore = create<Store & Action>((set) => {
       dust: initResources.dust[initDifficulty],
       law: initResources.law[initDifficulty],
       astrology: initResources.astrology[initDifficulty],
-    },
-    castleMines: {},
-
-    addCastle: (castleUUID, castleID, castle, preBuilds) => {
-      set((state) => {
-        // Idempotent registration. The castles tab remounts CastleGrid on every
-        // visit (it re-runs this with the route loader's stable castleUUID), so
-        // re-initializing here would wipe the built history. Only set up a UUID
-        // the first time it's seen; afterwards just re-activate it. New castles
-        // from the "+" button always carry a fresh UUID, so they still init.
-        if (state.castles[castleUUID]) {
-          return { ...state, currCastleUUID: castleUUID };
-        }
-
-        const historyDisabled = Array.from<boolean>({
-          length: state.historyIDX,
-        }).fill(true);
-
-        return {
-          ...state,
-          currCastleUUID: castleUUID,
-          castles: {
-            ...state.castles,
-            [castleUUID]: {
-              buildings: castle,
-              preBuilds,
-              castleID,
-              foundDay: state.historyIDX,
-            },
-          },
-          history: {
-            ...state.history,
-            [castleUUID]: {
-              built: [],
-              disabled: historyDisabled,
-            },
-          },
-        };
-      });
-    },
-
-    addCastleMines: (buildingID, resource, amount) => {
-      set((state) => {
-        return {
-          ...state,
-          castleMines: {
-            ...state.castleMines,
-            [state.currCastleUUID]: {
-              ...state.castleMines[state.currCastleUUID],
-              [buildingID]: { resource, amount },
-            },
-          },
-        };
-      });
-    },
-
-    addBuilding: (buildingID) => {
-      set((state) => {
-        const { currDay, currWeek, currMonth, currCastleUUID } = state;
-        const totalDays = currDay + currWeek * 7 + currMonth * 4 * 7;
-
-        const newHistoryBuilt = structuredClone(
-          state.history?.[currCastleUUID]?.built ?? [],
-        );
-
-        newHistoryBuilt[totalDays] = buildingID;
-
-        return {
-          ...state,
-          history: {
-            ...state.history,
-            [currCastleUUID]: {
-              built: newHistoryBuilt,
-              disabled: state.history[currCastleUUID]?.disabled ?? [],
-            },
-          },
-        };
-      });
-    },
-
-    removeBuildings: (buildingIDs) => {
-      set((state) => {
-        const { currCastleUUID } = state;
-
-        const buildings = structuredClone(
-          state.history?.[currCastleUUID]?.built ?? [],
-        );
-
-        buildings.forEach((id, idx) => {
-          if (id && buildingIDs.includes(id)) {
-            buildings[idx] = undefined;
-          }
-        });
-
-        return {
-          ...state,
-          history: {
-            ...state.history,
-            [currCastleUUID]: {
-              built: buildings,
-              disabled: state.history[currCastleUUID]?.disabled ?? [],
-            },
-          },
-        };
-      });
     },
 
     setDay: (day) => {
@@ -169,15 +61,6 @@ export const useHistoryStore = create<Store & Action>((set) => {
           currWeek: 0,
           currMonth: month,
           historyIDX: month * 4 * 7,
-        };
-      });
-    },
-
-    setActiveTab: (castleUUID) => {
-      set((state) => {
-        return {
-          ...state,
-          currCastleUUID: castleUUID,
         };
       });
     },
@@ -235,23 +118,6 @@ type Store = {
   currDay: CurrDay;
   currWeek: CurrWeek;
   currMonth: number;
-  currCastleUUID: string;
-  history: {
-    [castleUUID: string]:
-      | { built: (BuildingID | undefined)[]; disabled: boolean[] }
-      | undefined;
-  };
-  castles: {
-    [uuid: string]:
-      | {
-          buildings: BuildingsType;
-          preBuilds: readonly BuildingID[];
-          castleID: CastleID;
-          /** day the castle was added (first castle = 0) */
-          foundDay: number;
-        }
-      | undefined;
-  };
   iniRes: {
     gold: number;
     wood: number;
@@ -262,14 +128,6 @@ type Store = {
     dust: number;
     law: number;
     astrology: number;
-  };
-  castleMines: {
-    [castleUUID: string]: {
-      [buildingID in "id11" | "id21"]?: {
-        resource: "gold" | "law" | "astrology";
-        amount: number;
-      };
-    };
   };
   historyIDX: number;
 };
@@ -307,27 +165,10 @@ export type CurrWeek = 0 | 1 | 2 | 3;
 export type Mine = "ore" | "wood" | "crystals" | "gem" | "mercury" | "gold";
 
 type Action = {
-  addCastle: (
-    castleUUID: string,
-    castleID: CastleID,
-    castle: BuildingsType,
-    preBuilds: readonly BuildingID[],
-  ) => void;
-
-  addCastleMines: (
-    buildingID: BuildingID,
-    resource: "gold" | "law" | "astrology",
-    amount: number,
-  ) => void;
-
   setDay: (day: CurrDay) => void;
   setWeek: (week: CurrWeek) => void;
   setMonth: (month: number) => void;
-  setActiveTab: (castleUUID: string) => void;
   setNextDay: () => void;
   setPrevDay: () => void;
   setDifficulty: (difficulty: 0 | 1 | 2 | 3 | 4 | 5) => void;
-
-  addBuilding: (buildingID: BuildingID) => void;
-  removeBuildings: (buildingIDs: BuildingID[]) => void;
 };
