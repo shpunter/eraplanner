@@ -67,10 +67,10 @@
 }
 
 .close::before {
-  transform: translate(-50%, -50%) rotate(-45deg) ;
+  transform: translate(-50%, -50%) rotate(-45deg);
 }
 .close::after {
-  transform:  translate(-50%, -50%) rotate(45deg) ;
+  transform: translate(-50%, -50%) rotate(45deg);
 }
 
 .close:focus {

@@ -14,11 +14,14 @@ import { selectTimeline } from "./timeline.utils";
  */
 export const useNegativeTimeline = (): boolean[] => {
   const mines = useObservable(minesState$, minesState$.getValue()).up.history;
-  const resources = useObservable(resourcesState$, resourcesState$.getValue()).up.history;
+  const resources = useObservable(resourcesState$, resourcesState$.getValue())
+    .up.history;
   const busLaws = useObservable(lawState$, lawState$.getValue()).up;
   const busCastles = useObservable(castlesState$, castlesState$.getValue()).up;
 
   return useHistoryStore(
-    (state) => selectTimeline(state, mines, resources, busLaws, busCastles).negativeByDay,
+    (state) =>
+      selectTimeline(state, mines, resources, busLaws, busCastles)
+        .negativeByDay,
   );
 };

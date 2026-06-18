@@ -13,11 +13,13 @@ export const useDayChangeCount = (id: MenuTab): number => {
     useObservable(minesState$, minesState$.getValue()).up.history[historyIDX]
       ?.length ?? 0;
   const resourcesCount =
-    useObservable(resourcesState$, resourcesState$.getValue()).up.history[historyIDX]
-      ?.length ?? 0;
+    useObservable(resourcesState$, resourcesState$.getValue()).up.history[
+      historyIDX
+    ]?.length ?? 0;
   const castlesCount =
-    useObservable(castlesState$, castlesState$.getValue()).up.history[historyIDX]
-      ?.length ?? 0;
+    useObservable(castlesState$, castlesState$.getValue()).up.history[
+      historyIDX
+    ]?.length ?? 0;
 
   const { up } = useObservable(lawState$, lawState$.getValue());
   const lawCount = up.history[historyIDX]?.length ?? 0;
