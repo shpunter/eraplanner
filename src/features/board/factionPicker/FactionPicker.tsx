@@ -44,6 +44,7 @@ const FactionPicker = () => {
             src={`/img/faction/${faction}.webp`}
             alt={faction}
             className={css.img}
+            fetchPriority={faction === current ? "high" : "auto"}
           />
         </button>
       ))}
