@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import css from "./resourceBar.module.css";
 import { RESOURCE_KEYS } from "#/shared/constants";
 import { classnames } from "#/shared/classnames";
-import { useHistoryStore } from "../history/history.store";
 import { useResources } from "./useResources";
 import { patchDown } from "#/shared/lawBus";
+import Difficulty from "./difficulty/Difficulty";
 
 const RESOURCE_ICONS: Partial<Record<ResourceKey, string>> = {
   gold: "/img/resource/gold.webp",
@@ -18,11 +18,7 @@ const RESOURCE_ICONS: Partial<Record<ResourceKey, string>> = {
   astrology: "/img/resource/astrology.png",
 };
 
-const difficulties = ["♟", "♞", "♝", "♜", "♛", "♚"];
-
 const ResourceBar = () => {
-  const setDifficulty = useHistoryStore((state) => state.setDifficulty);
-  const difficulty = useHistoryStore((state) => state.difficulty);
   const { available, incomePerDay } = useResources();
 
   useEffect(() => {
@@ -31,22 +27,7 @@ const ResourceBar = () => {
 
   return (
     <div className={css.bar}>
-      <div className={css.difficulties}>
-        {difficulties.map((currDifficulty, idx) => {
-          const onClick = () => setDifficulty(idx as 0 | 1 | 2 | 3 | 4 | 5);
-
-          const className = classnames({
-            [css.difficulty]: true,
-            [css.active]: difficulty === idx,
-          });
-
-          return (
-            <div key={currDifficulty} onClick={onClick} className={className}>
-              {currDifficulty}
-            </div>
-          );
-        })}
-      </div>
+      <Difficulty />
 
       <div className={css.resources}>
         {RESOURCE_KEYS.map((key) => {

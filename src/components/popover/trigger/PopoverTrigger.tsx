@@ -1,6 +1,5 @@
 import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
 import { usePopoverContext } from "../hook";
-import styles from "./popoverTrigger.module.css";
 
 const PopoverTrigger = ({
   children,
@@ -13,7 +12,7 @@ const PopoverTrigger = ({
   return (
     <div
       ref={triggerRef}
-      className={`${styles.trigger} ${className ?? ""}`.trim()}
+      className={className}
       // anchorName last so it can't be overridden by the caller's style
       style={{ ...style, anchorName } as AnchorStyle}
       onClick={toggle}
