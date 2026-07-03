@@ -1,11 +1,9 @@
 {
-  "short_name": "Planner",
-  "name": "Olden Era planner",
-  "icons": [
-
-  ],
-  "start_url": ".",
+  "short_name": "Era Planner",
+  "name": "Era Planner — Olden Era",
+  "description": "Free planning tool for the online strategy game Olden Era.",
+  "start_url": "/",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#000000"
 }
