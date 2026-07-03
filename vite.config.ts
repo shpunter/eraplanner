@@ -18,33 +18,34 @@ const config = defineConfig(({ mode, command }) => {
   const resourcesRemoteEntry = env.VITE_RESOURCES_REMOTE_ENTRY ?? ''
   const castlesRemoteEntry = env.VITE_CASTLES_REMOTE_ENTRY ?? ''
 
+  const isLocal = (url: string) => url.startsWith('http://localhost') || url.startsWith('http://127.0.0.1')
+
   // In dev mode, proxy external remotes through the local dev server so the
   // browser fetches remoteEntry.js same-origin, bypassing any CORS issues from
   // duplicate or missing Access-Control-Allow-Origin headers on the remote.
-  const lawEntry =
-    command === 'serve' && lawRemoteEntry
-      ? 'http://localhost:3000/law-remote/remoteEntry.js'
-      : lawRemoteEntry
+  // Local remotes (localhost) are used directly — no proxy needed, no CORS issue.
+  const toDevEntry = (url: string, prefix: string) =>
+    isLocal(url) ? url : `http://localhost:3000/${prefix}/remoteEntry.js`
+
+  const lawEntry = command === 'serve' && lawRemoteEntry ? toDevEntry(lawRemoteEntry, 'law-remote') : lawRemoteEntry
   const minesEntry =
-    command === 'serve' && minesRemoteEntry
-      ? 'http://localhost:3000/mines-remote/remoteEntry.js'
-      : minesRemoteEntry
+    command === 'serve' && minesRemoteEntry ? toDevEntry(minesRemoteEntry, 'mines-remote') : minesRemoteEntry
   const resourcesEntry =
     command === 'serve' && resourcesRemoteEntry
-      ? 'http://localhost:3000/resources-remote/remoteEntry.js'
+      ? toDevEntry(resourcesRemoteEntry, 'resources-remote')
       : resourcesRemoteEntry
   const castlesEntry =
-    command === 'serve' && castlesRemoteEntry
-      ? 'http://localhost:3000/castles-remote/remoteEntry.js'
-      : castlesRemoteEntry
+    command === 'serve' && castlesRemoteEntry ? toDevEntry(castlesRemoteEntry, 'castles-remote') : castlesRemoteEntry
 
-  const proxyEntries = [
-    lawRemoteEntry && (['law-remote', lawRemoteEntry] as const),
-    minesRemoteEntry && (['mines-remote', minesRemoteEntry] as const),
-    resourcesRemoteEntry && (['resources-remote', resourcesRemoteEntry] as const),
-    castlesRemoteEntry && (['castles-remote', castlesRemoteEntry] as const),
-  ]
-    .filter(Boolean)
+  const proxyEntries = (
+    [
+      ['law-remote', lawRemoteEntry],
+      ['mines-remote', minesRemoteEntry],
+      ['resources-remote', resourcesRemoteEntry],
+      ['castles-remote', castlesRemoteEntry],
+    ] as const
+  )
+    .filter(([, url]) => url && !isLocal(url))
     .reduce(
       (acc, [prefix, url]) => {
         acc[`/${prefix}`] = {

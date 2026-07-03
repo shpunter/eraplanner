@@ -3,6 +3,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { castles } from "./castles.config";
 
 export const Route = createFileRoute("/faction/$id")({
+  head: ({ params }) => ({
+    links: [{ rel: "canonical", href: `https://eraplanner.com/faction/${params.id}` }],
+  }),
   parseParams: (params) => ({
     id: params.id as CastleID,
   }),
@@ -12,7 +15,7 @@ export const Route = createFileRoute("/faction/$id")({
       : "castles",
   }),
   loader: ({ params }) => {
-    const id = Object.hasOwn(castles, params.id) ? params.id : "hive";
+    const id = (Object.hasOwn(castles, params.id) ? params.id : "hive") as CastleID;
 
     return {
       castle: fetchCastleData(id),

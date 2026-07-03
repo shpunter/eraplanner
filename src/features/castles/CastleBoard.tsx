@@ -15,7 +15,7 @@ const RemoteApp = CreateRemoteComponent(() => import("castles/App"), {
 
 const CastleBoard = () => {
   const historyIDX = useHistoryStore((state) => state.historyIDX);
-  const { id: faction } = useParams({ from: "/faction/$id" });
+  const { id: faction } = useParams({ from: "/faction/$id" }) as { id: import("#/shared/castlesBus").Faction };
 
   useEffect(() => {
     patchDown({ historyIDX });

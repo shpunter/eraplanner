@@ -15,7 +15,7 @@ const RemoteApp = CreateRemoteComponent(() => import("law/App"), {
 
 const Law = () => {
   const historyIDX = useHistoryStore((state) => state.historyIDX);
-  const { id: faction } = useParams({ from: "/faction/$id" });
+  const { id: faction } = useParams({ from: "/faction/$id" }) as { id: import("#/shared/lawBus").Faction };
 
   useEffect(() => {
     patchDown({ historyIDX });
