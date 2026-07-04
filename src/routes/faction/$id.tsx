@@ -6,7 +6,7 @@ export const Route = createFileRoute("/faction/$id")({
   head: ({ params }) => ({
     links: [
       { rel: "canonical", href: `https://eraplanner.com/faction/${params.id}` },
-      { rel: "preload", as: "image", href: `/img/faction/${params.id}.webp`, fetchpriority: "high" },
+      { rel: "preload", as: "image", href: `/img/faction/${params.id}.webp`, fetchPriority: "high" },
     ],
   }),
   parseParams: (params) => ({

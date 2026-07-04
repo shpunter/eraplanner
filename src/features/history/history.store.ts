@@ -1,5 +1,5 @@
 import type { BuildingID } from "#/routes/faction/$id";
-import { create } from "zustand";
+import { createIdbStore } from "#/shared/createIdbStore";
 
 const initResources = {
   gold: [25, 20, 15, 10, 5, 2.5],
@@ -15,7 +15,7 @@ const initResources = {
 
 const initDifficulty = 3;
 
-export const useHistoryStore = create<Store & Action>((set) => {
+export const useHistoryStore = createIdbStore<Store & Action>("history", (set) => {
   return {
     difficulty: initDifficulty,
     currDay: 0,
