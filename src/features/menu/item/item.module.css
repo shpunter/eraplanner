@@ -8,6 +8,22 @@
   line-height: 18px;
 }
 
+.spinner {
+  width: 13px;
+  height: 13px;
+  border: 2px solid var(--black-40);
+  border-top-color: var(--color-yellow-border);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .badge {
   display: inline-flex;
   align-items: center;

@@ -12,7 +12,7 @@ import { BehaviorSubject, Subject } from "rxjs";
 
 const initialState: MinesState = {
   down: { historyIDX: 0 },
-  up: { history: [] },
+  up: { history: [], hydrated: false },
 };
 
 const g = globalThis as BusGlobal;
@@ -63,6 +63,8 @@ export type MinesState = {
   up: {
     /** Mines placed per timeline day (index = historyIDX). */
     history: Mine[][];
+    /** True once the remote has finished loading its persisted state from IDB. */
+    hydrated: boolean;
   };
 };
 
