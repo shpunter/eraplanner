@@ -10,7 +10,10 @@ const hasAny = <T>(history: T[][], start: number, len: number): boolean =>
 export const useChangesInRange = (start: number, len: number) => {
   const castlesState = useObservable(castlesState$, castlesState$.getValue());
   const minesState = useObservable(minesState$, minesState$.getValue());
-  const resourcesState = useObservable(resourcesState$, resourcesState$.getValue());
+  const resourcesState = useObservable(
+    resourcesState$,
+    resourcesState$.getValue(),
+  );
   const lawState = useObservable(lawState$, lawState$.getValue());
 
   return {

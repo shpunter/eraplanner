@@ -41,5 +41,5 @@
 .active {
   color: var(--color-yellow-border);
   border-left-color: var(--color-yellow-border);
-  background-image: linear-gradient(to right, var(--dark-blue-50), transparent);  
+  background-image: linear-gradient(to right, var(--dark-blue-50), transparent);
 }
