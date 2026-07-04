@@ -1,4 +1,5 @@
 {
+  "typescript.tsdk": "node_modules/typescript/lib",
   "files.watcherExclude": {
     "**/routeTree.gen.ts": true
   },
@@ -31,5 +32,6 @@
   },
   "editor.codeActionsOnSave": {
     "source.organizeImports.biome": "explicit"
-  }
+  },
+  "cSpell.words": ["partialize"]
 }

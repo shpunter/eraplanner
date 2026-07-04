@@ -5,6 +5,7 @@ import { classnames } from "#/shared/classnames";
 import { useResources } from "./useResources";
 import { patchDown } from "#/shared/lawBus";
 import Difficulty from "./difficulty/Difficulty";
+import { useHistoryStore } from "../history/history.store";
 
 const RESOURCE_ICONS: Partial<Record<ResourceKey, string>> = {
   gold: "/img/resource/gold.webp",
@@ -19,11 +20,14 @@ const RESOURCE_ICONS: Partial<Record<ResourceKey, string>> = {
 };
 
 const ResourceBar = () => {
+  const hydrated = useHistoryStore((state) => state.hydrated);
   const { available, incomePerDay } = useResources();
 
   useEffect(() => {
     patchDown({ resLaw: available.law });
   }, [available.law]);
+
+  if (!hydrated) return <div className={css.bar}>Loading...</div>;
 
   return (
     <div className={css.bar}>

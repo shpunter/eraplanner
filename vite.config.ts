@@ -60,6 +60,7 @@ const config = defineConfig(({ mode, command }) => {
 
   return {
     resolve: { tsconfigPaths: true },
+    build: { cssCodeSplit: false },
     server: Object.keys(proxyEntries).length ? { proxy: proxyEntries } : undefined,
     // rxjs is shared/handled by Module Federation. Keep it out of Vite's dep
     // optimizer so it isn't discovered late and trigger a mid-session SSR
