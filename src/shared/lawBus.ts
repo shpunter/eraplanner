@@ -16,7 +16,7 @@ const initialState: LawState = {
     historyIDX: 0,
     resLaw: 0,
   },
-  up: { resource: [], mine: [], history: [] },
+  up: { resource: [], mine: [], history: [], hydrated: false },
 };
 
 const g = globalThis as BusGlobal;
@@ -72,6 +72,8 @@ export type LawState = {
     resource: { resID: string; amount: number }[][];
     mine: { resID: string; amount: number }[][];
     history: string[][];
+    /** True once the remote has finished loading its persisted state from IDB. */
+    hydrated: boolean;
   };
 };
 

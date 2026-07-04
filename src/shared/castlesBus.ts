@@ -12,7 +12,7 @@ import { BehaviorSubject, Subject } from "rxjs";
 
 const initialState: CastlesState = {
   down: { faction: "hive", historyIDX: 0 },
-  up: { history: [], resource: [], mine: [] },
+  up: { history: [], resource: [], mine: [], hydrated: false },
 };
 
 // Pin the streams on globalThis so host and remote share one instance even
@@ -82,5 +82,7 @@ export type CastlesState = {
     resource: { resID: string; amount: number }[][];
     /** Mine resources produced by castles per timeline day (index = historyIDX). */
     mine: { resID: string; amount: number }[][];
+    /** True once the remote has finished loading its persisted state from IDB. */
+    hydrated: boolean;
   };
 };

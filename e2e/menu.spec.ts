@@ -2,8 +2,9 @@ import { test, expect, type Page } from "@playwright/test";
 
 // Board menu navigation. The menu (src/features/menu) swaps the main panel via
 // the `m` search param: castles -> CastleBoard, mines -> Mines,
-// resources -> Resources, laws -> Laws. Only one panel is mounted at a time, so
-// each panel's marker element is present only while its tab is active.
+// resources -> Resources, laws -> Laws. All four panels are always mounted
+// (for bus hydration); the inactive ones carry the `hidden` attribute, so their
+// marker elements exist in the DOM but are not visible.
 
 const tab = (page: Page, id: string) => page.getByTestId(`tab-${id}`);
 const building = (page: Page, id: string) => page.locator(`#${id}`);
@@ -22,37 +23,37 @@ test.beforeEach(async ({ page }) => {
 
 test("castles is the default panel", async ({ page }) => {
   await expect(castlesPanel(page)).toBeVisible();
-  await expect(minesPanel(page)).toHaveCount(0);
-  await expect(resourcesPanel(page)).toHaveCount(0);
-  await expect(lawsPanel(page)).toHaveCount(0);
+  await expect(minesPanel(page)).not.toBeVisible();
+  await expect(resourcesPanel(page)).not.toBeVisible();
+  await expect(lawsPanel(page)).not.toBeVisible();
 });
 
 test("each menu item swaps in its own panel mines", async ({ page }) => {
   await tab(page, "mines").click();
   await expect(page).toHaveURL(/m=mines/);
   await expect(minesPanel(page)).toBeVisible();
-  await expect(castlesPanel(page)).toHaveCount(0);
+  await expect(castlesPanel(page)).not.toBeVisible();
 });
 
 test("each menu item swaps in its own panel resources", async ({ page }) => {
   await tab(page, "resources").click();
   await expect(page).toHaveURL(/m=resources/);
   await expect(resourcesPanel(page)).toBeVisible();
-  await expect(minesPanel(page)).toHaveCount(0);
+  await expect(minesPanel(page)).not.toBeVisible();
 });
 
 test("each menu item swaps in its own panel laws", async ({ page }) => {
   await tab(page, "law").click();
   await expect(page).toHaveURL(/m=law/);
   await expect(lawsPanel(page)).toBeVisible();
-  await expect(resourcesPanel(page)).toHaveCount(0);
+  await expect(resourcesPanel(page)).not.toBeVisible();
 });
 
 test("each menu item swaps in its own panel castles", async ({ page }) => {
   await tab(page, "castles").click();
   await expect(page).toHaveURL(/m=castles/);
   await expect(castlesPanel(page)).toBeVisible();
-  await expect(lawsPanel(page)).toHaveCount(0);
+  await expect(lawsPanel(page)).not.toBeVisible();
 });
 
 test("the active tab survives a page reload via the URL", async ({ page }) => {
@@ -62,7 +63,7 @@ test("the active tab survives a page reload via the URL", async ({ page }) => {
   await page.reload();
 
   await expect(lawsPanel(page)).toBeVisible();
-  await expect(castlesPanel(page)).toHaveCount(0);
+  await expect(castlesPanel(page)).not.toBeVisible();
 });
 
 test("returning to castles does not spawn an extra castle tab", async ({
