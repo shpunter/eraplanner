@@ -1,4 +1,5 @@
 import type { MenuTab } from "#/routes/faction/$id";
+import { TAB_COLORS } from "#/shared/tabColors";
 import css from "./item.module.css";
 import { useDayChangeCount } from "./useDayChangeCount";
 
@@ -7,7 +8,10 @@ const Item = ({ label, id }: ItemProps) => {
 
   return (
     <div className={css.item} data-testid={`tab-${id}`}>
-      <span>{label}</span>
+      <div className={css.labelWrapper}>
+        <div className={css.dot} style={{ background: TAB_COLORS[id] }} />
+        <span className={css.label}>{label}</span>
+      </div>
       {!hydrated && <div className={css.spinner} />}
       {hydrated && count > 0 && <div className={css.badge}>{count}</div>}
     </div>
