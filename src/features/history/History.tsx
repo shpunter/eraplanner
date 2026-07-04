@@ -5,11 +5,8 @@ import css from "./history.module.css";
 import Week from "./week/Week";
 
 const History = () => {
-  const hydrated = useHistoryStore((state) => state.hydrated);
   const setNextDay = useHistoryStore((state) => state.setNextDay);
   const setPrevDay = useHistoryStore((state) => state.setPrevDay);
-
-  if (!hydrated) return <div className={css.loading}>Loading...</div>;
 
   return (
     <>

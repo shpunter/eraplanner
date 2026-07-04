@@ -8,11 +8,13 @@ import css from "../history.module.css";
 const Day = ({ day }: DayProps) => {
   const setDay = useHistoryStore((state) => state.setDay);
   const isActive = useHistoryStore((state) => state.currDay === day);
+  const storeHydrated = useHistoryStore((state) => state.hydrated);
   const idxInHistory = useHistoryStore(
     (state) => state.currMonth * 4 * 7 + state.currWeek * 7 + day,
   );
 
   const changes = useChangesInRange(idxInHistory, 1);
+  const isLoading = !storeHydrated || !changes.hydrated;
 
   const negativeByDay = useNegativeTimeline();
   const isNegative = negativeByDay[idxInHistory] ?? false;
@@ -23,14 +25,15 @@ const Day = ({ day }: DayProps) => {
 
   const classNames = classnames({
     [css.cell]: true,
-    [css.active]: isActive,
-    [css.negative]: isNegative,
+    [css.active]: isActive && !isLoading,
+    [css.negative]: isNegative && !isLoading,
+    [css.skeleton]: isLoading,
   });
 
   return (
     <div
       key={day}
-      onClick={onDayClick(day)}
+      onClick={isLoading ? undefined : onDayClick(day)}
       className={classNames}
       data-testid="day"
       data-day={day}
@@ -38,8 +41,8 @@ const Day = ({ day }: DayProps) => {
       data-action={changes.castles}
       data-negative={isNegative}
     >
-      D{day + 1}
-      <ArcRings changes={changes} id={`d${day}`} />
+      {!isLoading && `D${day + 1}`}
+      <ArcRings changes={changes} id={`d${day}`} spin={isLoading} />
     </div>
   );
 };

@@ -18,6 +18,11 @@ export const useChangesInRange = (start: number, len: number) => {
     mines: hasAny(minesState.up.history, start, len),
     resources: hasAny(resourcesState.up.history, start, len),
     law: hasAny(lawState.up.history, start, len),
+    hydrated:
+      castlesState.up.hydrated &&
+      minesState.up.hydrated &&
+      resourcesState.up.hydrated &&
+      lawState.up.hydrated,
   };
 };
 
