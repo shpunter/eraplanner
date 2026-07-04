@@ -1,8 +1,8 @@
 import { classnames } from "#/shared/classnames";
 import { useNegativeTimeline } from "#/features/resourceBar/useNegativeTimeline";
-import { state$ as castlesState$ } from "#/shared/castlesBus";
-import { useObservable } from "#/shared/useObservable";
 import { useHistoryStore, type CurrWeek } from "../history.store";
+import { useChangesInRange } from "../useChangesInRange";
+import ArcRings from "../ArcRings";
 import css from "../history.module.css";
 
 const Week = ({ week }: WeekProps) => {
@@ -12,11 +12,7 @@ const Week = ({ week }: WeekProps) => {
     (state) => state.currMonth * 4 * 7 + week * 7,
   );
 
-  const castlesHistory = useObservable(castlesState$, castlesState$.getValue())
-    .up.history;
-  const hasAction = castlesHistory
-    .slice(weekStart, weekStart + 7)
-    .some((d) => d.length > 0);
+  const changes = useChangesInRange(weekStart, 7);
 
   const negativeByDay = useNegativeTimeline();
   const hasNegative = negativeByDay
@@ -26,7 +22,6 @@ const Week = ({ week }: WeekProps) => {
   const classNames = classnames({
     [css.cell]: true,
     [css.active]: isActive,
-    [css.action]: hasAction,
     [css.negative]: hasNegative,
   });
 
@@ -42,10 +37,11 @@ const Week = ({ week }: WeekProps) => {
       data-testid="week"
       data-week={week}
       data-active={isActive}
-      data-action={hasAction}
+      data-action={changes.castles}
       data-negative={hasNegative}
     >
       W{week + 1}
+      <ArcRings changes={changes} id={`w${week}`} />
     </div>
   );
 };

@@ -19,6 +19,7 @@
 }
 
 .cell {
+  position: relative;
   letter-spacing: 1px;
   text-indent: 2px;
 }
@@ -31,8 +32,11 @@
 
 .active {
   color: var(--black-80);
-  border: solid 1px var(--black-80);
+  border: solid 1px var(--black-60);
   font-weight: 600;
+  background-color: var(--highlight-15);
+  box-shadow: 0 2px 6px var(--shadow-50);
+  
 }
 
 .calendar {
@@ -40,10 +44,6 @@
   flex-direction: row;
   justify-content: space-between;
   gap: 10px;
-}
-
-.action {
-  border: solid 1px var(--green-50);
 }
 
 .negative {
