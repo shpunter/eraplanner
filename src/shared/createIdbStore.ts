@@ -23,7 +23,10 @@ const idbStorage: PersistStorage<unknown> = {
     const db = await getDB();
 
     return new Promise((resolve, reject) => {
-      const req = db.transaction("state", "readonly").objectStore("state").get(name);
+      const req = db
+        .transaction("state", "readonly")
+        .objectStore("state")
+        .get(name);
       req.onsuccess = () => resolve(req.result ?? null);
       req.onerror = () => reject(req.error);
     });
