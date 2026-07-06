@@ -11,6 +11,10 @@ export const Route = createFileRoute("/faction/$id/resources")({
       meta: [
         { title },
         { name: "description", content: description },
+        {
+          name: "keywords",
+          content: `olden era resource planner, ${params.id} resource builder, ${params.id} resources, olden era ${params.id} economy, resource income tracker, olden era economy guide, ${faction} resources, olden era builder`,
+        },
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:url", content: url },

@@ -21,6 +21,10 @@
   height: 35px;
 }
 
+.modal {
+  height: 434px;
+}
+
 .list {
   display: flex;
   flex-wrap: wrap;

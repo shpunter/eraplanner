@@ -5,7 +5,12 @@ import {
   useImperativeHandle,
   useRef,
 } from "react";
+import { classnames } from "#/shared/classnames";
 import css from "./modal.module.css";
+
+const ModalFooter = ({ children }: { children: ReactNode }) => (
+  <footer className={css.footer}>{children}</footer>
+);
 
 const Modal = ({ children, ref, title, onClose, ...props }: ModalProps) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -28,7 +33,14 @@ const Modal = ({ children, ref, title, onClose, ...props }: ModalProps) => {
   }));
 
   return (
-    <dialog ref={dialogRef} className={css.modal} {...props}>
+    <dialog
+      ref={dialogRef}
+      {...props}
+      className={classnames(
+        { [css.modal]: true },
+        props.className ? [props.className] : [],
+      )}
+    >
       <header className={css.header}>
         <strong>{title}</strong>
         <button
@@ -42,6 +54,8 @@ const Modal = ({ children, ref, title, onClose, ...props }: ModalProps) => {
     </dialog>
   );
 };
+
+Modal.Footer = ModalFooter;
 
 export default Modal;
 

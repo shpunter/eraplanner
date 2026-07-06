@@ -11,6 +11,10 @@ export const Route = createFileRoute("/faction/$id/castles")({
       meta: [
         { title },
         { name: "description", content: description },
+        {
+          name: "keywords",
+          content: `olden era castle builder, ${params.id} castle builder, ${params.id} castle build, olden era ${params.id} builds, castle upgrade planner, castle build order, olden era castle guide, ${faction} castle, olden era builder`,
+        },
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:url", content: url },

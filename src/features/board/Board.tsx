@@ -1,5 +1,6 @@
 import History from "../history/History";
 import ResourceBar from "../resourceBar/ResourceBar";
+import ShareImportModal from "../share/ShareImportModal";
 import Menu from "../menu/Menu";
 import FactionPicker from "./factionPicker/FactionPicker";
 import css from "./board.module.css";
@@ -21,6 +22,7 @@ const Board = () => {
       <div className={css.main}>
         <Main />
       </div>
+      <ShareImportModal />
     </div>
   );
 };

@@ -11,6 +11,10 @@ export const Route = createFileRoute("/faction/$id/law")({
       meta: [
         { title },
         { name: "description", content: description },
+        {
+          name: "keywords",
+          content: `olden era law builder, ${params.id} law builder, ${params.id} law upgrades, olden era ${params.id} laws, law planner, olden era law guide, faction laws, ${faction} law, olden era builder`,
+        },
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:url", content: url },

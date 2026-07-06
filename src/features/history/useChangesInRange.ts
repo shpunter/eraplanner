@@ -5,7 +5,9 @@ import { state$ as resourcesState$ } from "#/shared/resourcesBus";
 import { useObservable } from "#/shared/useObservable";
 
 const hasAny = <T>(history: T[][], start: number, len: number): boolean =>
-  history.slice(start, start + len).some((d) => d.length > 0);
+  history
+    .slice(start, start + len)
+    .some((d) => Array.isArray(d) && d.length > 0);
 
 export const useChangesInRange = (start: number, len: number) => {
   const castlesState = useObservable(castlesState$, castlesState$.getValue());
