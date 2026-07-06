@@ -5,6 +5,7 @@ import { classnames } from "#/shared/classnames";
 import { useResources } from "./useResources";
 import { patchDown } from "#/shared/lawBus";
 import Difficulty from "./difficulty/Difficulty";
+import ShareButton from "../share/ShareButton";
 import { useHistoryStore } from "../history/history.store";
 
 const RESOURCE_ICONS: Partial<Record<ResourceKey, string>> = {
@@ -32,6 +33,9 @@ const ResourceBar = () => {
   return (
     <div className={css.bar}>
       <Difficulty />
+      <div className={css.actions}>
+        <ShareButton />
+      </div>
 
       <div className={css.resources}>
         {RESOURCE_KEYS.map((key) => {

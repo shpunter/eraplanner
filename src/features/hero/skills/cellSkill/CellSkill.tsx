@@ -27,7 +27,7 @@ const CellSkill = ({ idx }: { idx: IDX }) => {
           />
         )}
       </div>
-      <Modal title="Select a skill" ref={modalRef}>
+      <Modal title="Select a skill" ref={modalRef} className={css.modal}>
         <div className={css.list}>
           {Object.entries(skills).map(([key, value]) => {
             return (

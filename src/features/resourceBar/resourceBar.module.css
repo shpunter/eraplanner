@@ -1,5 +1,6 @@
 .bar {
   min-width: 1100px;
+  position: relative;
 
   display: flex;
   justify-content: center;
@@ -63,4 +64,9 @@
 
 .negative {
   color: var(--red-60);
+}
+
+.actions {
+  position: absolute;
+  right: 16px;
 }
