@@ -11,6 +11,10 @@ export const Route = createFileRoute("/faction/$id/mines")({
       meta: [
         { title },
         { name: "description", content: description },
+        {
+          name: "keywords",
+          content: `olden era mine planner, ${params.id} mine builder, ${params.id} mines, olden era ${params.id} mines, mine upgrade guide, olden era mines strategy, resource extraction planner, ${faction} mines, olden era builder`,
+        },
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:url", content: url },

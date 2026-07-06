@@ -30,7 +30,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       {
         name: "keywords",
         content:
-          "olden era, olden era planner, olden era builds, olden era guide, olden era castle, olden era factions, era planner, hive, schism, temple, dungeon, grove, necropolis",
+          "olden era, olden era planner, olden era builder, olden era builds, olden era build planner, olden era guide, olden era strategy, olden era castle, olden era castle builder, olden era law builder, olden era mine planner, olden era resource planner, olden era factions, era planner, hive, schism, temple, dungeon, grove, necropolis",
       },
       { name: "robots", content: "index, follow" },
       { name: "theme-color", content: "#000000" },
