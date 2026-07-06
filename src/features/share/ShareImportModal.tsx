@@ -10,38 +10,26 @@ import css from "./shareImportModal.module.css";
 
 const ShareImportModal = () => {
   const modalRef = useRef<ModalHandle>(null);
-  const encodedRef = useRef<string | null>(null);
+  const shareIdRef = useRef<string | null>(null);
 
   useEffect(() => {
-    const processPending = (encoded: string) => {
-      encodedRef.current = encoded;
+    const processPending = (id: string) => {
+      shareIdRef.current = id;
       hasExistingData().then((hasData) => {
         if (!hasData) {
-          void applyPendingShare(encoded);
+          void applyPendingShare(id);
         } else {
           modalRef.current?.showOnClick();
         }
       });
     };
 
-    const encoded = sessionStorage.getItem(SHARE_STORAGE_KEY);
-    if (encoded) processPending(encoded);
-
-    const onHashChange = () => {
-      const hash = location.hash;
-      if (!hash.startsWith("#s=")) return;
-      const payload = hash.slice(3);
-      sessionStorage.setItem(SHARE_STORAGE_KEY, payload);
-      history.replaceState(null, "", location.pathname + location.search);
-      processPending(payload);
-    };
-
-    window.addEventListener("hashchange", onHashChange);
-    return () => window.removeEventListener("hashchange", onHashChange);
+    const id = sessionStorage.getItem(SHARE_STORAGE_KEY);
+    if (id) processPending(id);
   }, []);
 
   const handleLoad = () => {
-    if (encodedRef.current) void applyPendingShare(encodedRef.current);
+    if (shareIdRef.current) void applyPendingShare(shareIdRef.current);
   };
 
   const handleCancel = () => {

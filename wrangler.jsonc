@@ -1,10 +1,25 @@
 {
-"name": "era-planner",
-  "compatibility_date": "2025-09-02",
-  "compatibility_flags": ["nodejs_compat"],
-  "main": "@tanstack/react-start/server-entry",
-  "routes": [
-    { "pattern": "eraplanner.com", "custom_domain": true },
-    { "pattern": "www.eraplanner.com", "custom_domain": true }
-  ]
+	"name": "era-planner",
+	"compatibility_date": "2025-09-02",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"main": "@tanstack/react-start/server-entry",
+	"routes": [
+		{
+			"pattern": "eraplanner.com",
+			"custom_domain": true
+		},
+		{
+			"pattern": "www.eraplanner.com",
+			"custom_domain": true
+		}
+	],
+	"kv_namespaces": [
+		{
+			"binding": "SHARES",
+			"id": "e361e30c3cc044ca90b39d96c9865e72",
+			"preview_id": "5140d5b1ae0543e0a921ec30d19d01d0"
+		}
+	]
 }

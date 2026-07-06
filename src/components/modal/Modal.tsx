@@ -33,7 +33,14 @@ const Modal = ({ children, ref, title, onClose, ...props }: ModalProps) => {
   }));
 
   return (
-    <dialog ref={dialogRef} {...props} className={classnames({ [css.modal]: true }, props.className ? [props.className] : [])}>
+    <dialog
+      ref={dialogRef}
+      {...props}
+      className={classnames(
+        { [css.modal]: true },
+        props.className ? [props.className] : [],
+      )}
+    >
       <header className={css.header}>
         <strong>{title}</strong>
         <button

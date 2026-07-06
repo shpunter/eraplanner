@@ -1,7 +1,7 @@
 import { test, expect, type Page } from "@playwright/test";
 
 // Share-feature coverage:
-//   - Share button copies a valid #s= URL to the clipboard and shows a popup
+//   - Share button copies a valid ?share= URL to the clipboard and shows a popup
 //   - Opening a share URL in a fresh session (no IDB data) applies state silently
 //   - Opening a share URL when data already exists shows a confirmation modal
 //   - Cancelling the modal keeps the existing state untouched
@@ -37,11 +37,11 @@ test.beforeEach(async ({ page }) => {
   await building(page, "id20").waitFor();
 });
 
-test("Share button copies a URL with a #s= hash and shows a popup", async ({
+test("Share button copies a URL with a ?share= param and shows a popup", async ({
   page,
 }) => {
   const url = await getShareURL(page);
-  expect(url).toMatch(/#s=[A-Za-z0-9_-]+/);
+  expect(url).toMatch(/\?share=[a-f0-9]{10}/);
   await expect(page.getByText("Paste it anywhere to share your build.")).toBeVisible();
 });
 
@@ -59,8 +59,9 @@ test("loading a share URL in a fresh session applies state silently", async ({
   const ctx = await browser.newContext();
   const freshPage = await ctx.newPage();
 
-  // Navigate to the share URL. applyPendingShare writes IDB then calls
-  // location.replace, triggering a second navigation. waitFor polls through it.
+  // Navigate to the share URL. applyPendingShare fetches from KV, writes IDB,
+  // then calls location.replace — triggering a second navigation. waitFor polls
+  // through both navigations.
   await freshPage.goto(shareUrl);
   await building(freshPage, "id20").waitFor({ timeout: 15_000 });
 
@@ -83,7 +84,7 @@ test("loading a share URL with existing data shows the confirmation modal", asyn
   // Create existing data so the load would overwrite something
   await building(page, "id11").click();
 
-  // Full reload with the share hash → initShare saves to sessionStorage → modal
+  // Full reload with the share param → initShare saves to sessionStorage → modal
   await page.goto(baselineUrl);
   await building(page, "id20").waitFor();
 
