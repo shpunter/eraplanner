@@ -1,11 +1,26 @@
-import Castle from "#/features/board/Board";
-import { createFileRoute } from "@tanstack/react-router";
+import Board from "#/features/board/Board";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { castles } from "./castles.config";
 
 export const Route = createFileRoute("/faction/$id")({
   head: ({ params }) => ({
+    meta: [
+      {
+        property: "og:image",
+        content: `https://eraplanner.com/img/faction/${params.id}.webp`,
+      },
+      { property: "og:image:width", content: "163" },
+      { property: "og:image:height", content: "175" },
+      {
+        property: "og:image:alt",
+        content: `${params.id} faction — Era Planner`,
+      },
+      {
+        name: "twitter:image",
+        content: `https://eraplanner.com/img/faction/${params.id}.webp`,
+      },
+    ],
     links: [
-      { rel: "canonical", href: `https://eraplanner.com/faction/${params.id}` },
       {
         rel: "preload",
         as: "image",
@@ -16,11 +31,6 @@ export const Route = createFileRoute("/faction/$id")({
   }),
   parseParams: (params) => ({
     id: params.id as CastleID,
-  }),
-  validateSearch: (search: Record<string, unknown>): { m: MenuTab } => ({
-    m: MENU_TABS.includes(search.m as MenuTab)
-      ? (search.m as MenuTab)
-      : "castles",
   }),
   loader: ({ params }) => {
     const id = (
@@ -37,8 +47,17 @@ export const Route = createFileRoute("/faction/$id")({
       castleUUID: `primary-${id}`,
     };
   },
-  component: Castle,
+  component: FactionPage,
 });
+
+function FactionPage() {
+  return (
+    <>
+      <Board />
+      <Outlet />
+    </>
+  );
+}
 
 const fetchCastleData = async (id: CastleID): Promise<TCastle> => {
   // TODO(BE): replace with real API call, e.g. fetch(`/api/castles/${id}`)
@@ -46,9 +65,15 @@ const fetchCastleData = async (id: CastleID): Promise<TCastle> => {
   return castles[id];
 };
 
-// Menu tab persisted in the URL search param `m`
 export const MENU_TABS = ["castles", "mines", "resources", "law"] as const;
 export type MenuTab = (typeof MENU_TABS)[number];
+
+export const TAB_ROUTES = {
+  castles: "/faction/$id/castles",
+  mines: "/faction/$id/mines",
+  resources: "/faction/$id/resources",
+  law: "/faction/$id/law",
+} as const satisfies Record<MenuTab, string>;
 
 // 1. Get the names of the castles ('hive' | 'necropolis')
 export type CastleID = keyof typeof castles;

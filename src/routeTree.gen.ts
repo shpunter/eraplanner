@@ -12,6 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as HeroIdRouteImport } from './routes/hero/$id'
 import { Route as FactionIdRouteImport } from './routes/faction/$id'
+import { Route as FactionIdIndexRouteImport } from './routes/faction/$id/index'
+import { Route as FactionIdResourcesRouteImport } from './routes/faction/$id/resources'
+import { Route as FactionIdMinesRouteImport } from './routes/faction/$id/mines'
+import { Route as FactionIdLawRouteImport } from './routes/faction/$id/law'
+import { Route as FactionIdCastlesRouteImport } from './routes/faction/$id/castles'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,34 +33,97 @@ const FactionIdRoute = FactionIdRouteImport.update({
   path: '/faction/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FactionIdIndexRoute = FactionIdIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => FactionIdRoute,
+} as any)
+const FactionIdResourcesRoute = FactionIdResourcesRouteImport.update({
+  id: '/resources',
+  path: '/resources',
+  getParentRoute: () => FactionIdRoute,
+} as any)
+const FactionIdMinesRoute = FactionIdMinesRouteImport.update({
+  id: '/mines',
+  path: '/mines',
+  getParentRoute: () => FactionIdRoute,
+} as any)
+const FactionIdLawRoute = FactionIdLawRouteImport.update({
+  id: '/law',
+  path: '/law',
+  getParentRoute: () => FactionIdRoute,
+} as any)
+const FactionIdCastlesRoute = FactionIdCastlesRouteImport.update({
+  id: '/castles',
+  path: '/castles',
+  getParentRoute: () => FactionIdRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/faction/$id': typeof FactionIdRoute
+  '/faction/$id': typeof FactionIdRouteWithChildren
   '/hero/$id': typeof HeroIdRoute
+  '/faction/$id/castles': typeof FactionIdCastlesRoute
+  '/faction/$id/law': typeof FactionIdLawRoute
+  '/faction/$id/mines': typeof FactionIdMinesRoute
+  '/faction/$id/resources': typeof FactionIdResourcesRoute
+  '/faction/$id/': typeof FactionIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/faction/$id': typeof FactionIdRoute
   '/hero/$id': typeof HeroIdRoute
+  '/faction/$id/castles': typeof FactionIdCastlesRoute
+  '/faction/$id/law': typeof FactionIdLawRoute
+  '/faction/$id/mines': typeof FactionIdMinesRoute
+  '/faction/$id/resources': typeof FactionIdResourcesRoute
+  '/faction/$id': typeof FactionIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/faction/$id': typeof FactionIdRoute
+  '/faction/$id': typeof FactionIdRouteWithChildren
   '/hero/$id': typeof HeroIdRoute
+  '/faction/$id/castles': typeof FactionIdCastlesRoute
+  '/faction/$id/law': typeof FactionIdLawRoute
+  '/faction/$id/mines': typeof FactionIdMinesRoute
+  '/faction/$id/resources': typeof FactionIdResourcesRoute
+  '/faction/$id/': typeof FactionIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/faction/$id' | '/hero/$id'
+  fullPaths:
+    | '/'
+    | '/faction/$id'
+    | '/hero/$id'
+    | '/faction/$id/castles'
+    | '/faction/$id/law'
+    | '/faction/$id/mines'
+    | '/faction/$id/resources'
+    | '/faction/$id/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/faction/$id' | '/hero/$id'
-  id: '__root__' | '/' | '/faction/$id' | '/hero/$id'
+  to:
+    | '/'
+    | '/hero/$id'
+    | '/faction/$id/castles'
+    | '/faction/$id/law'
+    | '/faction/$id/mines'
+    | '/faction/$id/resources'
+    | '/faction/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/faction/$id'
+    | '/hero/$id'
+    | '/faction/$id/castles'
+    | '/faction/$id/law'
+    | '/faction/$id/mines'
+    | '/faction/$id/resources'
+    | '/faction/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  FactionIdRoute: typeof FactionIdRoute
+  FactionIdRoute: typeof FactionIdRouteWithChildren
   HeroIdRoute: typeof HeroIdRoute
 }
 
@@ -82,12 +150,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FactionIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/faction/$id/': {
+      id: '/faction/$id/'
+      path: '/'
+      fullPath: '/faction/$id/'
+      preLoaderRoute: typeof FactionIdIndexRouteImport
+      parentRoute: typeof FactionIdRoute
+    }
+    '/faction/$id/resources': {
+      id: '/faction/$id/resources'
+      path: '/resources'
+      fullPath: '/faction/$id/resources'
+      preLoaderRoute: typeof FactionIdResourcesRouteImport
+      parentRoute: typeof FactionIdRoute
+    }
+    '/faction/$id/mines': {
+      id: '/faction/$id/mines'
+      path: '/mines'
+      fullPath: '/faction/$id/mines'
+      preLoaderRoute: typeof FactionIdMinesRouteImport
+      parentRoute: typeof FactionIdRoute
+    }
+    '/faction/$id/law': {
+      id: '/faction/$id/law'
+      path: '/law'
+      fullPath: '/faction/$id/law'
+      preLoaderRoute: typeof FactionIdLawRouteImport
+      parentRoute: typeof FactionIdRoute
+    }
+    '/faction/$id/castles': {
+      id: '/faction/$id/castles'
+      path: '/castles'
+      fullPath: '/faction/$id/castles'
+      preLoaderRoute: typeof FactionIdCastlesRouteImport
+      parentRoute: typeof FactionIdRoute
+    }
   }
 }
 
+interface FactionIdRouteChildren {
+  FactionIdCastlesRoute: typeof FactionIdCastlesRoute
+  FactionIdLawRoute: typeof FactionIdLawRoute
+  FactionIdMinesRoute: typeof FactionIdMinesRoute
+  FactionIdResourcesRoute: typeof FactionIdResourcesRoute
+  FactionIdIndexRoute: typeof FactionIdIndexRoute
+}
+
+const FactionIdRouteChildren: FactionIdRouteChildren = {
+  FactionIdCastlesRoute: FactionIdCastlesRoute,
+  FactionIdLawRoute: FactionIdLawRoute,
+  FactionIdMinesRoute: FactionIdMinesRoute,
+  FactionIdResourcesRoute: FactionIdResourcesRoute,
+  FactionIdIndexRoute: FactionIdIndexRoute,
+}
+
+const FactionIdRouteWithChildren = FactionIdRoute._addFileChildren(
+  FactionIdRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  FactionIdRoute: FactionIdRoute,
+  FactionIdRoute: FactionIdRouteWithChildren,
   HeroIdRoute: HeroIdRoute,
 }
 export const routeTree = rootRouteImport

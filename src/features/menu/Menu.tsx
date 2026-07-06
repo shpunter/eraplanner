@@ -1,5 +1,6 @@
 import Menu from "#/components/menu/Menu";
-import { Route } from "#/routes/faction/$id";
+import NavMenuItem from "#/components/menu/item/NavMenuItem";
+import { Route, TAB_ROUTES } from "#/routes/faction/$id";
 import Item from "./item/Item";
 
 const ITEMS = [
@@ -10,19 +11,14 @@ const ITEMS = [
 ] as const;
 
 const BoardMenu = () => {
-  const { m } = Route.useSearch();
-  const navigate = Route.useNavigate();
-
-  const onChange = (value: (typeof ITEMS)[number]["id"]) => {
-    navigate({ search: (prev) => ({ ...prev, m: value }) });
-  };
+  const { id } = Route.useParams();
 
   return (
-    <Menu value={m} onChange={onChange}>
-      {ITEMS.map(({ id, label }) => (
-        <Menu.Item key={id} value={id}>
-          <Item label={label} id={id} />
-        </Menu.Item>
+    <Menu>
+      {ITEMS.map(({ id: tab, label }) => (
+        <NavMenuItem key={tab} to={TAB_ROUTES[tab]} params={{ id }}>
+          <Item label={label} id={tab} />
+        </NavMenuItem>
       ))}
     </Menu>
   );

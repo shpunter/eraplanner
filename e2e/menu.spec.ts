@@ -1,8 +1,8 @@
 import { test, expect, type Page } from "@playwright/test";
 
 // Board menu navigation. The menu (src/features/menu) swaps the main panel via
-// the `m` search param: castles -> CastleBoard, mines -> Mines,
-// resources -> Resources, laws -> Laws. All four panels are always mounted
+// path segments: /faction/$id/castles -> CastleBoard, /mines -> Mines,
+// /resources -> Resources, /law -> Laws. All four panels are always mounted
 // (for bus hydration); the inactive ones carry the `hidden` attribute, so their
 // marker elements exist in the DOM but are not visible.
 
@@ -30,28 +30,28 @@ test("castles is the default panel", async ({ page }) => {
 
 test("each menu item swaps in its own panel mines", async ({ page }) => {
   await tab(page, "mines").click();
-  await expect(page).toHaveURL(/m=mines/);
+  await expect(page).toHaveURL(/\/mines$/);
   await expect(minesPanel(page)).toBeVisible();
   await expect(castlesPanel(page)).not.toBeVisible();
 });
 
 test("each menu item swaps in its own panel resources", async ({ page }) => {
   await tab(page, "resources").click();
-  await expect(page).toHaveURL(/m=resources/);
+  await expect(page).toHaveURL(/\/resources$/);
   await expect(resourcesPanel(page)).toBeVisible();
   await expect(minesPanel(page)).not.toBeVisible();
 });
 
 test("each menu item swaps in its own panel laws", async ({ page }) => {
   await tab(page, "law").click();
-  await expect(page).toHaveURL(/m=law/);
+  await expect(page).toHaveURL(/\/law$/);
   await expect(lawsPanel(page)).toBeVisible();
   await expect(resourcesPanel(page)).not.toBeVisible();
 });
 
 test("each menu item swaps in its own panel castles", async ({ page }) => {
   await tab(page, "castles").click();
-  await expect(page).toHaveURL(/m=castles/);
+  await expect(page).toHaveURL(/\/castles$/);
   await expect(castlesPanel(page)).toBeVisible();
   await expect(lawsPanel(page)).not.toBeVisible();
 });
