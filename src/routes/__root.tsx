@@ -64,18 +64,34 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "canonical", href: "https://eraplanner.com" },
       { rel: "manifest", href: "/manifest.json" },
     ],
   }),
   shellComponent: RootDocument,
 });
 
+const JSONLD = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Era Planner",
+  url: "https://eraplanner.com",
+  description:
+    "Free planning tool for the online strategy game Olden Era. Plan castle builds, track resources, mines and army for all 6 factions.",
+  applicationCategory: "GameApplication",
+  operatingSystem: "Any",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+};
+
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
         <HeadContent />
+        <script
+          type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: ok
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(JSONLD) }}
+        />
       </head>
       <body>
         {children}

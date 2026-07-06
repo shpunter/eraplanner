@@ -1,4 +1,4 @@
-import { Route } from "#/routes/faction/$id";
+import { useMatch } from "@tanstack/react-router";
 import CastleBoard from "#/features/castles/CastleBoard";
 import Mines from "#/features/mines/Mines";
 import Resources from "#/features/resources/Resources";
@@ -10,20 +10,32 @@ import Law from "#/features/law/Law";
 // MF already fetches all remote entries at startup anyway, so keeping the
 // React trees alive adds no extra network cost.
 const Main = () => {
-  const { m } = Route.useSearch();
+  const isCastles = !!useMatch({
+    from: "/faction/$id/castles",
+    shouldThrow: false,
+  });
+  const isMines = !!useMatch({
+    from: "/faction/$id/mines",
+    shouldThrow: false,
+  });
+  const isResources = !!useMatch({
+    from: "/faction/$id/resources",
+    shouldThrow: false,
+  });
+  const isLaw = !!useMatch({ from: "/faction/$id/law", shouldThrow: false });
 
   return (
     <>
-      <div hidden={m !== "castles"}>
+      <div hidden={!isCastles}>
         <CastleBoard />
       </div>
-      <div hidden={m !== "mines"}>
+      <div hidden={!isMines}>
         <Mines />
       </div>
-      <div hidden={m !== "resources"}>
+      <div hidden={!isResources}>
         <Resources />
       </div>
-      <div hidden={m !== "law"}>
+      <div hidden={!isLaw}>
         <Law />
       </div>
     </>

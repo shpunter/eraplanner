@@ -11,6 +11,7 @@
   text-align: left;
 
   color: var(--text-main);
+  text-decoration: none;
   background: transparent;
   border: none;
   border-radius: 6px;
