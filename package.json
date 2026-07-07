@@ -7,7 +7,8 @@
   },
   "scripts": {
     "dev": "vite dev --port 3000",
-    "build": "vite build",
+    "gen:seo": "node scripts/gen-castles-seo.mjs",
+    "build": "node scripts/gen-castles-seo.mjs && vite build",
     "preview": "vite preview",
     "test": "vitest run",
     "test:e2e": "playwright test",

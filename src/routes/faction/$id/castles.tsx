@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { castlesSeo } from "../castles.seo";
 
 export const Route = createFileRoute("/faction/$id/castles")({
   head: ({ params }) => {
+    const id = params.id as keyof typeof castlesSeo;
     const faction = capitalize(params.id);
     const title = `${faction} — Castles | Era Planner`;
     const description = `Plan ${faction} castle upgrades, track production buildings, and optimize your build order for Olden Era.`;
@@ -57,6 +59,21 @@ export const Route = createFileRoute("/faction/$id/castles")({
                   item: url,
                 },
               ],
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              name: `${faction} Castle Buildings`,
+              numberOfItems: castlesSeo[id].length,
+              itemListElement: castlesSeo[id].map((b, i) => ({
+                "@type": "ListItem",
+                position: i + 1,
+                item: {
+                  "@type": "Thing",
+                  name: b.name,
+                  description: b.description,
+                },
+              })),
             },
           ]),
         },
