@@ -29,7 +29,9 @@ export const Route = createFileRoute("/faction/$id")({
     ],
   }),
   parseParams: (params) => ({
-    id: ((FACTION_IDS as readonly string[]).includes(params.id) ? params.id : "hive") as CastleID,
+    id: ((FACTION_IDS as readonly string[]).includes(params.id)
+      ? params.id
+      : "hive") as CastleID,
   }),
   component: FactionPage,
 });
@@ -42,7 +44,6 @@ function FactionPage() {
     </>
   );
 }
-
 
 export const MENU_TABS = ["castles", "mines", "resources", "law"] as const;
 export type MenuTab = (typeof MENU_TABS)[number];
