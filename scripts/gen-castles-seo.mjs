@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, mkdirSync } from "fs";
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 
@@ -25,6 +25,11 @@ function extract(source) {
   }
 
   return names.map((name, i) => ({ name, description: descriptions[i] }));
+}
+
+if (!existsSync(castlesDir)) {
+  console.log("Castles MFE not found — using committed castles.seo.ts");
+  process.exit(0);
 }
 
 const result = {};
