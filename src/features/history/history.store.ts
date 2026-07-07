@@ -1,4 +1,3 @@
-import type { BuildingID } from "#/routes/faction/$id";
 import { createIdbStore } from "#/shared/createIdbStore";
 
 const initResources = {
@@ -153,34 +152,6 @@ type Store = {
     astrology: number;
   };
   historyIDX: number;
-};
-
-export type BuildingsType = { [buildingID in BuildingID]?: BuildingType };
-
-export type BuildingType = {
-  readonly id: BuildingID;
-  readonly name: string;
-  readonly prev: readonly BuildingID[] | null;
-  readonly next: readonly BuildingID[] | null;
-  readonly pos: readonly [number, number];
-  readonly cost: {
-    readonly gold?: number;
-    readonly wood?: number;
-    readonly ore?: number;
-    readonly gems?: number;
-    readonly crystals?: number;
-    readonly mercury?: number;
-    readonly dust?: number;
-  };
-  readonly produces: {
-    readonly gold?: number;
-    readonly law?: number;
-    readonly astrology?: number;
-    readonly crystals?: number;
-    readonly mercury?: number;
-    readonly gems?: number;
-    readonly dust?: number;
-  };
 };
 
 export type CurrDay = 0 | 1 | 2 | 3 | 4 | 5 | 6;
