@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { lawSeo } from "../law.seo";
 
 export const Route = createFileRoute("/faction/$id/law")({
   head: ({ params }) => {
+    const id = params.id as keyof typeof lawSeo;
     const faction = capitalize(params.id);
     const title = `${faction} — Law | Era Planner`;
     const description = `Plan ${faction} law upgrades, manage faction bonuses, and optimize your legal system in Olden Era.`;
@@ -52,6 +54,21 @@ export const Route = createFileRoute("/faction/$id/law")({
                 },
                 { "@type": "ListItem", position: 3, name: "Law", item: url },
               ],
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              name: `${faction} Laws`,
+              numberOfItems: lawSeo[id].length,
+              itemListElement: lawSeo[id].map((l, i) => ({
+                "@type": "ListItem",
+                position: i + 1,
+                item: {
+                  "@type": "Thing",
+                  name: l.title,
+                  description: l.description,
+                },
+              })),
             },
           ]),
         },

@@ -65,6 +65,9 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+      { rel: "icon", type: "image/png", href: "/favicon.png" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
       { rel: "manifest", href: "/manifest.json" },
     ],
   }),
@@ -90,7 +93,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
         <script
           type="application/ld+json"
-          // biome-ignore lint/security/noDangerouslySetInnerHtml: ok
           dangerouslySetInnerHTML={{ __html: JSON.stringify(JSONLD) }}
         />
       </head>
