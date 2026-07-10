@@ -4,9 +4,9 @@ import Hero from "#/features/hero/Hero";
 
 export const Route = createFileRoute("/hero/$id")({
   head: ({ params }) => {
-    const id = (parseInt(params.id, 10) in heroes
-      ? parseInt(params.id, 10)
-      : 0) as keyof typeof heroes;
+    const id = (
+      parseInt(params.id, 10) in heroes ? parseInt(params.id, 10) : 0
+    ) as keyof typeof heroes;
     const hero = heroes[id];
     const title = `${hero.name} — ${hero.class} | Era Planner`;
     const description = `${hero.name} is a ${hero.type} hero of the ${hero.fraction} faction in Olden Era. ${hero.class} class with ${hero.mainStats.attack} Attack and ${hero.mainStats.defense} Defense. Build and optimize your hero.`;
