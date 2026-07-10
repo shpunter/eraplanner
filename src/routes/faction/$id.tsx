@@ -6,7 +6,7 @@ export const Route = createFileRoute("/faction/$id")({
     meta: [
       {
         property: "og:image",
-        content: `https://eraplanner.com/img/faction/${params.id}.webp`,
+        content: `https://www.eraplanner.com/img/faction/${params.id}.webp`,
       },
       { property: "og:image:width", content: "163" },
       { property: "og:image:height", content: "175" },
@@ -16,7 +16,11 @@ export const Route = createFileRoute("/faction/$id")({
       },
       {
         name: "twitter:image",
-        content: `https://eraplanner.com/img/faction/${params.id}.webp`,
+        content: `https://www.eraplanner.com/img/faction/${params.id}.webp`,
+      },
+      {
+        name: "twitter:image:alt",
+        content: `${params.id} faction — Era Planner`,
       },
     ],
     links: [

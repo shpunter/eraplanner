@@ -1,20 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
+import SeoSection from "../SeoSection/SeoSection";
 
 export const Route = createFileRoute("/faction/$id/resources")({
   head: ({ params }) => {
     const faction = capitalize(params.id);
     const title = `${faction} — Resources | Era Planner`;
     const description = `Track ${faction} resource income across the full campaign timeline and plan upgrades in Olden Era.`;
-    const url = `https://eraplanner.com/faction/${params.id}/resources`;
+    const url = `https://www.eraplanner.com/faction/${params.id}/resources`;
 
     return {
       meta: [
         { title },
         { name: "description", content: description },
-        {
-          name: "keywords",
-          content: `olden era resource planner, ${params.id} resource builder, ${params.id} resources, olden era ${params.id} economy, resource income tracker, olden era economy guide, ${faction} resources, olden era builder`,
-        },
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:url", content: url },
@@ -42,13 +39,13 @@ export const Route = createFileRoute("/faction/$id/resources")({
                   "@type": "ListItem",
                   position: 1,
                   name: "Era Planner",
-                  item: "https://eraplanner.com",
+                  item: "https://www.eraplanner.com",
                 },
                 {
                   "@type": "ListItem",
                   position: 2,
                   name: faction,
-                  item: `https://eraplanner.com/faction/${params.id}/castles`,
+                  item: `https://www.eraplanner.com/faction/${params.id}/castles`,
                 },
                 {
                   "@type": "ListItem",
@@ -63,7 +60,19 @@ export const Route = createFileRoute("/faction/$id/resources")({
       ],
     };
   },
-  component: () => null,
+  component: ResourcesInfo,
 });
+
+function ResourcesInfo() {
+  const { id } = Route.useParams();
+  const faction = capitalize(id);
+
+  return (
+    <SeoSection
+      heading={`${faction} Resources — Olden Era Resource Tracker`}
+      lead={`Track ${faction} resource income across the full Olden Era campaign timeline. See how gold, wood, ore, gems, and other resources accumulate as you upgrade buildings and mines. Plan your economy to stay ahead at every stage.`}
+    />
+  );
+}
 
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);

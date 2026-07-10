@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { lawSeo } from "../law.seo";
+import SeoSection from "../SeoSection/SeoSection";
 
 export const Route = createFileRoute("/faction/$id/law")({
   head: ({ params }) => {
@@ -7,16 +8,12 @@ export const Route = createFileRoute("/faction/$id/law")({
     const faction = capitalize(params.id);
     const title = `${faction} — Law | Era Planner`;
     const description = `Plan ${faction} law upgrades, manage faction bonuses, and optimize your legal system in Olden Era.`;
-    const url = `https://eraplanner.com/faction/${params.id}/law`;
+    const url = `https://www.eraplanner.com/faction/${params.id}/law`;
 
     return {
       meta: [
         { title },
         { name: "description", content: description },
-        {
-          name: "keywords",
-          content: `olden era law builder, ${params.id} law builder, ${params.id} law upgrades, olden era ${params.id} laws, law planner, olden era law guide, faction laws, ${faction} law, olden era builder`,
-        },
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:url", content: url },
@@ -44,13 +41,13 @@ export const Route = createFileRoute("/faction/$id/law")({
                   "@type": "ListItem",
                   position: 1,
                   name: "Era Planner",
-                  item: "https://eraplanner.com",
+                  item: "https://www.eraplanner.com",
                 },
                 {
                   "@type": "ListItem",
                   position: 2,
                   name: faction,
-                  item: `https://eraplanner.com/faction/${params.id}/castles`,
+                  item: `https://www.eraplanner.com/faction/${params.id}/castles`,
                 },
                 { "@type": "ListItem", position: 3, name: "Law", item: url },
               ],
@@ -75,7 +72,22 @@ export const Route = createFileRoute("/faction/$id/law")({
       ],
     };
   },
-  component: () => null,
+  component: LawInfo,
 });
+
+function LawInfo() {
+  const { id } = Route.useParams();
+  const faction = capitalize(id);
+  const seoId = id as keyof typeof lawSeo;
+  const laws = lawSeo[seoId];
+
+  return (
+    <SeoSection
+      heading={`${faction} Laws — Olden Era Law Planner`}
+      lead={`Plan your ${faction} law upgrades in Olden Era. Manage all ${laws.length} ${faction} laws, unlock faction bonuses, and optimize your legal system across the full campaign timeline.`}
+      items={laws.map((l) => ({ name: l.title, description: l.description }))}
+    />
+  );
+}
 
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
