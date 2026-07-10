@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { castlesSeo } from "../castles.seo";
+import SeoSection from "../SeoSection/SeoSection";
 
 export const Route = createFileRoute("/faction/$id/castles")({
   head: ({ params }) => {
@@ -7,16 +8,12 @@ export const Route = createFileRoute("/faction/$id/castles")({
     const faction = capitalize(params.id);
     const title = `${faction} — Castles | Era Planner`;
     const description = `Plan ${faction} castle upgrades, track production buildings, and optimize your build order for Olden Era.`;
-    const url = `https://eraplanner.com/faction/${params.id}/castles`;
+    const url = `https://www.eraplanner.com/faction/${params.id}/castles`;
 
     return {
       meta: [
         { title },
         { name: "description", content: description },
-        {
-          name: "keywords",
-          content: `olden era castle builder, ${params.id} castle builder, ${params.id} castle build, olden era ${params.id} builds, castle upgrade planner, castle build order, olden era castle guide, ${faction} castle, olden era builder`,
-        },
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:url", content: url },
@@ -44,13 +41,13 @@ export const Route = createFileRoute("/faction/$id/castles")({
                   "@type": "ListItem",
                   position: 1,
                   name: "Era Planner",
-                  item: "https://eraplanner.com",
+                  item: "https://www.eraplanner.com",
                 },
                 {
                   "@type": "ListItem",
                   position: 2,
                   name: faction,
-                  item: `https://eraplanner.com/faction/${params.id}/castles`,
+                  item: `https://www.eraplanner.com/faction/${params.id}/castles`,
                 },
                 {
                   "@type": "ListItem",
@@ -80,7 +77,22 @@ export const Route = createFileRoute("/faction/$id/castles")({
       ],
     };
   },
-  component: () => null,
+  component: CastlesInfo,
 });
+
+function CastlesInfo() {
+  const { id } = Route.useParams();
+  const faction = capitalize(id);
+  const seoId = id as keyof typeof castlesSeo;
+  const buildings = castlesSeo[seoId];
+
+  return (
+    <SeoSection
+      heading={`${faction} Castle Buildings — Olden Era Build Planner`}
+      lead={`Plan your ${faction} castle upgrades in Olden Era. Track all ${buildings.length} ${faction} buildings, set your build order, and optimize resource production across the full campaign timeline.`}
+      items={buildings}
+    />
+  );
+}
 
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);

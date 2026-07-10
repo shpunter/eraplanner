@@ -1,0 +1,40 @@
+.section {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 48px 24px;
+  color: var(--text-main);
+}
+
+.heading {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.lead {
+  color: var(--text-dim);
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.item {
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+}
+
+.name {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.desc {
+  color: var(--text-dim);
+  line-height: 1.5;
+}

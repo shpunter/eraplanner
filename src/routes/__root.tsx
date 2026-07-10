@@ -27,17 +27,12 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         content:
           "Free planning tool for the online strategy game Olden Era. Plan your castle builds, track resources, mines and army for all 6 factions across the full campaign timeline.",
       },
-      {
-        name: "keywords",
-        content:
-          "olden era, olden era planner, olden era builder, olden era builds, olden era build planner, olden era guide, olden era strategy, olden era castle, olden era castle builder, olden era law builder, olden era mine planner, olden era resource planner, olden era factions, era planner, hive, schism, temple, dungeon, grove, necropolis",
-      },
       { name: "robots", content: "index, follow" },
       { name: "theme-color", content: "#000000" },
 
       // Open Graph
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://eraplanner.com" },
+      { property: "og:url", content: "https://www.eraplanner.com" },
       { property: "og:site_name", content: "Era Planner" },
       { property: "og:title", content: "Era Planner — Olden Era" },
       {
@@ -47,7 +42,11 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       },
       {
         property: "og:image",
-        content: "https://eraplanner.com/img/faction/temple.webp",
+        content: "https://www.eraplanner.com/img/faction/temple.webp",
+      },
+      {
+        property: "og:image:alt",
+        content: "Era Planner — Olden Era planning tool",
       },
 
       // Twitter / X
@@ -60,7 +59,11 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       },
       {
         name: "twitter:image",
-        content: "https://eraplanner.com/img/faction/temple.webp",
+        content: "https://www.eraplanner.com/img/faction/temple.webp",
+      },
+      {
+        name: "twitter:image:alt",
+        content: "Era Planner — Olden Era planning tool",
       },
     ],
     links: [
@@ -78,7 +81,7 @@ const JSONLD = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
   name: "Era Planner",
-  url: "https://eraplanner.com",
+  url: "https://www.eraplanner.com",
   description:
     "Free planning tool for the online strategy game Olden Era. Plan castle builds, track resources, mines and army for all 6 factions.",
   applicationCategory: "GameApplication",
